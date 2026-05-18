@@ -125,6 +125,7 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xrPHQE1MEfGbaeICA1OUMQ" name="LiteralInteger1" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xrPHQU1MEfGbaeICA1OUMQ" name="LiteralUnlimitedNatural1" value="1"/>
       </ownedAttribute>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_ebkb4FLHEfGUOtS16Ym4Mg" name="calcolaTotaleRiga(): double"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_gBMVYEfQEfG2AaSyb-VMaQ" name="Pagamento">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_tv0bkEhfEfG5fcYfWPoqXg" name="importo" visibility="private" aggregation="shared">
@@ -227,10 +228,31 @@
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_MT_YsEfVEfG2AaSyb-VMaQ" name="" type="_5mbDIEfQEfG2AaSyb-VMaQ" direction="return"/>
       </ownedOperation>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_Y46pcFK4EfGH6OHrg4Wjhg" name="GeneratoreRicevuta"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_qmVGYFK4EfGH6OHrg4Wjhg" name="Carrello"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_60glMFK4EfGH6OHrg4Wjhg" name="CalcolatoreSconto"/>
-    <packagedElement xmi:type="uml:Interface" xmi:id="_J9EfwFK5EfGH6OHrg4Wjhg" name="RuoloUtente"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Y46pcFK4EfGH6OHrg4Wjhg" name="GeneratoreRicevuta">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_WyWnwFLHEfGUOtS16Ym4Mg" name="genera(sessione: SessioneSpesa. pagamento: Pagamento): String"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_qmVGYFK4EfGH6OHrg4Wjhg" name="Carrello">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_8rNfwFLGEfGUOtS16Ym4Mg" name="totale: double"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_IYniEFLHEfGUOtS16Ym4Mg" name="calcolaTotale(): double"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_MkZmAFLHEfGUOtS16Ym4Mg" name="aggiugngiElemento(e: ElementoCarrello): void"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_60glMFK4EfGH6OHrg4Wjhg" name="CalcolatoreSconto">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_h_bkMFLHEfGUOtS16Ym4Mg" name="applicaSconto(prezzo: double, sconto: double) double"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_mapyUFLHEfGUOtS16Ym4Mg" name="calcolaTotaleCarrello(elementi: List&lt;ElementoCarrello>): double"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_J9EfwFK5EfGH6OHrg4Wjhg" name="RuoloUtente">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_yvpZEFLHEfGUOtS16Ym4Mg" name="getRuolo(): String"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_6PoncFLBEfGUOtS16Ym4Mg" name="DBF edelta">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_HWKxIFLIEfGUOtS16Ym4Mg" name="trovaPuntiByCliente(clienteld: int): int"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_K9FNcFLIEfGUOtS16Ym4Mg" name="aggiornaPunti(clienteld: int, punti: int): void"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_PistsFLIEfGUOtS16Ym4Mg" name="Operation3"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_DIFO0FLCEfGUOtS16Ym4Mg" name="IRepositoryFedeltà">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_4uqVMFLHEfGUOtS16Ym4Mg" name="trovaPuntiByCliente(clienteld: int): int"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_9NHdgFLHEfGUOtS16Ym4Mg" name="aggiornaPunti(clienteld: int, punti: int): void"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_BT3QcFLIEfGUOtS16Ym4Mg" name="salvaStorico(clienteld:int, sessione: SessioneSpesa): void"/>
+    </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_UFxwME1KEfGbaeICA1OUMQ" name="composta da" memberEnd="_UFzlYk1KEfGbaeICA1OUMQ _UF0Mck1KEfGbaeICA1OUMQ">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UFzlYE1KEfGbaeICA1OUMQ" source="org.eclipse.papyrus">
