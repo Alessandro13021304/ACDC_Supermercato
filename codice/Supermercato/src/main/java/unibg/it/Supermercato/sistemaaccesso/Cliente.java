@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.sistemaaccesso;
+import java.util.List;
+
 import unibg.it.Supermercato.gestionedipendenti.*;
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.gestionemagazzino.*;
@@ -27,7 +29,7 @@ public class Cliente extends Persona {
 	/**
 	 * 
 	 */
-	public SessioneSpesa[] sessionespesa;
+	public StatoSessione[] sessionespesa;
 
 	/**
 	 * 
@@ -40,12 +42,14 @@ public class Cliente extends Persona {
 	 * @return 
 	 */
 	public int visualizzaPunti() {
+		return puntiFedeltà;
 	}
 
 	/**
 	 * 
 	 * @return 
 	 */
-	public SessioneSpesa[] visualizzaStorico() {
+	public List<StatoSessione> visualizzaStorico() {
+		return null;
 	}
 }

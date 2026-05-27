@@ -10,29 +10,21 @@ import unibg.it.Supermercato.pagamentiesterni.*;
 import unibg.it.Supermercato.persistenzadati.*;
 import unibg.it.Supermercato.sistemaaccesso.*;
 
-/************************************************************/
-/**
- * 
- */
 public class Carrello {
-	/**
-				 * 
-				 */
-				private undef totale:double;
-	/**
-				 * 
-				 */
-				public ElementoCarrello[] elementocarrello;
+	private double totale;
+	
+public ElementoCarrello[] elementocarrello;
+
 
 	/**
 	 * 
 	 */
-	public void calcolaTotale(): double() {
+	public double calcolaTotale() {
+		return totale;
 	}
-
 	/**
 	 * 
 	 */
-	public void aggiugngiElemento(e: ElementoCarrello): void() {
+	public void aggiungiElemento(ElementoCarrello e) {
 	}
 }

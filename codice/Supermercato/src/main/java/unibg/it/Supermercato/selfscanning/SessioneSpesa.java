@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.selfscanning;
+import java.time.LocalDateTime;
+
 import unibg.it.Supermercato.gestionedipendenti.*;
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.gestionemagazzino.*;

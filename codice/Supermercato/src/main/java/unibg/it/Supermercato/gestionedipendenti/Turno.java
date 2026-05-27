@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.gestionedipendenti;
+import java.time.LocalDateTime;
+
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.gestionemagazzino.*;
 import unibg.it.Supermercato.pagamentiesterni.*;
@@ -18,15 +20,15 @@ public class Turno {
 	/**
 	 * 
 	 */
-	private EDate data;
+	private LocalDateTime data;
 	/**
 	 * 
 	 */
-	private Time orarioInizio;
+	private LocalDateTime orarioInizio;
 	/**
 	 * 
 	 */
-	private Time orarioFine;
+	private LocalDateTime orarioFine;
 	/**
 	 * 
 	 */

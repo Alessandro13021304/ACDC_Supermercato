@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.pagamentiesterni;
+import java.time.LocalDateTime;
+
 import unibg.it.Supermercato.gestionedipendenti.*;
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.gestionemagazzino.*;
@@ -17,7 +19,7 @@ public class Pagamento {
 	/**
 	 * 
 	 */
-	private EDouble importo;
+	private Double importo;
 	/**
 	 * 
 	 */
@@ -29,12 +31,13 @@ public class Pagamento {
 	/**
 	 * 
 	 */
-	public SessioneSpesa sessionespesa;
+	public StatoSessione sessionespesa;
 
 	/**
 	 * 
 	 * @return 
 	 */
 	public boolean processa() {
+		return false;
 	}
 }

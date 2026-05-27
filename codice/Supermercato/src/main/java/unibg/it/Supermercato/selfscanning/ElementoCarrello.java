@@ -22,15 +22,16 @@ public class ElementoCarrello {
 	/**
 	 * 
 	 */
-	private EDouble prezzoApplicato;
+	private Double prezzoApplicato;
 	/**
 				 * 
 				 */
-				public Prodotto prodotto;
+    public Prodotto prodotto;
 
 	/**
 	 * 
 	 */
-	public void calcolaTotaleRiga(): double() {
+	public double calcolaTotaleRiga(){
+		return prezzoApplicato;
 	}
 }

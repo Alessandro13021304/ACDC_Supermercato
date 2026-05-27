@@ -20,6 +20,7 @@ public class Cassiere extends Dipendente {
 	 * @param s 
 	 * @return 
 	 */
-	public boolean effettuaControllo(SessioneSpesa s) {
+	public boolean effettuaControllo(StatoSessione s) {
+		return false;
 	}
 }

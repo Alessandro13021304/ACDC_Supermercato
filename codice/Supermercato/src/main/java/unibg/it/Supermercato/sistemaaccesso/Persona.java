@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.sistemaaccesso;
+import java.time.LocalDateTime;
+
 import unibg.it.Supermercato.gestionedipendenti.*;
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.gestionemagazzino.*;
@@ -34,12 +36,13 @@ public abstract class Persona {
 	/**
 	 * 
 	 */
-	protected EDate dataNascita;
+	protected LocalDateTime dataNascita;
 
 	/**
 	 * 
 	 * @return 
 	 */
 	public boolean autenticati() {
+		return false;
 	}
 }

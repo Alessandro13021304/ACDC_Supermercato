@@ -25,7 +25,7 @@ public class Prodotto {
 	/**
 	 * 
 	 */
-	private EDouble prezzo;
+	private Double prezzo;
 	/**
 	 * 
 	 */
@@ -33,7 +33,7 @@ public class Prodotto {
 	/**
 	 * 
 	 */
-	private EDouble sconto;
+	private Double sconto;
 	/**
 	 * 
 	 */

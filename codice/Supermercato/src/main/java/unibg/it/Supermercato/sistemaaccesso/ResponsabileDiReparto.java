@@ -24,9 +24,9 @@ public class ResponsabileDiReparto extends Dipendente {
 	/**
 	 * 
 	 * @param f 
-	 * @return 
 	 */
 	public OrdineFornitore elaboraOrdine(Fornitore f) {
+		return null;
 	}
 
 	/**

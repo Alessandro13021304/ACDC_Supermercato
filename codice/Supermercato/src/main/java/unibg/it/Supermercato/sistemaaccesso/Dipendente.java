@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.sistemaaccesso;
+import java.util.List;
+
 import unibg.it.Supermercato.gestionedipendenti.*;
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.gestionemagazzino.*;
@@ -23,7 +25,7 @@ public abstract class Dipendente extends Persona {
 	/**
 	 * 
 	 */
-	private EDouble stipendioBase;
+	private Double stipendioBase;
 	/**
 	 * 
 	 */
@@ -39,6 +41,7 @@ public abstract class Dipendente extends Persona {
 	 * 
 	 * @return 
 	 */
-	public Turno visualizzaTurni() {
+	public List<Turno> visualizzaTurni() {
+		return null;
 	}
 }

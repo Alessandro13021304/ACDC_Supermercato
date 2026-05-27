@@ -21,18 +21,19 @@ public class DBFedelta
 	/**
 	 * 
 	 */
-	public void trovaPuntiByCliente(clienteld: int): int() {
+	public int trovaPuntiByCliente(int clienteld) {
+		return clienteld;
 	}
 
 	/**
 	 * 
 	 */
-	public void aggiornaPunti(clienteld: int, punti: int): void() {
+	public void aggiornaPunti(int clienteld,int punti) {
 	}
 
 	/**
 	 * 
 	 */
-	public void Operation3() {
+	public void salvaStorico(int clienteId, StatoSessione sessione) {
 	}
 }

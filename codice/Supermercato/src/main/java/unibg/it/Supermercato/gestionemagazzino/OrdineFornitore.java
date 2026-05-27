@@ -3,6 +3,8 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.gestionemagazzino;
+import java.time.LocalDateTime;
+
 import unibg.it.Supermercato.gestionedipendenti.*;
 import unibg.it.Supermercato.gestionefedelta.*;
 import unibg.it.Supermercato.pagamentiesterni.*;
@@ -18,7 +20,7 @@ public class OrdineFornitore {
 	/**
 	 * 
 	 */
-	private EDate dataOrdine;
+	private LocalDateTime dataOrdine;
 	/**
 	 * 
 	 */
@@ -26,7 +28,7 @@ public class OrdineFornitore {
 	/**
 	 * 
 	 */
-	private EDouble totale;
+	private Double totale;
 	/**
 	 * 
 	 */

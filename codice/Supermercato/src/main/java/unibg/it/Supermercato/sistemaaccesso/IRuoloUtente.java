@@ -3,7 +3,12 @@
 // --------------------------------------------------------
 
 package unibg.it.Supermercato.sistemaaccesso;
-
+import unibg.it.Supermercato.gestionedipendenti.*;
+import unibg.it.Supermercato.gestionefedelta.*;
+import unibg.it.Supermercato.gestionemagazzino.*;
+import unibg.it.Supermercato.pagamentiesterni.*;
+import unibg.it.Supermercato.persistenzadati.*;
+import unibg.it.Supermercato.selfscanning.*;
 
 /************************************************************/
 /**
@@ -13,10 +18,10 @@ public interface IRuoloUtente {
 	/**
 	 * 
 	 */
-	public Persona[] persona;
+	//public Persona[] persona;
 
 	/**
 	 * 
 	 */
-	public void getRuolo(): String() ;
+	String getRuolo() ;
 }
