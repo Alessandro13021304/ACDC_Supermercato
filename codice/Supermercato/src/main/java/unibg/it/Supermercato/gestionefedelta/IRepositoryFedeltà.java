@@ -9,19 +9,13 @@ package unibg.it.Supermercato.gestionefedelta;
 /**
  * 
  */
-public interface IRepositoryFedeltà {
-	/**
-	 * 
-	 */
-	public void trovaPuntiByCliente(clienteld: int): int() ;
+
 
 	/**
 	 * 
 	 */
-	public void aggiornaPunti(clienteld: int, punti: int): void() ;
-
-	/**
-	 * 
-	 */
-	public void salvaStorico(clienteld:int, sessione: SessioneSpesa): void() ;
-}
+	public interface IRepositoryFedeltà {
+	    int trovaPuntiByCliente(int clienteId);
+	    void aggiornaPunti(int clienteId, int punti);
+	    void salvaStorico(int clienteId, SessioneSpesa sessione);
+	}
