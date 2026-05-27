@@ -9,7 +9,7 @@ package unibg.it.Supermercato.sistemaaccesso;
 /**
  * 
  */
-public interface RuoloUtente {
+public interface IRuoloUtente {
 	/**
 	 * 
 	 */
