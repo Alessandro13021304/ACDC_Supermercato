@@ -4,6 +4,7 @@ public enum EStatoSessione {
 
     IN_CORSO,
     PAGAMENTO,
+    CONTROLLO,
     COMPLETATA,
     SEGNALATA
 }

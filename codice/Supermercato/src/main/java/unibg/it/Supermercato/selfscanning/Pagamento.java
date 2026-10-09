@@ -8,7 +8,21 @@ public class Pagamento {
     private EModalitaPagamento modalita;
     private LocalDateTime dataOra;
 
-    public boolean processa() {
-        return false;
+    public Pagamento(double importo, EModalitaPagamento modalita) {
+        this.importo = importo;
+        this.modalita = modalita;
+        this.dataOra = LocalDateTime.now();
+    }
+
+    public double getImporto() {
+        return importo;
+    }
+
+    public EModalitaPagamento getModalita() {
+        return modalita;
+    }
+
+    public LocalDateTime getDataOra() {
+        return dataOra;
     }
 }
