@@ -55,7 +55,6 @@ public class DBClienti implements IRepositoryClienti {
             }
 
         } catch (SQLException e) {
-
             throw new RuntimeException("Errore nel salvataggio del cliente.", e);
         }
     }
@@ -101,7 +100,6 @@ public class DBClienti implements IRepositoryClienti {
             }
 
         } catch (SQLException e) {
-
             throw new RuntimeException("Errore nella verifica delle credenziali del cliente.", e);
         }
     }
@@ -142,7 +140,6 @@ public class DBClienti implements IRepositoryClienti {
             }
 
         } catch (SQLException e) {
-
             throw new RuntimeException("Errore nel recupero del cliente.", e);
         }
     }
@@ -179,7 +176,6 @@ public class DBClienti implements IRepositoryClienti {
             return clienti;
 
         } catch (SQLException e) {
-
             throw new RuntimeException("Errore nel recupero dei clienti.", e);
         }
     }
@@ -222,7 +218,7 @@ public class DBClienti implements IRepositoryClienti {
             statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Errore nell'aggiornamento dei punti del cliente.", e);
+            throw new RuntimeException("Errore nell'aggiunta dei punti del cliente.", e);
         }
     }
 
@@ -358,7 +354,6 @@ public class DBClienti implements IRepositoryClienti {
             }
 
         } catch (SQLException e) {
-
             throw new RuntimeException("Errore nella verifica della segnalazione del cliente.", e);
         }
     }
