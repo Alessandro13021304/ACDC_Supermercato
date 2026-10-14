@@ -84,22 +84,7 @@ public class DBClienti implements IRepositoryClienti {
             try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {	
-
-                    Cliente cliente = new Cliente(
-                    		resultSet.getString("nome"),
-                            resultSet.getString("cognome"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            resultSet.getDate("data_nascita").toLocalDate()
-                    );
-
-                    cliente.setId(resultSet.getInt("id"));
-                    cliente.setPuntiFedelta(resultSet.getInt("punti_fedelta"));
-                    if (resultSet.getBoolean("segnalato")) {
-                        cliente.segnala();
-                    }
-
-                    return cliente;
+                	return creaClienteDaRisultato(resultSet);
                 }
             }
 
