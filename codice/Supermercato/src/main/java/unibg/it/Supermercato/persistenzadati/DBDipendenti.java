@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import unibg.it.Supermercato.sistemaaccesso.Manager;
@@ -119,45 +120,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
 
         return null;
-    }
-
-    private Dipendente creaDipendenteDaRisultato(java.sql.ResultSet resultSet) throws SQLException {
-
-        String matricola = resultSet.getString("matricola");
-        String nome = resultSet.getString("nome");
-        String cognome = resultSet.getString("cognome");
-        String email = resultSet.getString("email");
-        String password = resultSet.getString("password");
-        java.time.LocalDate dataNascita = resultSet.getDate("data_nascita").toLocalDate();
-        String ruolo = resultSet.getString("ruolo");
-
-        Dipendente dipendente;
-
-        switch (ruolo) {
-
-            case "Manager":
-                dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
-                break;
-
-            case "Cassiere":
-                dipendente = new Cassiere(nome, cognome, email, password, dataNascita, new DBClienti(), null);
-                break;
-
-            case "Magazziniere":
-                dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
-                break;
-
-            case "ResponsabileDiReparto":
-                dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
-                break;
-
-            default:
-                throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
-        }
-
-        dipendente.setMatricola(matricola);
-
-        return dipendente;
     }
     
     @Override
@@ -297,5 +259,44 @@ public class DBDipendenti implements IRepositoryDipendenti {
         } catch (SQLException e) {
             throw new RuntimeException("Errore nell'aggiornamento della presenza del dipendente.", e);
         }
+    }
+    
+    private Dipendente creaDipendenteDaRisultato(java.sql.ResultSet resultSet) throws SQLException {
+
+        String matricola = resultSet.getString("matricola");
+        String nome = resultSet.getString("nome");
+        String cognome = resultSet.getString("cognome");
+        String email = resultSet.getString("email");
+        String password = resultSet.getString("password");
+        java.time.LocalDate dataNascita = resultSet.getDate("data_nascita").toLocalDate();
+        String ruolo = resultSet.getString("ruolo");
+
+        Dipendente dipendente;
+
+        switch (ruolo) {
+
+            case "Manager":
+                dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
+                break;
+
+            case "Cassiere":
+                dipendente = new Cassiere(nome, cognome, email, password, dataNascita, new DBClienti(), null);
+                break;
+
+            case "Magazziniere":
+                dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
+                break;
+
+            case "ResponsabileDiReparto":
+                dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
+        }
+
+        dipendente.setMatricola(matricola);
+
+        return dipendente;
     }
 }

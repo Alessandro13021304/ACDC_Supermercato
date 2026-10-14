@@ -2,10 +2,13 @@ package unibg.it.Supermercato.persistenzadati;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.selfscanning.AcquistoStorico;
 import unibg.it.Supermercato.sistemaaccesso.Cliente;
 import unibg.it.Supermercato.selfscanning.SessioneSpesa;
@@ -34,8 +37,11 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public void salvaCliente(Cliente cliente) {
 
-        String sql = "INSERT INTO clienti"
-                   + "(nome, cognome, email, password, data_nascita)"
+    	if (cliente == null) {
+            return;
+        }
+    	
+    	String sql = "INSERT INTO clienti (nome, cognome, email, password, data_nascita)"
                    + "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql,java.sql.Statement.RETURN_GENERATED_KEYS)) {
@@ -95,13 +101,13 @@ public class DBClienti implements IRepositoryClienti {
 
                     return cliente;
                 }
-
-                return null;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nella verifica delle credenziali del cliente.", e);
         }
+        
+        return null;
     }
 
     @Override
@@ -118,66 +124,36 @@ public class DBClienti implements IRepositoryClienti {
             try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
-
-                    Cliente cliente = new Cliente(
-                            resultSet.getString("nome"),
-                            resultSet.getString("cognome"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            resultSet.getDate("data_nascita").toLocalDate()
-                    );
-
-                    cliente.setId(resultSet.getInt("id"));
-                    cliente.setPuntiFedelta(resultSet.getInt("punti_fedelta"));
-                    if (resultSet.getBoolean("segnalato")) {
-                        cliente.segnala();
-                    }
-
-                    return cliente;
+                	return creaClienteDaRisultato(resultSet);
                 }
-
-                return null;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero del cliente.", e);
         }
+        
+        return null;
     }
 
     @Override
     public java.util.List<Cliente> trovaTuttiIClienti() {
 
+    	java.util.List<Cliente> clienti = new java.util.ArrayList<>();
+    	
     	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato"
     	           + "FROM clienti";
-
-        java.util.List<Cliente> clienti = new java.util.ArrayList<>();
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-
-                Cliente cliente = new Cliente(
-                        resultSet.getString("nome"),
-                        resultSet.getString("cognome"),
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getDate("data_nascita").toLocalDate()
-                );
-
-                cliente.setId(resultSet.getInt("id"));
-                cliente.setPuntiFedelta(resultSet.getInt("punti_fedelta"));
-                if (resultSet.getBoolean("segnalato")) {
-                    cliente.segnala();
-                }
-
-                clienti.add(cliente);
+            	clienti.add(creaClienteDaRisultato(resultSet));
             }
-
-            return clienti;
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero dei clienti.", e);
         }
+        
+        return clienti;
     }
     
     @Override
@@ -194,13 +170,13 @@ public class DBClienti implements IRepositoryClienti {
                 if (resultSet.next()) {
                     return resultSet.getInt("punti_fedelta");
                 }
-
-                return 0;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero dei punti del cliente.", e);
         }
+        
+        return 0;
     }
     
     @Override
@@ -249,8 +225,7 @@ public class DBClienti implements IRepositoryClienti {
             return;
         }
 
-        String sql = "INSERT INTO storico_spese"
-                   + "(cliente_id, data_spesa, totale)" 
+        String sql = "INSERT INTO storico_spese (cliente_id, data_spesa, totale)" 
                    + "VALUES (?, ?, ?)";
 
         try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -289,13 +264,13 @@ public class DBClienti implements IRepositoryClienti {
 
                     storico.add(new AcquistoStorico(data, totale));
                 }
-
-                return storico;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero dello storico del cliente.", e);
         }
+        
+        return storico;
     }
 
     @Override
@@ -307,8 +282,7 @@ public class DBClienti implements IRepositoryClienti {
 
         int clienteId = segnalazione.getSessione().getCliente().getId();
 
-        String sql = "INSERT INTO segnalazioni" 
-                   + "(cliente_id, data_segnalazione)"
+        String sql = "INSERT INTO segnalazioni (cliente_id, data_segnalazione)"
                    + "VALUES (?, ?)";
 
         try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -349,13 +323,32 @@ public class DBClienti implements IRepositoryClienti {
                 if (resultSet.next()) {
                     return resultSet.getBoolean("segnalato");
                 }
-
-                return false;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nella verifica della segnalazione del cliente.", e);
         }
+        
+        return false;
+    }
+    
+    private Cliente creaClienteDaRisultato(ResultSet resultSet) {
+
+    	Cliente cliente = new Cliente(
+                resultSet.getString("nome"),
+                resultSet.getString("cognome"),
+                resultSet.getString("email"),
+                resultSet.getString("password"),
+                resultSet.getDate("data_nascita").toLocalDate()
+        );
+
+        cliente.setId(resultSet.getInt("id"));
+        cliente.setPuntiFedelta(resultSet.getInt("punti_fedelta"));
+        if (resultSet.getBoolean("segnalato")) {
+            cliente.segnala();
+        }
+        
+        return cliente;
     }
 }
 
