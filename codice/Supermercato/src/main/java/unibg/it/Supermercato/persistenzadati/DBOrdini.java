@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
-import unibg.it.Supermercato.gestionemagazzino.Fornitore;
-import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.gestionemagazzino.RigaOrdine;
+import unibg.it.Supermercato.gestionemagazzino.*;
 
 public class DBOrdini implements IRepositoryOrdini {
 
