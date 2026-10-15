@@ -44,7 +44,7 @@ public class DBClienti implements IRepositoryClienti {
     	String sql = "INSERT INTO clienti (nome, cognome, email, password, data_nascita)"
                    + "VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql,java.sql.Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
             statement.setString(1, cliente.getNome());
             statement.setString(2, cliente.getCognome());
