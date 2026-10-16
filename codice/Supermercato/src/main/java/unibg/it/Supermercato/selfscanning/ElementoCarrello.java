@@ -9,7 +9,25 @@ public class ElementoCarrello {
 
     public Prodotto prodotto;
 
+    public ElementoCarrello(Prodotto prodotto, int quantita, double prezzoApplicato) {
+        this.prodotto = prodotto;
+        this.quantita = quantita;
+        this.prezzoApplicato = prezzoApplicato;
+    }
+
     public double calcolaTotaleRiga() {
-        return prezzoApplicato;
+        return prezzoApplicato * quantita;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    void incrementaQuantita() {
+        quantita++;
+    }
+    
+    void decrementaQuantita() {
+        quantita--;
     }
 }
