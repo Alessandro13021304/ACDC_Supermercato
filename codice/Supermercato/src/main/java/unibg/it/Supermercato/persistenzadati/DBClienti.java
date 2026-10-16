@@ -317,7 +317,7 @@ public class DBClienti implements IRepositoryClienti {
         return false;
     }
     
-    private Cliente creaClienteDaRisultato(ResultSet resultSet) {
+    private Cliente creaClienteDaRisultato(ResultSet resultSet) throws SQLException {
 
     	Cliente cliente = new Cliente(
                 resultSet.getString("nome"),

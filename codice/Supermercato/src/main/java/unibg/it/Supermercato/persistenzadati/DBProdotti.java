@@ -157,7 +157,7 @@ public class DBProdotti implements IRepositoryProdotti {
         return prodotti;
     }
     
-    private Prodotto creaProdottoDaRisultato(ResultSet resultSet) {
+    private Prodotto creaProdottoDaRisultato(ResultSet resultSet) throws SQLException {
 
         return new Prodotto(
                 resultSet.getString("codice_a_barre"),
