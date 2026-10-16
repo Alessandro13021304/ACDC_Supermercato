@@ -1,5 +1,7 @@
 package unibg.it.Supermercato.gestionemagazzino;
 
-public class RichiestaDipendente {
+public enum TipoScorta {
+	SCAFFALE,
+	MAGAZZINO
 
 }
