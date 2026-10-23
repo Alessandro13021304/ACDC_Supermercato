@@ -41,7 +41,7 @@ public class DBClienti implements IRepositoryClienti {
             return;
         }
     	
-    	String sql = "INSERT INTO clienti (nome, cognome, email, password, data_nascita)"
+    	String sql = "INSERT INTO clienti (nome, cognome, email, password, data_nascita) "
                    + "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
@@ -72,8 +72,8 @@ public class DBClienti implements IRepositoryClienti {
             return null;
         }
     	
-    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato"
-    	           + "FROM clienti"
+    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
+    	           + "FROM clienti "
     	           + "WHERE email = ? AND password = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -98,8 +98,8 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public Cliente trovaClienteById(int clienteId) {
 
-    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato"
-    	           + "FROM clienti"
+    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
+    	           + "FROM clienti "
     	           + "WHERE id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -125,7 +125,7 @@ public class DBClienti implements IRepositoryClienti {
 
     	java.util.List<Cliente> clienti = new java.util.ArrayList<>();
     	
-    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato"
+    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
     	           + "FROM clienti";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
@@ -143,8 +143,8 @@ public class DBClienti implements IRepositoryClienti {
     
     @Override
     public int trovaPuntiByCliente(int clienteId) {
-        String sql = "SELECT punti_fedelta"
-        		   + "FROM clienti"
+        String sql = "SELECT punti_fedelta "
+        		   + "FROM clienti "
         		   + "WHERE id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -167,8 +167,8 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public void aggiungiPunti(int clienteId, int punti) {
 
-        String sql = "UPDATE clienti"
-        		   + "SET punti_fedelta = punti_fedelta + ?"
+        String sql = "UPDATE clienti "
+        		   + "SET punti_fedelta = punti_fedelta + ? "
         		   + "WHERE id = ?";
 
         try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -186,8 +186,8 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public void scalaPunti(int clienteId, int punti) {
 
-        String sql = "UPDATE clienti" 
-                   + "SET punti_fedelta = punti_fedelta - ?" 
+        String sql = "UPDATE clienti " 
+                   + "SET punti_fedelta = punti_fedelta - ? " 
                    + "WHERE id = ? AND punti_fedelta >= ?";
 
         try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -210,7 +210,7 @@ public class DBClienti implements IRepositoryClienti {
             return;
         }
 
-        String sql = "INSERT INTO storico_spese (cliente_id, data_spesa, totale)" 
+        String sql = "INSERT INTO storico_spese (cliente_id, data_spesa, totale) " 
                    + "VALUES (?, ?, ?)";
 
         try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -229,9 +229,9 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public List<AcquistoStorico> trovaStoricoByCliente(int clienteId) {
 
-        String sql = "SELECT data_spesa, totale"
-                   + "FROM storico_spese" 
-                   + "WHERE cliente_id = ?" 
+        String sql = "SELECT data_spesa, totale "
+                   + "FROM storico_spese " 
+                   + "WHERE cliente_id = ? " 
                    + "ORDER BY data_spesa";
 
         List<AcquistoStorico> storico = new java.util.ArrayList<>();
@@ -267,7 +267,7 @@ public class DBClienti implements IRepositoryClienti {
 
         int clienteId = segnalazione.getSessione().getCliente().getId();
 
-        String sql = "INSERT INTO segnalazioni (cliente_id, data_segnalazione)"
+        String sql = "INSERT INTO segnalazioni (cliente_id, data_segnalazione) "
                    + "VALUES (?, ?)";
 
         try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -277,8 +277,8 @@ public class DBClienti implements IRepositoryClienti {
 
             statement.executeUpdate();
             
-            String sqlAggiornaCliente = "UPDATE clienti"
-            		                  + "SET segnalato = TRUE"
+            String sqlAggiornaCliente = "UPDATE clienti "
+            		                  + "SET segnalato = TRUE "
             		                  + "WHERE id = ?";
 
             try (PreparedStatement updateStatement = connection.prepareStatement(sqlAggiornaCliente)) {
@@ -295,8 +295,8 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public boolean isClienteSegnalato(int clienteId) {
 
-        String sql = "SELECT segnalato"
-        		   + "FROM clienti"
+        String sql = "SELECT segnalato "
+        		   + "FROM clienti "
         		   + "WHERE id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {

@@ -43,7 +43,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
             return;
         }
 
-        String sql = "INSERT INTO dipendenti (matricola, nome, cognome, email, password, data_nascita, ruolo)"
+        String sql = "INSERT INTO dipendenti (matricola, nome, cognome, email, password, data_nascita, ruolo) "
 				   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -70,8 +70,8 @@ public class DBDipendenti implements IRepositoryDipendenti {
             return null;
         }
 
-        String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo"
-                   + "FROM dipendenti"
+        String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo "
+                   + "FROM dipendenti "
                    + "WHERE email = ? AND password = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -100,8 +100,8 @@ public class DBDipendenti implements IRepositoryDipendenti {
             return null;
         }
 
-        String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo"
-                   + "FROM dipendenti"
+        String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo "
+                   + "FROM dipendenti "
                    + "WHERE matricola = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -127,7 +127,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         java.util.List<Dipendente> dipendenti = new java.util.ArrayList<>();
 
-        String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo"
+        String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo "
                    + "FROM dipendenti";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
@@ -150,7 +150,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
             return;
         }
 
-        String sql = "INSERT INTO turni (matricola, data_turno, orario_inizio, orario_fine)"
+        String sql = "INSERT INTO turni (matricola, data_turno, orario_inizio, orario_fine) "
                    + "VALUES (?, ?, ?, ?)";
 
 
@@ -178,9 +178,9 @@ public class DBDipendenti implements IRepositoryDipendenti {
             return turni;
         }
 
-        String sql = "SELECT data_turno, orario_inizio, orario_fine, ora_ingresso, ora_uscita, presenza_registrata, completato"
-                   + "FROM turni"
-                   + "WHERE matricola = ?"
+        String sql = "SELECT data_turno, orario_inizio, orario_fine, ora_ingresso, ora_uscita, presenza_registrata, completato "
+                   + "FROM turni "
+                   + "WHERE matricola = ? "
                    + "ORDER BY data_turno, orario_inizio";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -230,8 +230,8 @@ public class DBDipendenti implements IRepositoryDipendenti {
             return;
         }
 
-        String sql = "UPDATE turni"
-                   + "SET ora_ingresso = ?, ora_uscita = ?, presenza_registrata = ?, completato = ?"
+        String sql = "UPDATE turni "
+                   + "SET ora_ingresso = ?, ora_uscita = ?, presenza_registrata = ?, completato = ? "
                    + "WHERE matricola = ? AND data_turno = ? AND orario_inizio = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {

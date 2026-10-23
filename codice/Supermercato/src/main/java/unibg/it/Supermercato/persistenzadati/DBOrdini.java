@@ -36,10 +36,10 @@ public class DBOrdini implements IRepositoryOrdini {
             return;
         }
 
-        String sqlOrdine = "INSERT INTO ordini_fornitore (fornitore_nome, data_ordine, stato, totale)"
+        String sqlOrdine = "INSERT INTO ordini_fornitore (fornitore_nome, data_ordine, stato, totale) "
                          + "VALUES (?, ?, ?, ?)";
 
-        String sqlRiga = "INSERT INTO righe_ordine (ordine_id, codice_prodotto, quantita, prezzo)"
+        String sqlRiga = "INSERT INTO righe_ordine (ordine_id, codice_prodotto, quantita, prezzo) "
                        + "VALUES (?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statementOrdine = connection.prepareStatement(sqlOrdine, java.sql.Statement.RETURN_GENERATED_KEYS); 
@@ -81,7 +81,7 @@ public class DBOrdini implements IRepositoryOrdini {
 
         List<OrdineFornitore> ordini = new ArrayList<>();
 
-        String sql = "SELECT id, fornitore_nome, data_ordine, stato, totale"
+        String sql = "SELECT id, fornitore_nome, data_ordine, stato, totale "
                    + "FROM ordini_fornitore";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
@@ -113,8 +113,8 @@ public class DBOrdini implements IRepositoryOrdini {
     
     private void caricaRigheOrdine(Connection connection, OrdineFornitore ordine, int ordineId) {
 
-        String sql = "SELECT codice_prodotto, quantita, prezzo"
-                   + "FROM righe_ordine"
+        String sql = "SELECT codice_prodotto, quantita, prezzo "
+                   + "FROM righe_ordine "
                    + "WHERE ordine_id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {

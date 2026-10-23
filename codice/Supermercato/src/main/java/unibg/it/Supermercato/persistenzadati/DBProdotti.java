@@ -37,7 +37,7 @@ public class DBProdotti implements IRepositoryProdotti {
             return;
         }
 
-        String sql = "INSERT INTO prodotti (codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto)"
+        String sql = "INSERT INTO prodotti (codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -65,7 +65,7 @@ public class DBProdotti implements IRepositoryProdotti {
             return;
         }
 
-        String sql = "DELETE FROM prodotti"
+        String sql = "DELETE FROM prodotti "
                    + "WHERE codice_a_barre = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -85,8 +85,8 @@ public class DBProdotti implements IRepositoryProdotti {
             return;
         }
 
-        String sql = "UPDATE prodotti"
-                   + "SET nome = ?, descrizione = ?, prezzo = ?, sconto = ?, quantita_scaffale = ?, quantita_magazzino = ?, numero_reparto = ?"
+        String sql = "UPDATE prodotti "
+                   + "SET nome = ?, descrizione = ?, prezzo = ?, sconto = ?, quantita_scaffale = ?, quantita_magazzino = ?, numero_reparto = ? "
                    + "WHERE codice_a_barre = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -114,8 +114,8 @@ public class DBProdotti implements IRepositoryProdotti {
             return null;
         }
 
-        String sql = "SELECT codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto"
-                   + "FROM prodotti"
+        String sql = "SELECT codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto "
+                   + "FROM prodotti "
                    + "WHERE codice_a_barre = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -141,7 +141,7 @@ public class DBProdotti implements IRepositoryProdotti {
 
     	java.util.List<Prodotto> prodotti = new java.util.ArrayList<>();
 
-        String sql = "SELECT codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto"
+        String sql = "SELECT codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto "
                    + "FROM prodotti";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
