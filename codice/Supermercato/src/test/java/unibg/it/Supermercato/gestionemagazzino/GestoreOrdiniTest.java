@@ -64,7 +64,8 @@ public class GestoreOrdiniTest {
 
         Fornitore fornitore = new Fornitore("Fornitore Test");
 
-        gestore.creaOrdine(fornitore);
+        OrdineFornitore ordine = gestore.creaOrdine(fornitore);
+        gestore.salvaOrdine(ordine);
 
         var ordini = gestore.visualizzaOrdini();
 

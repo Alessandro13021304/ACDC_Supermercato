@@ -30,9 +30,16 @@ public class GestoreOrdini implements IOrdini{
         }
 
         OrdineFornitore ordine = new OrdineFornitore(fornitore);
-        repositoryOrdini.salvaOrdine(ordine);
 
         return ordine;
+    }
+    
+    public void salvaOrdine(OrdineFornitore ordine) {
+        if (ordine == null) {
+            return;
+        }
+
+        repositoryOrdini.salvaOrdine(ordine);
     }
 
     @Override

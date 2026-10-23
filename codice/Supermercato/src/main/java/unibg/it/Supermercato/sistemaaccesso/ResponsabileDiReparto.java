@@ -126,6 +126,8 @@ public class ResponsabileDiReparto extends Dipendente implements ScorteObserver 
             return null;
         }
 
+        gestoreOrdini.salvaOrdine(ordine);
+        
         return ordine;
     }
 
