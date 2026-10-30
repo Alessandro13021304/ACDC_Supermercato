@@ -1,8 +1,5 @@
 package unibg.it.Supermercato.sistemaaccesso;
 
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
-
 public class AuthService implements IAutenticazione {
 
     private final IRepositoryClienti repositoryClienti;
@@ -20,18 +17,18 @@ public class AuthService implements IAutenticazione {
             return false;
         }
 
-        if (persona instanceof Cliente) {
+        if (persona instanceof Cliente cliente) {
             try {
-                repositoryClienti.salvaCliente((Cliente) persona);
+                repositoryClienti.salvaCliente(cliente);
                 return true;
             } catch (RuntimeException e) {
                 return false;
             }
         }
 
-        if (persona instanceof Dipendente) {
+        if (persona instanceof Dipendente dipendente) {
             try {
-                repositoryDipendenti.salvaDipendente((Dipendente) persona);
+                repositoryDipendenti.salvaDipendente(dipendente);
                 return true;
             } catch (RuntimeException e) {
                 return false;

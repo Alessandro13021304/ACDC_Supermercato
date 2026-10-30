@@ -11,10 +11,7 @@ import static org.mockito.Mockito.*;
 import java.time.LocalTime;
 import java.util.List;
 
-import unibg.it.Supermercato.gestionedipendenti.Turno;
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
 import unibg.it.Supermercato.gestionedipendenti.CalcoloStipendi;
-import unibg.it.Supermercato.gestionedipendenti.Stipendio;
 import unibg.it.Supermercato.sistemaaccesso.*;
 
 class GestioneStipendioTest {

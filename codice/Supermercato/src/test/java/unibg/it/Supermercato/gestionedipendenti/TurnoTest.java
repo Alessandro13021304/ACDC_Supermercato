@@ -7,6 +7,8 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
+import unibg.it.Supermercato.sistemaaccesso.Turno;
+
 public class TurnoTest {
 
     @Test

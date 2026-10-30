@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;
 import unibg.it.Supermercato.sistemaaccesso.Magazziniere;
+import unibg.it.Supermercato.sistemaaccesso.Stipendio;
 
 class CalcoloStipendiTest {
 

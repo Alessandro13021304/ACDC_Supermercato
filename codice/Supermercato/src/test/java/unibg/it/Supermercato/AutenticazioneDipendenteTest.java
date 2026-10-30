@@ -7,9 +7,9 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
 import unibg.it.Supermercato.sistemaaccesso.AuthService;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryDipendenti;
 import unibg.it.Supermercato.sistemaaccesso.Magazziniere;
 import unibg.it.Supermercato.sistemaaccesso.Persona;
 

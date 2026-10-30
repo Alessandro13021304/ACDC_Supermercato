@@ -12,10 +12,10 @@ import java.time.LocalDate;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.sistemaaccesso.Cliente;
 import unibg.it.Supermercato.sistemaaccesso.Cassiere;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
 import unibg.it.Supermercato.persistenzadati.DBClienti;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
 import unibg.it.Supermercato.sistemaaccesso.IAutenticazione;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
 import unibg.it.Supermercato.sistemaaccesso.Persona;
 import unibg.it.Supermercato.pagamentiesterni.PaymentGateway;
 

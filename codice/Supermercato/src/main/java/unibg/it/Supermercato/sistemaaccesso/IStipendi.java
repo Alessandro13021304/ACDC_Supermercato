@@ -1,6 +1,4 @@
-package unibg.it.Supermercato.gestionedipendenti;
-
-import unibg.it.Supermercato.sistemaaccesso.Dipendente;
+package unibg.it.Supermercato.sistemaaccesso;
 
 public interface IStipendi {
 

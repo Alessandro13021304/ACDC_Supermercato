@@ -2,17 +2,9 @@ package unibg.it.Supermercato.gestionemagazzino;
 
 import java.util.List;
 
-import unibg.it.Supermercato.persistenzadati.DBProdotti;
-import unibg.it.Supermercato.persistenzadati.IRepositoryProdotti;
+public class GestoreProdotti implements IProdotti {
 
-
-public class GestoreProdotti implements IProdotti{
-	
-	private IRepositoryProdotti repositoryProdotti;
-
-    public GestoreProdotti() {
-        this.repositoryProdotti = new DBProdotti();
-    }
+    private IRepositoryProdotti repositoryProdotti;
 
     public GestoreProdotti(IRepositoryProdotti repositoryProdotti) {
         this.repositoryProdotti = repositoryProdotti;
@@ -58,6 +50,4 @@ public class GestoreProdotti implements IProdotti{
     public List<Prodotto> visualizzaProdotti() {
         return repositoryProdotti.trovaTuttiProdotti();
     }
-
-
 }

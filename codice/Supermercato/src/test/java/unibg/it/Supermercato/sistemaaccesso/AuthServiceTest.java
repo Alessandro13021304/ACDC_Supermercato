@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
-
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
 import unibg.it.Supermercato.persistenzadati.DBClienti;
 import unibg.it.Supermercato.persistenzadati.DBDipendenti;
 

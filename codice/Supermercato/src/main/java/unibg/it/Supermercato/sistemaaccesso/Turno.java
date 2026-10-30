@@ -1,4 +1,4 @@
-package unibg.it.Supermercato.gestionedipendenti;
+package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -1,15 +1,17 @@
 package unibg.it.Supermercato;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.pagamentiesterni.IPagamento;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
 import unibg.it.Supermercato.selfscanning.*;
 import unibg.it.Supermercato.sistemaaccesso.*;
 
@@ -18,18 +20,7 @@ class ControlloSpesaClienteTest {
     @Test
     void clienteSegnalatoSuperaIlControlloDellaSpesa() {
 
-        IAutenticazione autenticazione = new IAutenticazione() {
-
-            @Override
-            public boolean registraUtente(Persona persona) {
-                return false;
-            }
-
-            @Override
-            public Persona autentica(String email, String password) {
-                return null;
-            }
-        };
+        IAutenticazione autenticazione = mock(IAutenticazione.class);
 
         Cliente cliente = new Cliente(
                 "Mario",
@@ -112,24 +103,13 @@ class ControlloSpesaClienteTest {
         verify(pagamento).paga(10.00);
 
         verify(repositoryClienti, never())
-                .registraSegnalazione(any());
+                .registraSegnalazione(anyInt(), any(LocalDateTime.class));
     }
-    
+
     @Test
     void controlloFallitoSegnalaIlCliente() {
 
-        IAutenticazione autenticazione = new IAutenticazione() {
-
-            @Override
-            public boolean registraUtente(Persona persona) {
-                return false;
-            }
-
-            @Override
-            public Persona autentica(String email, String password) {
-                return null;
-            }
-        };
+        IAutenticazione autenticazione = mock(IAutenticazione.class);
 
         Cliente cliente = new Cliente(
                 "Mario",
@@ -210,6 +190,6 @@ class ControlloSpesaClienteTest {
         );
 
         verify(repositoryClienti)
-                .registraSegnalazione(any());
+                .registraSegnalazione(eq(cliente.getId()), any(LocalDateTime.class));
     }
 }

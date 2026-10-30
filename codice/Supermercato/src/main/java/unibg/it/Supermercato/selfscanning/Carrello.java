@@ -51,13 +51,13 @@ public class Carrello implements ICarrello {
         return totale;
     }
     
-    int numeroElementi() {
+    public int numeroElementi() {
         return elementi.size();
     }
-    
+
     public List<ElementoCarrello> getElementi() {
         return elementi;
-    }  
+    }
 	
 	@Override
 	public boolean aggiungiProdotto(Prodotto p) {

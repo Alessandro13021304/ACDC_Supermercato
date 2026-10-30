@@ -4,11 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
+import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.sistemaaccesso.Dipendente;
 
 public class DBProdotti implements IRepositoryProdotti {
 
@@ -57,7 +56,7 @@ public class DBProdotti implements IRepositoryProdotti {
             throw new RuntimeException("Errore nel salvataggio del prodotto.", e);
         }
     }
-    
+
     @Override
     public void rimuoviProdotto(String codiceABarre) {
 
@@ -125,7 +124,7 @@ public class DBProdotti implements IRepositoryProdotti {
             try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
-                	return creaProdottoDaRisultato(resultSet);
+                    return creaProdottoDaRisultato(resultSet);
                 }
             }
 
@@ -139,15 +138,15 @@ public class DBProdotti implements IRepositoryProdotti {
     @Override
     public List<Prodotto> trovaTuttiProdotti() {
 
-    	java.util.List<Prodotto> prodotti = new java.util.ArrayList<>();
+        List<Prodotto> prodotti = new java.util.ArrayList<>();
 
         String sql = "SELECT codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto "
                    + "FROM prodotti";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
 
-            while (resultSet.next()) {           	
-            	prodotti.add(creaProdottoDaRisultato(resultSet));
+            while (resultSet.next()) {
+                prodotti.add(creaProdottoDaRisultato(resultSet));
             }
 
         } catch (SQLException e) {
@@ -156,7 +155,7 @@ public class DBProdotti implements IRepositoryProdotti {
 
         return prodotti;
     }
-    
+
     private Prodotto creaProdottoDaRisultato(ResultSet resultSet) throws SQLException {
 
         return new Prodotto(
@@ -171,4 +170,3 @@ public class DBProdotti implements IRepositoryProdotti {
         );
     }
 }
-

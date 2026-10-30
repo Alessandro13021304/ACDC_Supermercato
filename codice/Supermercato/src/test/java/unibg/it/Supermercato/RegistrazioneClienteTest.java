@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import unibg.it.Supermercato.persistenzadati.DBClienti;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
 import unibg.it.Supermercato.persistenzadati.DBDipendenti;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
 import unibg.it.Supermercato.sistemaaccesso.AuthService;
 import unibg.it.Supermercato.sistemaaccesso.Cliente;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryDipendenti;
 import unibg.it.Supermercato.sistemaaccesso.Persona;
 
 class RegistrazioneClienteTest {

@@ -5,36 +5,46 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import unibg.it.Supermercato.sistemaaccesso.Manager;
 import unibg.it.Supermercato.sistemaaccesso.Cassiere;
-import unibg.it.Supermercato.sistemaaccesso.Magazziniere;
-import unibg.it.Supermercato.sistemaaccesso.ResponsabileDiReparto;
-import unibg.it.Supermercato.gestionedipendenti.Turno;
-
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryDipendenti;
+import unibg.it.Supermercato.sistemaaccesso.Magazziniere;
+import unibg.it.Supermercato.sistemaaccesso.Manager;
+import unibg.it.Supermercato.sistemaaccesso.ResponsabileDiReparto;
+import unibg.it.Supermercato.sistemaaccesso.Turno;
 
 public class DBDipendenti implements IRepositoryDipendenti {
-	
-	private boolean usaDatabaseTest;
 
-	public DBDipendenti() {
-	    this.usaDatabaseTest = false;
-	}
+    private boolean usaDatabaseTest;
+    private IRepositoryClienti repositoryClienti;
 
-	public DBDipendenti(boolean usaDatabaseTest) {
-	    this.usaDatabaseTest = usaDatabaseTest;
-	}
+    public DBDipendenti() {
+        this(false, null);
+    }
 
-	private Connection getConnection() throws SQLException {
-	    if (usaDatabaseTest) {
-	        return DBConnection.getInstance().getTestConnection("dipendenti");
-	    }
+    public DBDipendenti(boolean usaDatabaseTest) {
+        this(usaDatabaseTest, null);
+    }
 
-	    return DBConnection.getInstance().getConnection("dipendenti");
-	}
+    public DBDipendenti(boolean usaDatabaseTest, IRepositoryClienti repositoryClienti) {
+        this.usaDatabaseTest = usaDatabaseTest;
+        this.repositoryClienti = repositoryClienti;
+    }
+
+    public void setRepositoryClienti(IRepositoryClienti repositoryClienti) {
+        this.repositoryClienti = repositoryClienti;
+    }
+
+    private Connection getConnection() throws SQLException {
+        if (usaDatabaseTest) {
+            return DBConnection.getInstance().getTestConnection("dipendenti");
+        }
+
+        return DBConnection.getInstance().getConnection("dipendenti");
+    }
 
     @Override
     public void salvaDipendente(Dipendente dipendente) {
@@ -44,20 +54,20 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
 
         String sql = "INSERT INTO dipendenti (matricola, nome, cognome, email, password, data_nascita, ruolo) "
-				   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
-        	statement.setString(1, dipendente.getMatricola());
-        	statement.setString(2, dipendente.getNome());
-        	statement.setString(3, dipendente.getCognome());
-        	statement.setString(4, dipendente.getEmail());
-        	statement.setString(5, dipendente.getPassword());
-        	statement.setDate(6, java.sql.Date.valueOf(dipendente.getDataNascita()));
-        	statement.setString(7, dipendente.getRuolo());
+            statement.setString(1, dipendente.getMatricola());
+            statement.setString(2, dipendente.getNome());
+            statement.setString(3, dipendente.getCognome());
+            statement.setString(4, dipendente.getEmail());
+            statement.setString(5, dipendente.getPassword());
+            statement.setDate(6, java.sql.Date.valueOf(dipendente.getDataNascita()));
+            statement.setString(7, dipendente.getRuolo());
 
-        	statement.executeUpdate();
-            
+            statement.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel salvataggio del dipendente.", e);
         }
@@ -92,7 +102,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         return null;
     }
-    
+
     @Override
     public Dipendente trovaDipendenteByMatricola(String matricola) {
 
@@ -121,11 +131,11 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         return null;
     }
-    
-    @Override
-    public java.util.List<Dipendente> trovaTuttiDipendenti() {
 
-        java.util.List<Dipendente> dipendenti = new java.util.ArrayList<>();
+    @Override
+    public List<Dipendente> trovaTuttiDipendenti() {
+
+        List<Dipendente> dipendenti = new java.util.ArrayList<>();
 
         String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo "
                    + "FROM dipendenti";
@@ -142,7 +152,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         return dipendenti;
     }
-    
+
     @Override
     public void salvaTurno(String matricola, Turno turno) {
 
@@ -152,7 +162,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         String sql = "INSERT INTO turni (matricola, data_turno, orario_inizio, orario_fine) "
                    + "VALUES (?, ?, ?, ?)";
-
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -168,7 +177,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
             throw new RuntimeException("Errore nel salvataggio del turno.", e);
         }
     }
-    
+
     @Override
     public List<Turno> trovaTurniByMatricola(String matricola) {
 
@@ -221,10 +230,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         return turni;
     }
-    
+
     @Override
-    public void aggiornaPresenza(String matricola, java.time.LocalDate dataTurno, java.time.LocalTime orarioInizio,
-                                 java.time.LocalTime oraIngresso, java.time.LocalTime oraUscita, boolean presenzaRegistrata, boolean completato) {
+    public void aggiornaPresenza(String matricola, LocalDate dataTurno, LocalTime orarioInizio,
+                                 LocalTime oraIngresso, LocalTime oraUscita, boolean presenzaRegistrata, boolean completato) {
 
         if (matricola == null || dataTurno == null || orarioInizio == null) {
             return;
@@ -260,7 +269,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
             throw new RuntimeException("Errore nell'aggiornamento della presenza del dipendente.", e);
         }
     }
-    
+
     private Dipendente creaDipendenteDaRisultato(java.sql.ResultSet resultSet) throws SQLException {
 
         String matricola = resultSet.getString("matricola");
@@ -268,30 +277,35 @@ public class DBDipendenti implements IRepositoryDipendenti {
         String cognome = resultSet.getString("cognome");
         String email = resultSet.getString("email");
         String password = resultSet.getString("password");
-        java.time.LocalDate dataNascita = resultSet.getDate("data_nascita").toLocalDate();
+        LocalDate dataNascita = resultSet.getDate("data_nascita").toLocalDate();
         String ruolo = resultSet.getString("ruolo");
 
         Dipendente dipendente;
 
         switch (ruolo) {
 
-            case "Manager": dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
-            				break;
+            case "Manager":
+                dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
+                break;
 
-            case "Cassiere": dipendente = new Cassiere(nome, cognome, email, password, dataNascita, new DBClienti(), null);
-            				 break;
+            case "Cassiere":
+                dipendente = new Cassiere(nome, cognome, email, password, dataNascita, repositoryClienti, null);
+                break;
 
-            case "Magazziniere": dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
-            					 break;
+            case "Magazziniere":
+                dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
+                break;
 
-            case "ResponsabileDiReparto": dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
-            							  break;
+            case "ResponsabileDiReparto":
+                dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
+                break;
 
-            default: throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
+            default:
+                throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
         }
 
-        dipendente.setRepositoryDipendenti(this);
         dipendente.setMatricola(matricola);
+        dipendente.setRepositoryDipendenti(this);
 
         return dipendente;
     }

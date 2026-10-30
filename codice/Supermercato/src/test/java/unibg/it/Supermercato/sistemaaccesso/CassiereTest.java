@@ -3,6 +3,7 @@ package unibg.it.Supermercato.sistemaaccesso;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,24 +14,10 @@ import unibg.it.Supermercato.selfscanning.CarrelloFisico;
 import unibg.it.Supermercato.selfscanning.ElementoCarrello;
 import unibg.it.Supermercato.selfscanning.SessioneSpesa;
 import unibg.it.Supermercato.selfscanning.EStatoSessione;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.selfscanning.Segnalazione;
-import unibg.it.Supermercato.selfscanning.IControlloSpesa;
 
 public class CassiereTest {
-	
-    private final IAutenticazione autenticazione = new IAutenticazione() {
 
-        @Override
-        public boolean registraUtente(Persona persona) {
-            return false;
-        }
-
-        @Override
-        public Persona autentica(String email, String password) {
-            return null;
-        }
-    };
+    private final IAutenticazione autenticazione = mock(IAutenticazione.class);
 
     @Test
     void controlloCarrelliCorrispondenti() {
@@ -233,7 +220,7 @@ public class CassiereTest {
 
         assertTrue(cliente.isSegnalato());
         
-        verify(repositoryClienti).registraSegnalazione(any(Segnalazione.class));
+        verify(repositoryClienti).registraSegnalazione(eq(cliente.getId()), any(LocalDateTime.class));
     }
 }
 

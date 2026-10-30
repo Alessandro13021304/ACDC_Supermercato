@@ -13,24 +13,10 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import unibg.it.Supermercato.selfscanning.*;
 import unibg.it.Supermercato.sistemaaccesso.*;
 
 
 class DBClientiTest {
-	
-    private final IAutenticazione autenticazione = new IAutenticazione() {
-
-        @Override
-        public boolean registraUtente(Persona persona) {
-            return false;
-        }
-
-        @Override
-        public Persona autentica(String email, String password) {
-            return null;
-        }
-    };
 
     @BeforeEach
     void inizializzaDatabaseDiTest() throws Exception {
@@ -343,12 +329,12 @@ class DBClientiTest {
 
         dbClienti.salvaCliente(cliente);
 
-        SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
+        LocalDateTime dataSpesa = LocalDateTime.of(2026, 10, 5, 10, 30);
 
-        dbClienti.salvaStorico(cliente.getId(), sessione);
+        dbClienti.salvaStorico(cliente.getId(), dataSpesa, 42.50);
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
-             PreparedStatement statement = connection.prepareStatement("SELECT cliente_id, totale FROM storico_spese WHERE cliente_id = ?")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT cliente_id, data_spesa, totale FROM storico_spese WHERE cliente_id = ?")) {
 
             statement.setInt(1, cliente.getId());
 
@@ -356,7 +342,9 @@ class DBClientiTest {
 
                 assertTrue(resultSet.next());
                 assertEquals(cliente.getId(), resultSet.getInt("cliente_id"));
-                assertEquals(0.0, resultSet.getDouble("totale"));
+                assertEquals(dataSpesa, resultSet.getTimestamp("data_spesa").toLocalDateTime());
+                assertEquals(42.50, resultSet.getDouble("totale"), 0.001);
+                assertFalse(resultSet.next());
             }
         }
     }
@@ -399,7 +387,7 @@ class DBClientiTest {
         assertEquals(1, storico.size());
 
         assertEquals(dataSpesa, storico.get(0).getData());
-        assertEquals(25.50, storico.get(0).getTotale());
+        assertEquals(25.50, storico.get(0).getTotale(), 0.001);
     }
     
     @Test
@@ -419,10 +407,9 @@ class DBClientiTest {
 
         dbClienti.salvaCliente(cliente);
 
-        SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
-        Segnalazione segnalazione = new Segnalazione(sessione);
+        LocalDateTime dataSegnalazione = LocalDateTime.of(2026, 10, 5, 11, 0);
 
-        dbClienti.registraSegnalazione(segnalazione);
+        dbClienti.registraSegnalazione(cliente.getId(), dataSegnalazione);
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement("SELECT cliente_id, data_segnalazione FROM segnalazioni WHERE cliente_id = ?")) {
@@ -433,8 +420,58 @@ class DBClientiTest {
 
                 assertTrue(resultSet.next());
                 assertEquals(cliente.getId(), resultSet.getInt("cliente_id"));
-                assertNotNull(resultSet.getTimestamp("data_segnalazione"));
+                assertEquals(dataSegnalazione, resultSet.getTimestamp("data_segnalazione").toLocalDateTime());
             }
         }
+    }
+
+    @Test
+    void trovaSegnalazioniByClienteDeveRecuperareLeDateInOrdine() {
+
+        DBClienti dbClienti = new DBClienti(true);
+
+        Cliente cliente = new Cliente(
+                "Mario",
+                "Rossi",
+                "mario.rossi@email.it",
+                "password",
+                LocalDate.of(2000, 1, 1)
+        );
+
+        dbClienti.salvaCliente(cliente);
+
+        LocalDateTime prima = LocalDateTime.of(2026, 10, 5, 11, 0);
+        LocalDateTime dopo = LocalDateTime.of(2026, 10, 12, 16, 45);
+
+        dbClienti.registraSegnalazione(cliente.getId(), dopo);
+        dbClienti.registraSegnalazione(cliente.getId(), prima);
+
+        List<LocalDateTime> segnalazioni = dbClienti.trovaSegnalazioniByCliente(cliente.getId());
+
+        assertEquals(2, segnalazioni.size());
+        assertEquals(prima, segnalazioni.get(0));
+        assertEquals(dopo, segnalazioni.get(1));
+    }
+
+    @Test
+    void isClienteSegnalatoDeveRiflettereLaRegistrazioneDellaSegnalazione() {
+
+        DBClienti dbClienti = new DBClienti(true);
+
+        Cliente cliente = new Cliente(
+                "Mario",
+                "Rossi",
+                "mario.rossi@email.it",
+                "password",
+                LocalDate.of(2000, 1, 1)
+        );
+
+        dbClienti.salvaCliente(cliente);
+
+        assertFalse(dbClienti.isClienteSegnalato(cliente.getId()));
+
+        dbClienti.registraSegnalazione(cliente.getId(), LocalDateTime.of(2026, 10, 5, 11, 0));
+
+        assertTrue(dbClienti.isClienteSegnalato(cliente.getId()));
     }
 }

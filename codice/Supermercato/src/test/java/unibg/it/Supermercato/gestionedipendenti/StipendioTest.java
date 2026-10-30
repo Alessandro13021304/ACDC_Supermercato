@@ -8,8 +8,11 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 
 import unibg.it.Supermercato.sistemaaccesso.Cassiere;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.selfscanning.IControlloSpesa;
+import unibg.it.Supermercato.sistemaaccesso.IControlloSpesa;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
+import unibg.it.Supermercato.sistemaaccesso.Presenza;
+import unibg.it.Supermercato.sistemaaccesso.Stipendio;
+import unibg.it.Supermercato.sistemaaccesso.Turno;
 import unibg.it.Supermercato.persistenzadati.DBDipendenti;
 
 public class StipendioTest {

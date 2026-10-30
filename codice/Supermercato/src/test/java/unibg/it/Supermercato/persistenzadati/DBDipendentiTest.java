@@ -12,8 +12,6 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 
 import unibg.it.Supermercato.sistemaaccesso.*;
-import unibg.it.Supermercato.gestionedipendenti.Turno;
-import unibg.it.Supermercato.selfscanning.IControlloSpesa;
 
 
 class DBDipendentiTest {

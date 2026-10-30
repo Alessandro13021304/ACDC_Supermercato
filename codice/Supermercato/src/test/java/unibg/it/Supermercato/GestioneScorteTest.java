@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 import unibg.it.Supermercato.gestionemagazzino.*;
 import unibg.it.Supermercato.sistemaaccesso.*;
-import unibg.it.Supermercato.persistenzadati.IRepositoryOrdini;
 
 class GestioneScorteTest {
 
