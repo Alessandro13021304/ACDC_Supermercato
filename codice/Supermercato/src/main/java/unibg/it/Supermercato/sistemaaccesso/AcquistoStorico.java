@@ -1,4 +1,4 @@
-package unibg.it.Supermercato.selfscanning;
+package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDateTime;
 

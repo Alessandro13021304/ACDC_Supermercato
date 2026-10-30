@@ -7,7 +7,6 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.Test;
 
-import unibg.it.Supermercato.gestionedipendenti.Turno;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
 import unibg.it.Supermercato.persistenzadati.DBDipendenti;
 

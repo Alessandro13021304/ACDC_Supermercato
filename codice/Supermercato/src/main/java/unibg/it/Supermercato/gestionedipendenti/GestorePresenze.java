@@ -3,10 +3,12 @@ package unibg.it.Supermercato.gestionedipendenti;
 import java.time.LocalDate;
 import java.util.List;
 
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;
 import unibg.it.Supermercato.sistemaaccesso.IAutenticazione;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryDipendenti;
 import unibg.it.Supermercato.sistemaaccesso.Persona;
+import unibg.it.Supermercato.sistemaaccesso.Presenza;
+import unibg.it.Supermercato.sistemaaccesso.Turno;
 
 public class GestorePresenze implements IPresenze {
 

@@ -5,14 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.selfscanning.AcquistoStorico;
+import unibg.it.Supermercato.sistemaaccesso.AcquistoStorico;
 import unibg.it.Supermercato.sistemaaccesso.Cliente;
-import unibg.it.Supermercato.selfscanning.SessioneSpesa;
-import unibg.it.Supermercato.selfscanning.Segnalazione;
+import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
 
 public class DBClienti implements IRepositoryClienti {
 
@@ -37,11 +34,11 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public void salvaCliente(Cliente cliente) {
 
-    	if (cliente == null) {
+        if (cliente == null) {
             return;
         }
-    	
-    	String sql = "INSERT INTO clienti (nome, cognome, email, password, data_nascita) "
+
+        String sql = "INSERT INTO clienti (nome, cognome, email, password, data_nascita) "
                    + "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
@@ -53,7 +50,7 @@ public class DBClienti implements IRepositoryClienti {
             statement.setDate(5, java.sql.Date.valueOf(cliente.getDataNascita()));
 
             statement.executeUpdate();
-            
+
             try (java.sql.ResultSet resultSet = statement.getGeneratedKeys()) {
                 if (resultSet.next()) {
                     cliente.setId(resultSet.getInt(1));
@@ -68,13 +65,13 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public Cliente verificaCredenziali(String email, String password) {
 
-    	if (email == null || password == null) {
+        if (email == null || password == null) {
             return null;
         }
-    	
-    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
-    	           + "FROM clienti "
-    	           + "WHERE email = ? AND password = ?";
+
+        String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
+                   + "FROM clienti "
+                   + "WHERE email = ? AND password = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -83,24 +80,24 @@ public class DBClienti implements IRepositoryClienti {
 
             try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
-                if (resultSet.next()) {	
-                	return creaClienteDaRisultato(resultSet);
+                if (resultSet.next()) {
+                    return creaClienteDaRisultato(resultSet);
                 }
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nella verifica delle credenziali del cliente.", e);
         }
-        
+
         return null;
     }
 
     @Override
     public Cliente trovaClienteById(int clienteId) {
 
-    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
-    	           + "FROM clienti "
-    	           + "WHERE id = ?";
+        String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
+                   + "FROM clienti "
+                   + "WHERE id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -109,43 +106,43 @@ public class DBClienti implements IRepositoryClienti {
             try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
-                	return creaClienteDaRisultato(resultSet);
+                    return creaClienteDaRisultato(resultSet);
                 }
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero del cliente.", e);
         }
-        
+
         return null;
     }
 
     @Override
     public java.util.List<Cliente> trovaTuttiIClienti() {
 
-    	java.util.List<Cliente> clienti = new java.util.ArrayList<>();
-    	
-    	String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
-    	           + "FROM clienti";
+        java.util.List<Cliente> clienti = new java.util.ArrayList<>();
+
+        String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
+                   + "FROM clienti";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-            	clienti.add(creaClienteDaRisultato(resultSet));
+                clienti.add(creaClienteDaRisultato(resultSet));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero dei clienti.", e);
         }
-        
+
         return clienti;
     }
-    
+
     @Override
     public int trovaPuntiByCliente(int clienteId) {
         String sql = "SELECT punti_fedelta "
-        		   + "FROM clienti "
-        		   + "WHERE id = ?";
+                   + "FROM clienti "
+                   + "WHERE id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -160,18 +157,18 @@ public class DBClienti implements IRepositoryClienti {
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero dei punti del cliente.", e);
         }
-        
+
         return 0;
     }
-    
+
     @Override
     public void aggiungiPunti(int clienteId, int punti) {
 
         String sql = "UPDATE clienti "
-        		   + "SET punti_fedelta = punti_fedelta + ? "
-        		   + "WHERE id = ?";
+                   + "SET punti_fedelta = punti_fedelta + ? "
+                   + "WHERE id = ?";
 
-        try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, punti);
             statement.setInt(2, clienteId);
@@ -186,11 +183,11 @@ public class DBClienti implements IRepositoryClienti {
     @Override
     public void scalaPunti(int clienteId, int punti) {
 
-        String sql = "UPDATE clienti " 
-                   + "SET punti_fedelta = punti_fedelta - ? " 
+        String sql = "UPDATE clienti "
+                   + "SET punti_fedelta = punti_fedelta - ? "
                    + "WHERE id = ? AND punti_fedelta >= ?";
 
-        try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, punti);
             statement.setInt(2, clienteId);
@@ -204,20 +201,20 @@ public class DBClienti implements IRepositoryClienti {
     }
 
     @Override
-    public void salvaStorico(int clienteId, SessioneSpesa sessione) {
+    public void salvaStorico(int clienteId, LocalDateTime data, double totale) {
 
-        if (sessione == null) {
+        if (data == null) {
             return;
         }
 
-        String sql = "INSERT INTO storico_spese (cliente_id, data_spesa, totale) " 
+        String sql = "INSERT INTO storico_spese (cliente_id, data_spesa, totale) "
                    + "VALUES (?, ?, ?)";
 
-        try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, clienteId);
-            statement.setTimestamp(2, java.sql.Timestamp.valueOf(sessione.getDataOra()));
-            statement.setDouble(3, sessione.getTotaleDaPagare());
+            statement.setTimestamp(2, java.sql.Timestamp.valueOf(data));
+            statement.setDouble(3, totale);
 
             statement.executeUpdate();
 
@@ -225,14 +222,14 @@ public class DBClienti implements IRepositoryClienti {
             throw new RuntimeException("Errore nel salvataggio dello storico della spesa.", e);
         }
     }
-    
+
     @Override
     public List<AcquistoStorico> trovaStoricoByCliente(int clienteId) {
 
         String sql = "SELECT data_spesa, totale "
-                   + "FROM storico_spese " 
-                   + "WHERE cliente_id = ? " 
-                   + "ORDER BY data_spesa DESC";
+                   + "FROM storico_spese "
+                   + "WHERE cliente_id = ? "
+                   + "ORDER BY data_spesa";
 
         List<AcquistoStorico> storico = new java.util.ArrayList<>();
 
@@ -254,32 +251,30 @@ public class DBClienti implements IRepositoryClienti {
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel recupero dello storico del cliente.", e);
         }
-        
+
         return storico;
     }
 
     @Override
-    public void registraSegnalazione(Segnalazione segnalazione) {
+    public void registraSegnalazione(int clienteId, LocalDateTime data) {
 
-        if (segnalazione == null || segnalazione.getSessione() == null || segnalazione.getSessione().getCliente() == null) {
+        if (data == null) {
             return;
         }
-
-        int clienteId = segnalazione.getSessione().getCliente().getId();
 
         String sql = "INSERT INTO segnalazioni (cliente_id, data_segnalazione) "
                    + "VALUES (?, ?)";
 
-        try (Connection connection = getConnection(); java.sql.PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, clienteId);
-            statement.setTimestamp(2, java.sql.Timestamp.valueOf(segnalazione.getSessione().getDataOra()));
+            statement.setTimestamp(2, java.sql.Timestamp.valueOf(data));
 
             statement.executeUpdate();
-            
+
             String sqlAggiornaCliente = "UPDATE clienti "
-            		                  + "SET segnalato = TRUE "
-            		                  + "WHERE id = ?";
+                                      + "SET segnalato = TRUE "
+                                      + "WHERE id = ?";
 
             try (PreparedStatement updateStatement = connection.prepareStatement(sqlAggiornaCliente)) {
 
@@ -291,45 +286,40 @@ public class DBClienti implements IRepositoryClienti {
             throw new RuntimeException("Errore nel salvataggio della segnalazione.", e);
         }
     }
-    
+
     @Override
-    public List<Segnalazione> trovaSegnalazioniByCliente(int clienteId) {
+    public List<LocalDateTime> trovaSegnalazioniByCliente(int clienteId) {
 
         String sql = "SELECT data_segnalazione "
                    + "FROM segnalazioni "
                    + "WHERE cliente_id = ? "
-                   + "ORDER BY data_segnalazione DESC";
+                   + "ORDER BY data_segnalazione";
 
-        List<Segnalazione> segnalazioni = new ArrayList<>();
+        List<LocalDateTime> segnalazioni = new java.util.ArrayList<>();
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, clienteId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
-
                 while (resultSet.next()) {
-
-                    LocalDateTime dataOra = resultSet.getTimestamp("data_segnalazione").toLocalDateTime();
-
-                    segnalazioni.add(new Segnalazione(null, dataOra));
+                    segnalazioni.add(resultSet.getTimestamp("data_segnalazione").toLocalDateTime());
                 }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(
-                    "Errore nel recupero delle segnalazioni del cliente.", e);
+            throw new RuntimeException("Errore nel recupero delle segnalazioni del cliente.", e);
         }
 
         return segnalazioni;
     }
-    
+
     @Override
     public boolean isClienteSegnalato(int clienteId) {
 
         String sql = "SELECT segnalato "
-        		   + "FROM clienti "
-        		   + "WHERE id = ?";
+                   + "FROM clienti "
+                   + "WHERE id = ?";
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -345,13 +335,13 @@ public class DBClienti implements IRepositoryClienti {
         } catch (SQLException e) {
             throw new RuntimeException("Errore nella verifica della segnalazione del cliente.", e);
         }
-        
+
         return false;
     }
-    
+
     private Cliente creaClienteDaRisultato(ResultSet resultSet) throws SQLException {
 
-    	Cliente cliente = new Cliente(
+        Cliente cliente = new Cliente(
                 resultSet.getString("nome"),
                 resultSet.getString("cognome"),
                 resultSet.getString("email"),
@@ -361,11 +351,11 @@ public class DBClienti implements IRepositoryClienti {
 
         cliente.setId(resultSet.getInt("id"));
         cliente.setPuntiFedelta(resultSet.getInt("punti_fedelta"));
+        cliente.setRepositoryClienti(this);
         if (resultSet.getBoolean("segnalato")) {
             cliente.segnala();
         }
-        
+
         return cliente;
     }
 }
-

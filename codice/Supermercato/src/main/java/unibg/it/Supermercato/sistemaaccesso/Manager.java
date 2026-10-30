@@ -4,52 +4,53 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import unibg.it.Supermercato.gestionedipendenti.Stipendio;
-import unibg.it.Supermercato.gestionedipendenti.Turno;
-import unibg.it.Supermercato.gestionedipendenti.ITurni;
-import unibg.it.Supermercato.gestionedipendenti.GestoreTurni;
-import unibg.it.Supermercato.gestionedipendenti.IStipendi;
-import unibg.it.Supermercato.gestionedipendenti.CalcoloStipendi;
-import unibg.it.Supermercato.persistenzadati.IRepositoryDipendenti;
-
 public class Manager extends Dipendente {
 
-	private ITurni gestoreTurni;
-	private IStipendi calcoloStipendi;
-	
-	public Manager(String nome, String cognome, String email, String password, LocalDate dataNascita, IRepositoryDipendenti repositoryDipendenti) {
-	    super(nome, cognome, email, password, dataNascita);
+    private ITurni gestoreTurni;
+    private IStipendi calcoloStipendi;
 
-	    this.setRepositoryDipendenti(repositoryDipendenti);
-	    this.gestoreTurni = new GestoreTurni(repositoryDipendenti);
-	    this.calcoloStipendi = new CalcoloStipendi();
-	}
+    public Manager(String nome, String cognome, String email, String password, LocalDate dataNascita,
+            IRepositoryDipendenti repositoryDipendenti) {
+        super(nome, cognome, email, password, dataNascita);
+        setRepositoryDipendenti(repositoryDipendenti);
+    }
 
-	public void assegnaTurno(Dipendente dipendente, Turno turno) {
-	    gestoreTurni.assegnaTurno(dipendente, turno);
-	}
+    public Manager(String nome, String cognome, String email, String password, LocalDate dataNascita,
+            IRepositoryDipendenti repositoryDipendenti, ITurni gestoreTurni, IStipendi calcoloStipendi) {
+        this(nome, cognome, email, password, dataNascita, repositoryDipendenti);
+        this.gestoreTurni = gestoreTurni;
+        this.calcoloStipendi = calcoloStipendi;
+    }
 
-	public List<Stipendio> calcolaStipendi(List<Dipendente> dipendenti, int anno, int mese) {
+    public void setGestoreTurni(ITurni gestoreTurni) {
+        this.gestoreTurni = gestoreTurni;
+    }
 
-	    List<Stipendio> stipendi = new ArrayList<>();
+    public void setCalcoloStipendi(IStipendi calcoloStipendi) {
+        this.calcoloStipendi = calcoloStipendi;
+    }
 
-	    if (dipendenti == null) {
-	        return stipendi;
-	    }
+    public void assegnaTurno(Dipendente dipendente, Turno turno) {
+        if (gestoreTurni != null) {
+            gestoreTurni.assegnaTurno(dipendente, turno);
+        }
+    }
 
-	    for (Dipendente dipendente : dipendenti) {
+    public List<Stipendio> calcolaStipendi(List<Dipendente> dipendenti, int anno, int mese) {
+        List<Stipendio> stipendi = new ArrayList<>();
 
-	        if (dipendente == null) {
-	            continue;
-	        }
+        if (dipendenti == null || calcoloStipendi == null) {
+            return stipendi;
+        }
 
-	        Stipendio stipendio = calcoloStipendi.calcolaStipendioMensile(dipendente, anno, mese);
+        for (Dipendente dipendente : dipendenti) {
+            if (dipendente != null) {
+                stipendi.add(calcoloStipendi.calcolaStipendioMensile(dipendente, anno, mese));
+            }
+        }
 
-	        stipendi.add(stipendio);
-	    }
-
-	    return stipendi;
-	}
+        return stipendi;
+    }
 
     @Override
     public String getRuolo() {

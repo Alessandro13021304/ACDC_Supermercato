@@ -9,10 +9,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import unibg.it.Supermercato.selfscanning.IControlloSpesa;
-import unibg.it.Supermercato.gestionedipendenti.Stipendio;
-import unibg.it.Supermercato.gestionedipendenti.Turno;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
 import unibg.it.Supermercato.persistenzadati.DBDipendenti;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
 

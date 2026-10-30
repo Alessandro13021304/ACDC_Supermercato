@@ -2,23 +2,15 @@ package unibg.it.Supermercato.gestionemagazzino;
 
 import java.util.List;
 
-import unibg.it.Supermercato.persistenzadati.DBOrdini;
-import unibg.it.Supermercato.persistenzadati.IRepositoryOrdini;
-import unibg.it.Supermercato.persistenzadati.IRepositoryProdotti;
+public class GestoreOrdini implements IOrdini {
 
-public class GestoreOrdini implements IOrdini{
-	
-	private IRepositoryOrdini repositoryOrdini;
+    private IRepositoryOrdini repositoryOrdini;
     private IRepositoryProdotti repositoryProdotti;
 
-    public GestoreOrdini() {
-        this.repositoryOrdini = new DBOrdini();
-    }
-    
     public GestoreOrdini(IRepositoryOrdini repositoryOrdini) {
         this.repositoryOrdini = repositoryOrdini;
     }
-    
+
     public void setRepositoryProdotti(IRepositoryProdotti repositoryProdotti) {
         this.repositoryProdotti = repositoryProdotti;
     }
@@ -29,11 +21,10 @@ public class GestoreOrdini implements IOrdini{
             return null;
         }
 
-        OrdineFornitore ordine = new OrdineFornitore(fornitore);
-
-        return ordine;
+        return new OrdineFornitore(fornitore);
     }
-    
+
+    @Override
     public void salvaOrdine(OrdineFornitore ordine) {
         if (ordine == null) {
             return;
@@ -56,7 +47,7 @@ public class GestoreOrdini implements IOrdini{
     public List<OrdineFornitore> visualizzaOrdini() {
         return repositoryOrdini.trovaTuttiOrdini();
     }
-    
+
     @Override
     public void riceviOrdine(OrdineFornitore ordine) {
 
@@ -65,31 +56,19 @@ public class GestoreOrdini implements IOrdini{
         }
 
         for (RigaOrdine riga : ordine.getRighe()) {
-
-            if (riga == null || riga.getProdotto() == null) {
-                continue;
+            if (riga != null && riga.getProdotto() != null) {
+                aggiornaMagazzino(riga);
             }
+        }
+    }
 
-            Prodotto prodotto = riga.getProdotto();
+    private void aggiornaMagazzino(RigaOrdine riga) {
+        Prodotto salvato = repositoryProdotti.trovaProdottoByCodiceABarre(
+                riga.getProdotto().getCodiceABarre());
 
-            Prodotto prodottoSalvato =
-                    repositoryProdotti.trovaProdottoByCodiceABarre(
-                            prodotto.getCodiceABarre()
-                    );
-
-            if (prodottoSalvato == null) {
-                continue;
-            }
-
-            int nuovaQuantitaMagazzino =
-                    prodottoSalvato.getQuantitaMagazzino()
-                    + riga.getQuantita();
-
-            prodottoSalvato.setQuantitaMagazzino(
-                    nuovaQuantitaMagazzino
-            );
-
-            repositoryProdotti.modificaProdotto(prodottoSalvato);
+        if (salvato != null) {
+            salvato.setQuantitaMagazzino(salvato.getQuantitaMagazzino() + riga.getQuantita());
+            repositoryProdotti.modificaProdotto(salvato);
         }
     }
 }

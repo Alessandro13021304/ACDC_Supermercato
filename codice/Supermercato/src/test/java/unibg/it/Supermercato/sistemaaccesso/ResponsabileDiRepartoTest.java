@@ -1,6 +1,7 @@
 package unibg.it.Supermercato.sistemaaccesso;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
 import unibg.it.Supermercato.persistenzadati.DBProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Fornitore;
+import unibg.it.Supermercato.gestionemagazzino.IRepositoryOrdini;
 import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.GestoreScorte;
@@ -20,7 +22,7 @@ import unibg.it.Supermercato.gestionemagazzino.GestoreProdotti;
 import unibg.it.Supermercato.gestionemagazzino.GestoreOrdini;
 
 class ResponsabileDiRepartoTest {
-	
+
     @BeforeEach
     void inizializzaDatabaseDiTest() throws Exception {
         DBConnection.getInstance().resetTestDatabase("prodotti");
@@ -36,8 +38,10 @@ class ResponsabileDiRepartoTest {
                 "password",
                 LocalDate.of(1980, 1, 1)
         );
-        
-        responsabile.setGestoreOrdini(new GestoreOrdini());
+
+        IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
+
+        responsabile.setGestoreOrdini(new GestoreOrdini(repositoryOrdini));
 
         Fornitore fornitore = new Fornitore("Fornitore Test");
 
@@ -63,11 +67,13 @@ class ResponsabileDiRepartoTest {
 
         assertEquals(prodotto2, ordine.getRighe().get(1).getProdotto());
         assertEquals(100, ordine.getRighe().get(1).getQuantita());
+
+        verify(repositoryOrdini).salvaOrdine(ordine);
     }
     
     @Test
     void testVisualizzaProdottoDaCatalogo() {
-    	DBProdotti db = new DBProdotti(true);
+        DBProdotti db = new DBProdotti(true);
 
         Prodotto prodotto = new Prodotto(
                 "123456789",
@@ -266,8 +272,13 @@ class ResponsabileDiRepartoTest {
                 LocalDate.of(1980, 1, 1)
         );
 
+        responsabile.setNumeroReparto(1);
+
         Fornitore fornitore = new Fornitore("Fornitore Test");
         responsabile.setFornitore(fornitore);
+
+        IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
+        responsabile.setGestoreOrdini(new GestoreOrdini(repositoryOrdini));
 
         GestoreScorte gestore = new GestoreScorte();
         responsabile.setGestoreScorte(gestore);
@@ -286,5 +297,10 @@ class ResponsabileDiRepartoTest {
         responsabile.aggiorna(prodotto, TipoScorta.MAGAZZINO);
 
         assertEquals(0, prodotto.getQuantitaMagazzino());
+        assertEquals(1, responsabile.getOrdiniElaborati().size());
+        assertEquals(fornitore, responsabile.getOrdiniElaborati().get(0).getFornitore());
+        assertEquals(100, responsabile.getOrdiniElaborati().get(0).getRighe().get(0).getQuantita());
+
+        verify(repositoryOrdini).salvaOrdine(responsabile.getOrdiniElaborati().get(0));
     }
 }

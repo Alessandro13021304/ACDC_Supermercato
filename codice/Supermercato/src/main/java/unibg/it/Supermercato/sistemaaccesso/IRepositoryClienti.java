@@ -1,11 +1,7 @@
-package unibg.it.Supermercato.persistenzadati;
+package unibg.it.Supermercato.sistemaaccesso;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
-import unibg.it.Supermercato.selfscanning.Segnalazione;
-import unibg.it.Supermercato.selfscanning.SessioneSpesa;
-import unibg.it.Supermercato.sistemaaccesso.Cliente;
-import unibg.it.Supermercato.selfscanning.AcquistoStorico;
 
 public interface IRepositoryClienti {
 
@@ -16,20 +12,20 @@ public interface IRepositoryClienti {
     Cliente trovaClienteById(int clienteId);
 
     List<Cliente> trovaTuttiIClienti();
-    
+
     int trovaPuntiByCliente(int clienteId);
 
     void aggiungiPunti(int clienteId, int punti);
 
     void scalaPunti(int clienteId, int punti);
 
-    void salvaStorico(int clienteId, SessioneSpesa sessione);
-    
+    void salvaStorico(int clienteId, LocalDateTime data, double totale);
+
     List<AcquistoStorico> trovaStoricoByCliente(int clienteId);
 
-    void registraSegnalazione(Segnalazione segnalazione);
-    
-    List<Segnalazione> trovaSegnalazioniByCliente(int clienteId);
-    
+    void registraSegnalazione(int clienteId, LocalDateTime data);
+
+    List<LocalDateTime> trovaSegnalazioniByCliente(int clienteId);
+
     boolean isClienteSegnalato(int clienteId);
 }

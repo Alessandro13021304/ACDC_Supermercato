@@ -8,6 +8,8 @@ import static org.mockito.Mockito.*;
 
 import unibg.it.Supermercato.persistenzadati.*;
 import unibg.it.Supermercato.gestionemagazzino.GestoreOrdini;
+import unibg.it.Supermercato.gestionemagazzino.IRepositoryOrdini;
+import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Fornitore;
 import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;

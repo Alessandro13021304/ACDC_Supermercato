@@ -1,6 +1,8 @@
 package unibg.it.Supermercato.gestionedipendenti;
 
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;
+import unibg.it.Supermercato.sistemaaccesso.IStipendi;
+import unibg.it.Supermercato.sistemaaccesso.Stipendio;
 
 public class CalcoloStipendi implements IStipendi {
 

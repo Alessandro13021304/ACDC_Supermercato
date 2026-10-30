@@ -1,67 +1,65 @@
 package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;
-import unibg.it.Supermercato.selfscanning.SessioneSpesa;
-import unibg.it.Supermercato.selfscanning.CarrelloFisico;
-import unibg.it.Supermercato.selfscanning.Segnalazione;
-import unibg.it.Supermercato.persistenzadati.IRepositoryClienti;
-import unibg.it.Supermercato.selfscanning.IControlloSpesa;
 
 public class Cassiere extends Dipendente {
-	
-	private IRepositoryClienti repositoryClienti;
-	private IControlloSpesa controlloSpesa;
-	private int numeroTotemControllo;
 
-	public Cassiere(String nome, String cognome, String email, String password, LocalDate dataNascita, 
-			IRepositoryClienti repositoryClienti, IControlloSpesa controlloSpesa) {
-		super(nome, cognome, email, password, dataNascita);
-		this.repositoryClienti = repositoryClienti;
-		this.controlloSpesa = controlloSpesa;
-	}
+    private IRepositoryClienti repositoryClienti;
+    private IControlloSpesa controlloSpesa;
+    private int numeroTotemControllo;
 
-	public boolean haRichiestaDiControllo(SessioneSpesa s) {
-	    return s != null && s.richiedeControllo();
-	}
-	
-	public boolean notificaRichiestaDiControllo(SessioneSpesa s) {
-	    if (s == null || !s.richiedeControllo() || s.getTotem() == null) {
-	        return false;
-	    }
+    public Cassiere(String nome, String cognome, String email, String password, LocalDate dataNascita,
+            IRepositoryClienti repositoryClienti, IControlloSpesa controlloSpesa) {
+        super(nome, cognome, email, password, dataNascita);
+        this.repositoryClienti = repositoryClienti;
+        this.controlloSpesa = controlloSpesa;
+    }
 
-	    numeroTotemControllo = s.getTotem().getNumero();
+    public boolean haRichiestaDiControllo(ISessioneControllabile s) {
+        return s != null && s.richiedeControllo();
+    }
 
-	    return true;
-	}
-	
-    public boolean effettuaControllo(SessioneSpesa s, CarrelloFisico carrelloFisico) {
-    	
-    	if (s == null || !s.isInControllo()) {
-    	    return false;
-    	}
+    public boolean notificaRichiestaDiControllo(ISessioneControllabile s, int numeroTotem) {
+        if (s == null || !s.richiedeControllo()) {
+            return false;
+        }
 
-    	boolean risultato = controlloSpesa.verificaCorrispondenza(s, carrelloFisico);
+        numeroTotemControllo = numeroTotem;
 
-        if (!risultato) {
-            s.segnala();
-            
-            if (s.getCliente() != null) {
-                s.getCliente().segnala();
-            }
-            
-            Segnalazione segnalazione = new Segnalazione(s);
-            repositoryClienti.registraSegnalazione(segnalazione);
-        } else {
+        return true;
+    }
+
+    public boolean effettuaControllo(ISessioneControllabile s, ICarrelloFisico carrelloFisico) {
+        if (s == null || !s.isInControllo()) {
+            return false;
+        }
+
+        boolean risultato = controlloSpesa.verificaCorrispondenza(s, carrelloFisico);
+
+        if (risultato) {
             s.completaDopoControllo();
+        } else {
+            registraSegnalazione(s);
         }
 
         return risultato;
     }
 
+    private void registraSegnalazione(ISessioneControllabile s) {
+        s.segnala();
+
+        Cliente cliente = s.getCliente();
+
+        if (cliente != null) {
+            cliente.segnala();
+            repositoryClienti.registraSegnalazione(cliente.getId(), s.getDataOra());
+        }
+    }
+
     public int getNumeroTotemControllo() {
         return numeroTotemControllo;
     }
-    
+
     @Override
     public String getRuolo() {
         return "Cassiere";

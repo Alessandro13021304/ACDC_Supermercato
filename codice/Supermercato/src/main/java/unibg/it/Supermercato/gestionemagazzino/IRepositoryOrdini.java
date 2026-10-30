@@ -1,8 +1,6 @@
-package unibg.it.Supermercato.persistenzadati;
+package unibg.it.Supermercato.gestionemagazzino;
 
 import java.util.List;
-
-import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
 
 public interface IRepositoryOrdini {
 

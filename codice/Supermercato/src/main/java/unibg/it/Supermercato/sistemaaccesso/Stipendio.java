@@ -1,10 +1,8 @@
-package unibg.it.Supermercato.gestionedipendenti;
+package unibg.it.Supermercato.sistemaaccesso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
-
-import unibg.it.Supermercato.sistemaaccesso.Dipendente;
 
 public class Stipendio {
 
