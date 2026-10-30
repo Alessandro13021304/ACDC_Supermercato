@@ -12,5 +12,5 @@ public interface ICarrello {
 
     double calcolaTotale();
     
-    void aggiungiProdotto(Prodotto p);
+    boolean aggiungiProdotto(Prodotto p);
 }

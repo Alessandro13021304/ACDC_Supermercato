@@ -30,6 +30,4 @@ public class ScortaMagazzino {
 
         return prodottiDaRiordinare;
     }
-
-
 }

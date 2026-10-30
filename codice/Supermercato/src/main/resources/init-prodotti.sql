@@ -24,5 +24,6 @@ CREATE TABLE IF NOT EXISTS righe_ordine (
     codice_prodotto VARCHAR(50) NOT NULL,
     quantita INT NOT NULL,
     prezzo DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (ordine_id) REFERENCES ordini_fornitore(id)
+    FOREIGN KEY (ordine_id) REFERENCES ordini_fornitore(id),
+    FOREIGN KEY (codice_prodotto) REFERENCES prodotti(codice_a_barre)
 );

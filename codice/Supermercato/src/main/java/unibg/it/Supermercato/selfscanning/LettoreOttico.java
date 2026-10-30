@@ -15,29 +15,34 @@ public class LettoreOttico {
         this.carrello = carrello;
     }
     
-    public void scansionaProdotto(Prodotto p) {
-        if (p == null || carrello == null) {
-            return;
-        }
-
-        carrello.aggiungiProdotto(p);
-    }
+	public boolean scansionaProdotto(Prodotto p) {
+	    if (p == null || carrello == null) {
+	        return false;
+	    }
+	
+	    return carrello.aggiungiProdotto(p);
+	}
     
-    public void rimuoviProdotto(Prodotto p) {
-        if (p == null || carrello == null) {
-            return;
-        }
+	public boolean rimuoviProdotto(Prodotto p) {
 
-        ElementoCarrello elemento = carrello.trovaElemento(p);
+	    if (p == null || carrello == null) {
+	        return false;
+	    }
 
-        if (elemento != null) {
-            if (elemento.getQuantita() > 1) {
-                elemento.decrementaQuantita();
-            } else {
-                carrello.rimuoviElemento(elemento);
-            }
-        }
-    }
+	    ElementoCarrello elemento = carrello.trovaElemento(p);
+
+	    if (elemento == null) {
+	        return false;
+	    }
+
+	    if (elemento.getQuantita() > 1) {
+	        elemento.decrementaQuantita();
+	    } else {
+	        carrello.rimuoviElemento(elemento);
+	    }
+
+	    return true;
+	}
     
     public Cliente autentica(String email, String password) {
         if (autenticazione == null) {
