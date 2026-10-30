@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import unibg.it.Supermercato.gestionedipendenti.CalcoloStipendi;
 import unibg.it.Supermercato.persistenzadati.DBDipendenti;
 import unibg.it.Supermercato.persistenzadati.DBConnection;
 
@@ -16,10 +17,10 @@ public class ManagerTest {
 
     @Test
     void calcolaStipendioDiManagerECassiere() throws Exception {
-    	
-    	DBConnection.getInstance().resetTestDatabase("dipendenti");
+    
+        DBConnection.getInstance().resetTestDatabase("dipendenti");
 
-    	DBDipendenti repositoryDipendenti = new DBDipendenti(true);
+        DBDipendenti repositoryDipendenti = new DBDipendenti(true);
 
         Manager manager = new Manager(
                 "Mario",
@@ -29,6 +30,8 @@ public class ManagerTest {
                 LocalDate.of(1985, 1, 1),
                 repositoryDipendenti
         );
+
+        manager.setCalcoloStipendi(new CalcoloStipendi());
         
         manager.setMatricola("M001");
         repositoryDipendenti.salvaDipendente(manager);
