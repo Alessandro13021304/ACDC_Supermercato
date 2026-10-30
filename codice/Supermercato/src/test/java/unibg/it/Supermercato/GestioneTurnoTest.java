@@ -207,6 +207,8 @@ class GestioneTurnoTest {
                 repository
         );
 
+        manager.setGestoreTurni(new GestoreTurni(repository));
+
         Magazziniere dipendente = new Magazziniere(
                 "Anna",
                 "Verdi",
