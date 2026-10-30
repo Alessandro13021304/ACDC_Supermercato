@@ -22,10 +22,11 @@ public class Promozione {
     }
 
     public int calcolaPuntiDaScalare(int puntiFedelta) {
+
         if (puntiFedelta < PUNTI_MINIMI) {
             return 0;
         }
 
-        return puntiFedelta;
+        return Math.min(puntiFedelta, 600);
     }
 }

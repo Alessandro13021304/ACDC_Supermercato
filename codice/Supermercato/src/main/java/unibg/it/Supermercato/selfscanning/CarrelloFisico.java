@@ -36,4 +36,8 @@ public class CarrelloFisico {
         }
         return false;
     }
+    
+    public void svuota() {
+        elementi.clear();
+    }
 }

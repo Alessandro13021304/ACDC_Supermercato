@@ -29,5 +29,7 @@ public interface IRepositoryClienti {
 
     void registraSegnalazione(Segnalazione segnalazione);
     
+    List<Segnalazione> trovaSegnalazioniByCliente(int clienteId);
+    
     boolean isClienteSegnalato(int clienteId);
 }

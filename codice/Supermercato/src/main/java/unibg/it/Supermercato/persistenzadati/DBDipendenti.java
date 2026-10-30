@@ -275,26 +275,22 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         switch (ruolo) {
 
-            case "Manager":
-                dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
-                break;
+            case "Manager": dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
+            				break;
 
-            case "Cassiere":
-                dipendente = new Cassiere(nome, cognome, email, password, dataNascita, new DBClienti(), null);
-                break;
+            case "Cassiere": dipendente = new Cassiere(nome, cognome, email, password, dataNascita, new DBClienti(), null);
+            				 break;
 
-            case "Magazziniere":
-                dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
-                break;
+            case "Magazziniere": dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
+            					 break;
 
-            case "ResponsabileDiReparto":
-                dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
-                break;
+            case "ResponsabileDiReparto": dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
+            							  break;
 
-            default:
-                throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
+            default: throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
         }
 
+        dipendente.setRepositoryDipendenti(this);
         dipendente.setMatricola(matricola);
 
         return dipendente;

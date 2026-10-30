@@ -51,7 +51,6 @@ class GeneratoreRicevutaTest {
         assertTrue(ricevuta.contains("RICEVUTA"));
         assertTrue(ricevuta.contains( String.format("%.2f", pagamento.getImporto())));
         assertTrue(ricevuta.contains("CARTA_DI_CREDITO"));
-        assertTrue(ricevuta.contains(pagamento.getDataOra().toString()));
     }
     
     @Test

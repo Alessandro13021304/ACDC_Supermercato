@@ -28,17 +28,17 @@ public class Carrello implements ICarrello {
         }
     }
     
-    @Override
-    public ElementoCarrello trovaElemento(Prodotto p) {
-        if (p != null) {
-            for (ElementoCarrello elemento : elementi) {
-                if (elemento.prodotto == p) {
-                    return elemento;
-                }
-            }
-        }
-        return null;
-    }
+	@Override
+	public ElementoCarrello trovaElemento(Prodotto p) {
+	    if (p != null) {
+	        for (ElementoCarrello elemento : elementi) {
+	            if (elemento.prodotto.getCodiceABarre().equals(p.getCodiceABarre())) {
+	                return elemento;
+	            }
+	        }
+	    }
+	    return null;
+	}
     
     @Override
     public double calcolaTotale() {
@@ -55,43 +55,40 @@ public class Carrello implements ICarrello {
         return elementi.size();
     }
     
-    List<ElementoCarrello> getElementi() {
+    public List<ElementoCarrello> getElementi() {
         return elementi;
-    }
-    
-    @Override
-    public void aggiungiProdotto(Prodotto p) {
-        if (p == null) {
-            return;
-        }
-
-        ElementoCarrello elemento = trovaElemento(p);
-
-        if (elemento != null && elemento.getQuantita() >= p.getQuantitaScaffale()) {
-            return;
-        }
-
-        if (elemento != null) {
-            elemento.incrementaQuantita();
-        } else {
-            if (p.getQuantitaScaffale() <= 0) {
-                return;
-            }
-
-            CalcolatoreSconto calcolatore = new CalcolatoreSconto();
-
-            double prezzoApplicato = calcolatore.applicaSconto(
-                    p.getPrezzo(),
-                    p.getSconto()
-            );
-
-            elemento = new ElementoCarrello(
-                    p,
-                    1,
-                    prezzoApplicato
-            );
-
-            aggiungiElemento(elemento);
-        }
-    }
+    }  
+	
+	@Override
+	public boolean aggiungiProdotto(Prodotto p) {
+	
+	    if (p == null || p.getQuantitaScaffale() <= 0) {
+	        return false;
+	    }
+	
+	    ElementoCarrello elemento = trovaElemento(p);
+	
+	    if (elemento != null && elemento.getQuantita() >= p.getQuantitaScaffale()) {
+	        return false;
+	    }
+	
+	    if (elemento != null) {
+	        elemento.incrementaQuantita();
+	
+	    } else {
+	        CalcolatoreSconto calcolatore = new CalcolatoreSconto();
+	
+	        double prezzoApplicato = calcolatore.applicaSconto(p.getPrezzo(), p.getSconto());
+	
+	        elemento = new ElementoCarrello(
+	                p,
+	                1,
+	                prezzoApplicato
+	        );
+	
+	        aggiungiElemento(elemento);
+	    }
+	
+	    return true;
+	}
 }

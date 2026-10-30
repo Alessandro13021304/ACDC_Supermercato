@@ -232,7 +232,7 @@ public class DBClienti implements IRepositoryClienti {
         String sql = "SELECT data_spesa, totale "
                    + "FROM storico_spese " 
                    + "WHERE cliente_id = ? " 
-                   + "ORDER BY data_spesa";
+                   + "ORDER BY data_spesa DESC";
 
         List<AcquistoStorico> storico = new java.util.ArrayList<>();
 
@@ -290,6 +290,38 @@ public class DBClienti implements IRepositoryClienti {
         } catch (SQLException e) {
             throw new RuntimeException("Errore nel salvataggio della segnalazione.", e);
         }
+    }
+    
+    @Override
+    public List<Segnalazione> trovaSegnalazioniByCliente(int clienteId) {
+
+        String sql = "SELECT data_segnalazione "
+                   + "FROM segnalazioni "
+                   + "WHERE cliente_id = ? "
+                   + "ORDER BY data_segnalazione DESC";
+
+        List<Segnalazione> segnalazioni = new ArrayList<>();
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, clienteId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+
+                    LocalDateTime dataOra = resultSet.getTimestamp("data_segnalazione").toLocalDateTime();
+
+                    segnalazioni.add(new Segnalazione(null, dataOra));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "Errore nel recupero delle segnalazioni del cliente.", e);
+        }
+
+        return segnalazioni;
     }
     
     @Override

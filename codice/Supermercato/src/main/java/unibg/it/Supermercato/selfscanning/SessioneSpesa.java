@@ -39,17 +39,21 @@ public class SessioneSpesa {
         premioFedeltaApplicato = false;
     }
 
-    public void scansionaProdotto(Prodotto p) {
-        if (p != null && stato == EStatoSessione.IN_CORSO) {
-            lettoreOttico.scansionaProdotto(p);
-        }
-    }
+	public boolean scansionaProdotto(Prodotto p) {
+	    if (p == null || stato != EStatoSessione.IN_CORSO) {
+	        return false;
+	    }
+	
+	    return lettoreOttico.scansionaProdotto(p);
+	}
 
-    public void rimuoviProdotto(Prodotto p) {
-        if (p != null && stato == EStatoSessione.IN_CORSO) {
-        	lettoreOttico.rimuoviProdotto(p);
-        }
-    }
+	public boolean rimuoviProdotto(Prodotto p) {
+	    if (p == null || stato != EStatoSessione.IN_CORSO) {
+	        return false;
+	    }
+
+	    return lettoreOttico.rimuoviProdotto(p);
+	}
 
     public void terminaSpesa() {
         if (stato == EStatoSessione.IN_CORSO) {
@@ -129,11 +133,15 @@ public class SessioneSpesa {
     private void registraAcquistoCompletato() {
 
         if (repositoryClienti != null && cliente != null) {
-            PuntiAccumulati puntiAccumulati = new PuntiAccumulati();
-            int nuoviPunti = puntiAccumulati.calcolaPunti(totaleDaPagare);
+        	PuntiAccumulati puntiAccumulati = new PuntiAccumulati();
+        	int nuoviPunti = puntiAccumulati.calcolaPunti(totaleDaPagare);
 
-            repositoryClienti.aggiungiPunti(cliente.getId(), nuoviPunti);
-            repositoryClienti.salvaStorico(cliente.getId(), this);
+        	repositoryClienti.aggiungiPunti(cliente.getId(), nuoviPunti);
+
+        	int saldoAggiornato = repositoryClienti.trovaPuntiByCliente(cliente.getId());
+        	cliente.setPuntiFedelta(saldoAggiornato);
+
+        	repositoryClienti.salvaStorico(cliente.getId(), this);
         }
 
         if (repositoryProdotti != null) {
@@ -175,10 +183,6 @@ public class SessioneSpesa {
     public void avviaControllo() {
         if (stato == EStatoSessione.PAGAMENTO) {
             stato = EStatoSessione.CONTROLLO;
-            
-            if (totem != null && totem.isCassiereArrivato()) {
-                totem.effettuaControlloSpesa(this);
-            }
         }
     }
     
