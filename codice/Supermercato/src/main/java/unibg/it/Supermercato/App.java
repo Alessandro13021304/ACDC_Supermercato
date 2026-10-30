@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
@@ -28,7 +29,7 @@ public class App {
         DBConnection db = DBConnection.getInstance();
         
         DBClienti dbClienti = new DBClienti();
-        DBDipendenti dbDipendenti = new DBDipendenti();
+        DBDipendenti dbDipendenti = new DBDipendenti(false, dbClienti);
         DBProdotti dbProdotti = new DBProdotti();
         DBOrdini dbOrdini = new DBOrdini();
         
@@ -597,7 +598,7 @@ public class App {
 	
 	private static void visualizzaSegnalazioni(Cliente cliente, DBClienti dbClienti) {
 
-	    List<Segnalazione> segnalazioni = dbClienti.trovaSegnalazioniByCliente(cliente.getId());
+	    List<LocalDateTime> segnalazioni = dbClienti.trovaSegnalazioniByCliente(cliente.getId());
 
 	    System.out.println("\n========== LE MIE SEGNALAZIONI ==========");
 
@@ -607,9 +608,7 @@ public class App {
 
 	        for (int i = 0; i < segnalazioni.size(); i++) {
 
-	            Segnalazione segnalazione = segnalazioni.get(i);
-
-	            String data = segnalazione.getDataOra().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+	            String data = segnalazioni.get(i).format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
 
 	            System.out.println("\nSegnalazione " + (i + 1));
 	            System.out.println("Data e ora: " + data);
@@ -838,6 +837,9 @@ public class App {
 
 	        if (persona instanceof Manager) {
 	            Manager manager = (Manager) persona;
+
+	            manager.setGestoreTurni(new GestoreTurni(dbDipendenti));
+	            manager.setCalcoloStipendi(new CalcoloStipendi());
 
 	            System.out.println("\nAutenticazione riuscita!");
 	            System.out.println("Benvenuto/a, " + manager.getNome() + " " + manager.getCognome());
