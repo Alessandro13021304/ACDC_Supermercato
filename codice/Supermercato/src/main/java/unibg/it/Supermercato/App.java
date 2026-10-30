@@ -404,6 +404,7 @@ public class App {
 	    	System.out.println("Numero totale di ordini: " + ordiniSalvati.size() + "\n");
 	    	
 	        for (OrdineFornitore ordineSalvato : ordiniSalvati) {
+	        	System.out.println("------------------------------------");
 	            System.out.println("Fornitore: " + ordineSalvato.getFornitore().getNome());
 	            System.out.println("Data ordine: " + ordineSalvato.getDataOrdine());
 	            System.out.println("Stato: " + ordineSalvato.getStato());
@@ -412,8 +413,6 @@ public class App {
 	            for (RigaOrdine riga : ordineSalvato.getRighe()) {
 	                System.out.printf(java.util.Locale.ITALY, "Prodotto: %s | Quantità: %d | Prezzo unitario: %.2f €%n", riga.getProdotto().getNome(), riga.getQuantita(), riga.getProdotto().getPrezzo());
 	            }
-	
-	            System.out.println("------------------------------------");
 	        }
 	    }
 	
