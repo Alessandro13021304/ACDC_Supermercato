@@ -1,3 +1,7 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.gestionedipendenti;
 
 import java.util.List;
@@ -15,6 +19,9 @@ public class GestoreTurni implements ITurni {
         this.repositoryDipendenti = repositoryDipendenti;
     }
 
+    /** questo metodo assegna il turno al dipendente
+	 * @param il dipendente e il turno da assegnargli
+	 */
     public void assegnaTurno(Dipendente dipendente, Turno turno) {
         if (dipendente == null || turno == null) {
             return;
@@ -39,6 +46,10 @@ public class GestoreTurni implements ITurni {
         );
     }
 
+    /** questo metodo controlla se il dipendente ha già un turno in quelle ore
+	 * @param il turno da aggiungere e il turno esistente
+	 * @return true se i turni sono sovrapposti, altrimenti false
+	 */
     private boolean turnoSovrapposto(Turno nuovoTurno, Turno turnoEsistente) {
 
         if (!nuovoTurno.getData().equals(turnoEsistente.getData())) {
@@ -49,6 +60,10 @@ public class GestoreTurni implements ITurni {
                 && nuovoTurno.getOrarioFine().isAfter(turnoEsistente.getOrarioInizio());
     }
 
+    /** questo metodo permette di visualizzare i turni di un dipendente 
+	 * @param il dipendente di cui si vogliono visualizzare i turni
+	 * @return la lista dei turni del dipendente
+	 */
     @Override
     public List<Turno> visualizzaTurni(Dipendente dipendente) {
         if (dipendente == null) {

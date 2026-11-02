@@ -1,3 +1,7 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.gestionedipendenti;
 
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;

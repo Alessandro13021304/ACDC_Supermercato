@@ -1,10 +1,14 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Dipendente extends Persona implements RuoloUtente {
+public abstract class Dipendente extends Persona implements IRuoloUtente {
 
     private String matricola;
     private IRepositoryDipendenti repositoryDipendenti;

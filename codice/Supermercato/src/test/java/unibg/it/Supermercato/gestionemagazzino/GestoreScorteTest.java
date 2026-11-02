@@ -13,7 +13,7 @@ public class GestoreScorteTest {
 
         final boolean[] notificato = {false};
 
-        ScorteObserver observer = (prodotto, tipoScorta) -> notificato[0] = true;
+        IScorteObserver observer = (prodotto, tipoScorta) -> notificato[0] = true;
 
         gestore.aggiungiObserver(observer);
 
@@ -40,7 +40,7 @@ public class GestoreScorteTest {
 
         final boolean[] notificato = {false};
 
-        ScorteObserver observer = (prodotto, tipoScorta) -> notificato[0] = true;
+        IScorteObserver observer = (prodotto, tipoScorta) -> notificato[0] = true;
 
         gestore.aggiungiObserver(observer);
         gestore.rimuoviObserver(observer);
@@ -68,8 +68,8 @@ public class GestoreScorteTest {
 
         final int[] notifiche = {0};
 
-        ScorteObserver observer1 = (prodotto, tipoScorta) -> notifiche[0]++;
-        ScorteObserver observer2 = (prodotto, tipoScorta) -> notifiche[0]++;
+        IScorteObserver observer1 = (prodotto, tipoScorta) -> notifiche[0]++;
+        IScorteObserver observer2 = (prodotto, tipoScorta) -> notifiche[0]++;
 
         gestore.aggiungiObserver(observer1);
         gestore.aggiungiObserver(observer2);
@@ -97,7 +97,7 @@ public class GestoreScorteTest {
 
         final boolean[] notificato = {false};
 
-        ScorteObserver observer = (prodotto, tipoScorta) -> notificato[0] = true;
+        IScorteObserver observer = (prodotto, tipoScorta) -> notificato[0] = true;
 
         gestore.aggiungiObserver(observer);
 
