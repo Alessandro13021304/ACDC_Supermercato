@@ -37,8 +37,13 @@ public class CarrelloFisico implements ICarrelloFisico {
 
     @Override
     public boolean contieneElemento(Prodotto prodotto, int quantita) {
+        if (prodotto == null) {
+            return false;
+        }
+
         for (ElementoCarrello elemento : elementi) {
-            if (elemento.prodotto == prodotto && elemento.getQuantita() == quantita) {
+            // Il confronto usa il codice a barre, non il riferimento all'oggetto
+            if (prodotto.equals(elemento.prodotto) && elemento.getQuantita() == quantita) {
                 return true;
             }
         }

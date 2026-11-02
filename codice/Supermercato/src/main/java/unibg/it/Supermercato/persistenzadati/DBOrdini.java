@@ -42,13 +42,13 @@ public class DBOrdini implements IRepositoryOrdini {
         String sqlRiga = "INSERT INTO righe_ordine (ordine_id, codice_prodotto, quantita, prezzo) "
                        + "VALUES (?, ?, ?, ?)";
 
-        try (Connection connection = getConnection(); PreparedStatement statementOrdine = connection.prepareStatement(sqlOrdine, java.sql.Statement.RETURN_GENERATED_KEYS); 
-        	 PreparedStatement statementRiga = connection.prepareStatement(sqlRiga)) {
+        try (Connection connection = getConnection(); PreparedStatement statementOrdine = connection.prepareStatement(sqlOrdine, java.sql.Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement statementRiga = connection.prepareStatement(sqlRiga)) {
 
             statementOrdine.setString(1, ordine.getFornitore().getNome());
             statementOrdine.setDate(2, java.sql.Date.valueOf(ordine.getDataOrdine()));
             statementOrdine.setString(3, ordine.getStato());
-            statementOrdine.setDouble(4,ordine.getTotale());
+            statementOrdine.setDouble(4, ordine.getTotale());
 
             statementOrdine.executeUpdate();
 
@@ -59,6 +59,8 @@ public class DBOrdini implements IRepositoryOrdini {
                 }
 
                 int ordineId = generatedKeys.getInt(1);
+
+                ordine.setId(ordineId);
 
                 for (var riga : ordine.getRighe()) {
 
@@ -99,6 +101,8 @@ public class DBOrdini implements IRepositoryOrdini {
                                 resultSet.getDouble("totale")
                         );
 
+                ordine.setId(ordineId);
+
                 caricaRigheOrdine(connection, ordine, ordineId);
 
                 ordini.add(ordine);
@@ -110,7 +114,30 @@ public class DBOrdini implements IRepositoryOrdini {
 
         return ordini;
     }
-    
+
+    @Override
+    public void aggiornaStato(OrdineFornitore ordine) {
+
+        if (ordine == null || ordine.getId() <= 0) {
+            return;
+        }
+
+        String sql = "UPDATE ordini_fornitore "
+                   + "SET stato = ? "
+                   + "WHERE id = ?";
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, ordine.getStato());
+            statement.setInt(2, ordine.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nell'aggiornamento dello stato dell'ordine.", e);
+        }
+    }
+
     private void caricaRigheOrdine(Connection connection, OrdineFornitore ordine, int ordineId) {
 
         String sql = "SELECT codice_prodotto, quantita, prezzo "
@@ -145,3 +172,4 @@ public class DBOrdini implements IRepositoryOrdini {
         }
     }
 }
+

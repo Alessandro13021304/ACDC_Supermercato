@@ -1,5 +1,7 @@
 package unibg.it.Supermercato.gestionemagazzino;
 
+import java.util.Objects;
+
 public class Prodotto {
 
     private String codiceABarre;
@@ -10,7 +12,7 @@ public class Prodotto {
     private int quantitaScaffale;
     private int quantitaMagazzino;
     private int numeroReparto;
-    
+
     public Prodotto(String codiceABarre, String nome, double prezzo, String descrizione, double sconto, int quantitaScaffale,  int quantitaMagazzino, int numeroReparto) {
         this.codiceABarre = codiceABarre;
         this.nome = nome;
@@ -21,15 +23,15 @@ public class Prodotto {
         this.quantitaMagazzino = quantitaMagazzino;
         this.numeroReparto = numeroReparto;
     }
-    
+
     public double getPrezzo() {
         return prezzo;
     }
-    
+
     public double getSconto() {
         return sconto;
     }
-    
+
     public String getCodiceABarre() {
         return codiceABarre;
     }
@@ -41,7 +43,7 @@ public class Prodotto {
     public String getDescrizione() {
         return descrizione;
     }
-    
+
     public int getQuantitaScaffale() {
         return quantitaScaffale;
     }
@@ -57,8 +59,29 @@ public class Prodotto {
     public void setQuantitaMagazzino(int quantitaMagazzino) {
         this.quantitaMagazzino = quantitaMagazzino;
     }
-    
+
     public int getNumeroReparto() {
         return numeroReparto;
+    }
+
+    // Due prodotti sono uguali se hanno lo stesso codice a barre
+    @Override
+    public boolean equals(Object altro) {
+        if (this == altro) {
+            return true;
+        }
+
+        if (!(altro instanceof Prodotto)) {
+            return false;
+        }
+
+        Prodotto prodotto = (Prodotto) altro;
+
+        return Objects.equals(codiceABarre, prodotto.codiceABarre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codiceABarre);
     }
 }
