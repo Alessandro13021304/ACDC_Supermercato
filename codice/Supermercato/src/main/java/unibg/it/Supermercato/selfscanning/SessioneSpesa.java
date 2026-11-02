@@ -171,7 +171,7 @@ public class SessioneSpesa implements ISessioneControllabile {
                 repositoryProdotti.decrementaQuantitaScaffale(prodotto.getCodiceABarre(), quantitaAcquistata);
 
                 if (gestoreScorte != null) {
-                    gestoreScorte.aggiornaScorte(prodotto, TipoScorta.SCAFFALE);
+                    gestoreScorte.aggiornaScorte(prodotto, ETipoScorta.SCAFFALE);
                 }
             }
         }

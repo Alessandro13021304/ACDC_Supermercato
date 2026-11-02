@@ -33,11 +33,11 @@ class ParametriScorteTest {
         Prodotto allaSoglia = prodotto(ParametriScorte.SOGLIA_MINIMA, 10);
         Prodotto sottoSoglia = prodotto(ParametriScorte.SOGLIA_MINIMA - 1, 10);
 
-        gestore.aggiornaScorte(allaSoglia, TipoScorta.SCAFFALE);
+        gestore.aggiornaScorte(allaSoglia, ETipoScorta.SCAFFALE);
         verify(observer, never()).aggiorna(any(), any());
 
-        gestore.aggiornaScorte(sottoSoglia, TipoScorta.SCAFFALE);
-        verify(observer).aggiorna(sottoSoglia, TipoScorta.SCAFFALE);
+        gestore.aggiornaScorte(sottoSoglia, ETipoScorta.SCAFFALE);
+        verify(observer).aggiorna(sottoSoglia, ETipoScorta.SCAFFALE);
     }
 
     @Test
@@ -45,9 +45,7 @@ class ParametriScorteTest {
         ScortaMagazzino scorta = new ScortaMagazzino();
 
         Prodotto daRiordinare = prodotto(ParametriScorte.SOGLIA_MINIMA - 1, ParametriScorte.SOGLIA_MINIMA - 1);
-        Prodotto conMagazzinoSufficiente = new Prodotto(
-                "456", "Latte", 1.50, "Latte", 0.0,
-                ParametriScorte.SOGLIA_MINIMA - 1, ParametriScorte.SOGLIA_MINIMA, 1);
+        Prodotto conMagazzinoSufficiente = new Prodotto("456", "Latte", 1.50, "Latte", 0.0, ParametriScorte.SOGLIA_MINIMA - 1, ParametriScorte.SOGLIA_MINIMA, 1);
 
         scorta.aggiungiProdotto(daRiordinare);
         scorta.aggiungiProdotto(conMagazzinoSufficiente);
@@ -58,24 +56,18 @@ class ParametriScorteTest {
 
     @Test
     void ilMagazziniereSegnalaSoloSottoLaSogliaMinima() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
 
-        assertTrue(magazziniere.segnalaScorteInsufficientiMagazzino(
-                prodotto(10, ParametriScorte.SOGLIA_MINIMA - 1)));
-        assertFalse(magazziniere.segnalaScorteInsufficientiMagazzino(
-                prodotto(10, ParametriScorte.SOGLIA_MINIMA)));
+        assertTrue(magazziniere.segnalaScorteInsufficientiMagazzino(prodotto(10, ParametriScorte.SOGLIA_MINIMA - 1)));
+        assertFalse(magazziniere.segnalaScorteInsufficientiMagazzino(prodotto(10, ParametriScorte.SOGLIA_MINIMA)));
     }
 
     @Test
     void ilResponsabileSegnalaSoloSottoLaSogliaMinima() {
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Laura", "Bianchi", "laura@email.it", "password", LocalDate.of(1985, 3, 15));
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Laura", "Bianchi", "laura@email.it", "password", LocalDate.of(1985, 3, 15));
 
-        assertTrue(responsabile.segnalaScorteInsufficientiScaffale(
-                prodotto(ParametriScorte.SOGLIA_MINIMA - 1, 10)));
-        assertFalse(responsabile.segnalaScorteInsufficientiScaffale(
-                prodotto(ParametriScorte.SOGLIA_MINIMA, 10)));
+        assertTrue(responsabile.segnalaScorteInsufficientiScaffale(prodotto(ParametriScorte.SOGLIA_MINIMA - 1, 10)));
+        assertFalse(responsabile.segnalaScorteInsufficientiScaffale(prodotto(ParametriScorte.SOGLIA_MINIMA, 10)));
     }
 }
 

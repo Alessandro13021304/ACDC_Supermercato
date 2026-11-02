@@ -50,7 +50,7 @@ class SessioneSpesaScorteAtomicheTest {
         assertEquals(8, pasta.getQuantitaScaffale());
         verify(repositoryProdotti).decrementaQuantitaScaffale("001", 2);
         verify(repositoryProdotti, never()).modificaProdotto(any(Prodotto.class));
-        verify(gestoreScorte).aggiornaScorte(pasta, TipoScorta.SCAFFALE);
+        verify(gestoreScorte).aggiornaScorte(pasta, ETipoScorta.SCAFFALE);
     }
 
     @Test

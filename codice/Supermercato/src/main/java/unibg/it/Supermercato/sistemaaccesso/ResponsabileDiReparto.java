@@ -90,7 +90,7 @@ public class ResponsabileDiReparto extends Dipendente implements ScorteObserver 
         boolean insufficiente = p.getQuantitaScaffale() < ParametriScorte.SOGLIA_MINIMA;
 
         if (insufficiente && gestoreScorte != null) {
-            gestoreScorte.aggiornaScorte(p, TipoScorta.SCAFFALE);
+            gestoreScorte.aggiornaScorte(p, ETipoScorta.SCAFFALE);
         }
 
         return insufficiente;
@@ -128,8 +128,8 @@ public class ResponsabileDiReparto extends Dipendente implements ScorteObserver 
     }
 
     @Override
-    public void aggiorna(Prodotto prodotto, TipoScorta tipoScorta) {
-        if (prodotto == null || tipoScorta != TipoScorta.MAGAZZINO) {
+    public void aggiorna(Prodotto prodotto, ETipoScorta tipoScorta) {
+        if (prodotto == null || tipoScorta != ETipoScorta.MAGAZZINO) {
             return;
         }
 

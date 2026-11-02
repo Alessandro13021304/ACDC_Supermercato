@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
+import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 
 class MagazziniereRepositoryTest {
 
@@ -55,7 +55,7 @@ class MagazziniereRepositoryTest {
     void quandoLoScaffaleSiSvuotaIlRifornimentoAutomaticoVieneSalvato() {
         Prodotto prodotto = prodotto(3, 12);
 
-        magazziniere.aggiorna(prodotto, TipoScorta.SCAFFALE);
+        magazziniere.aggiorna(prodotto, ETipoScorta.SCAFFALE);
 
         assertEquals(15, prodotto.getQuantitaScaffale());
         assertEquals(0, prodotto.getQuantitaMagazzino());
