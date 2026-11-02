@@ -12,14 +12,8 @@ import java.util.Random;
 
 import unibg.it.Supermercato.gestionefedelta.Promozione;
 import unibg.it.Supermercato.gestionefedelta.PuntiAccumulati;
-import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
-import unibg.it.Supermercato.gestionemagazzino.IScorte;
-import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
-import unibg.it.Supermercato.sistemaaccesso.Cliente;
-import unibg.it.Supermercato.sistemaaccesso.IAutenticazione;
-import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
-import unibg.it.Supermercato.sistemaaccesso.ISessioneControllabile;
+import unibg.it.Supermercato.gestionemagazzino.*;
+import unibg.it.Supermercato.sistemaaccesso.*;
 
 public class SessioneSpesa implements ISessioneControllabile {
 
@@ -30,6 +24,7 @@ public class SessioneSpesa implements ISessioneControllabile {
     private IRepositoryProdotti repositoryProdotti;
     private double totaleDaPagare;
     private boolean premioFedeltaApplicato;
+    private int puntiDaScalare;
     private IScorte gestoreScorte;
     private final Random random;
 
@@ -51,6 +46,7 @@ public class SessioneSpesa implements ISessioneControllabile {
         this.cliente = cliente;
         this.random = random;
         premioFedeltaApplicato = false;
+        puntiDaScalare = 0;
     }
 
     public boolean scansionaProdotto(Prodotto p) {
@@ -109,8 +105,7 @@ public class SessioneSpesa implements ISessioneControllabile {
 
         totaleDaPagare = promozione.applicaSconto(totaleDaPagare, percentualeSconto);
 
-        int puntiDaScalare = promozione.calcolaPuntiDaScalare(puntiDisponibili);
-        repositoryClienti.scalaPunti(cliente.getId(), puntiDaScalare);
+        puntiDaScalare = promozione.calcolaPuntiDaScalare(puntiDisponibili);
 
         premioFedeltaApplicato = true;
 
@@ -130,32 +125,38 @@ public class SessioneSpesa implements ISessioneControllabile {
             return false;
         }
 
-        pagamento = new Pagamento(totaleDaPagare, modalita);
+        boolean serveControllo = controlloNecessario();
 
-        if (totem.effettuaPagamento(totaleDaPagare)) {
-
-            if (controlloNecessario()) {
-
-                if (totem.richiediControllo(this)) {
-                    totem.registraArrivoCassiere(this);
-                } else {
-                    return false;
-                }
-
-            } else {
-                registraAcquistoCompletato();
-                stato = EStatoSessione.COMPLETATA;
-            }
-
-            return true;
+        if (serveControllo && !totem.isCassiereDisponibile()) {
+            return false;
         }
 
-        return false;
+        pagamento = new Pagamento(totaleDaPagare, modalita);
+
+        if (!totem.effettuaPagamento(totaleDaPagare)) {
+            return false;
+        }
+
+        if (serveControllo) {
+            totem.richiediControllo(this);
+            totem.registraArrivoCassiere(this);
+        } else {
+            registraAcquistoCompletato();
+            stato = EStatoSessione.COMPLETATA;
+        }
+
+        return true;
     }
 
     private void registraAcquistoCompletato() {
 
         if (repositoryClienti != null && cliente != null) {
+
+            if (puntiDaScalare > 0) {
+                repositoryClienti.scalaPunti(cliente.getId(), puntiDaScalare);
+                puntiDaScalare = 0;
+            }
+
             PuntiAccumulati puntiAccumulati = new PuntiAccumulati();
             int nuoviPunti = puntiAccumulati.calcolaPunti(totaleDaPagare);
 
@@ -169,17 +170,12 @@ public class SessioneSpesa implements ISessioneControllabile {
                 Prodotto prodotto = elemento.prodotto;
                 int quantitaAcquistata = elemento.getQuantita();
 
-                int nuovaQuantitaScaffale =
-                        prodotto.getQuantitaScaffale() - quantitaAcquistata;
+                prodotto.setQuantitaScaffale(prodotto.getQuantitaScaffale() - quantitaAcquistata);
 
-                prodotto.setQuantitaScaffale(nuovaQuantitaScaffale);
-                repositoryProdotti.modificaProdotto(prodotto);
+                repositoryProdotti.decrementaQuantitaScaffale(prodotto.getCodiceABarre(), quantitaAcquistata);
 
                 if (gestoreScorte != null) {
-                    gestoreScorte.aggiornaScorte(
-                            prodotto,
-                            TipoScorta.SCAFFALE
-                    );
+                    gestoreScorte.aggiornaScorte(prodotto, ETipoScorta.SCAFFALE);
                 }
             }
         }
@@ -203,10 +199,6 @@ public class SessioneSpesa implements ISessioneControllabile {
     public void avviaControllo() {
         if (stato == EStatoSessione.PAGAMENTO) {
             stato = EStatoSessione.CONTROLLO;
-
-            if (totem != null && totem.isCassiereArrivato()) {
-                totem.effettuaControlloSpesa(this);
-            }
         }
     }
 

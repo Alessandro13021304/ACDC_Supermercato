@@ -71,8 +71,12 @@ public class GestoreOrdini implements IOrdini {
     @Override
     public void riceviOrdine(OrdineFornitore ordine) {
 
-        if (ordine == null) {
+        if (ordine == null || ordine.isRicevuto()) {
             return;
+        }
+
+        if (repositoryProdotti == null) {
+            throw new IllegalStateException("Repository dei prodotti non impostato.");
         }
 
         for (RigaOrdine riga : ordine.getRighe()) {
@@ -80,6 +84,10 @@ public class GestoreOrdini implements IOrdini {
                 aggiornaMagazzino(riga);
             }
         }
+
+        // Un ordine ricevuto non può incrementare di nuovo le scorte
+        ordine.segnaRicevuto();
+        repositoryOrdini.aggiornaStato(ordine);
     }
 
     /** questo metodo aggiorna le scorte in magazzino dei prodotti ordinati

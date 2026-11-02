@@ -34,10 +34,9 @@ public class Manager extends Dipendente {
         this.calcoloStipendi = calcoloStipendi;
     }
 
-    public void assegnaTurno(Dipendente dipendente, Turno turno) {
-        if (gestoreTurni != null) {
-            gestoreTurni.assegnaTurno(dipendente, turno);
-        }
+    // Restituisce true se il turno è stato assegnato, false se è stato rifiutato
+    public boolean assegnaTurno(Dipendente dipendente, Turno turno) {
+        return gestoreTurni != null && gestoreTurni.assegnaTurno(dipendente, turno);
     }
 
     public List<Stipendio> calcolaStipendi(List<Dipendente> dipendenti, int anno, int mese) {

@@ -1,7 +1,3 @@
-/**
- * @author Chiara Dentella
- */
-
 package unibg.it.Supermercato.persistenzadati;
 
 import java.sql.Connection;
@@ -10,8 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.ArrayList;
-import java.sql.ResultSet;
+import java.util.function.Consumer;
 
 import unibg.it.Supermercato.sistemaaccesso.Cassiere;
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;
@@ -26,13 +21,12 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
     private boolean usaDatabaseTest;
     private IRepositoryClienti repositoryClienti;
+    private Consumer<Dipendente> configuratoreRuoli;
 
-    // non usa il database di test
     public DBDipendenti() {
         this(false, null);
     }
 
-    // usa il database di test
     public DBDipendenti(boolean usaDatabaseTest) {
         this(usaDatabaseTest, null);
     }
@@ -46,9 +40,11 @@ public class DBDipendenti implements IRepositoryDipendenti {
         this.repositoryClienti = repositoryClienti;
     }
 
-    /** questo metodo si connette a DBConnection
-	 * @return l'istanza della connessione trovata
-	 */
+    // Il configuratore collega ai ruoli caricati dal database i collaboratori che persistenzadati non conosce
+    public void setConfiguratoreRuoli(Consumer<Dipendente> configuratoreRuoli) {
+        this.configuratoreRuoli = configuratoreRuoli;
+    }
+
     private Connection getConnection() throws SQLException {
         if (usaDatabaseTest) {
             return DBConnection.getInstance().getTestConnection("dipendenti");
@@ -57,9 +53,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return DBConnection.getInstance().getConnection("dipendenti");
     }
 
-    /** questo metodo salva un dipendente in persistenza
-     * @param il dipendente da salvare
-	 */
     @Override
     public void salvaDipendente(Dipendente dipendente) {
 
@@ -87,10 +80,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
     }
 
-    /** questo metodo verifica le credenziali di un dipendente
-     * @param l'email e la password del dipendente che si sta autenticando
-     * @return il dipendente autenticato
-	 */
     @Override
     public Dipendente verificaCredenziali(String email, String password) {
 
@@ -107,7 +96,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
             statement.setString(1, email);
             statement.setString(2, password);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
                     return creaDipendenteDaRisultato(resultSet);
@@ -121,10 +110,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return null;
     }
 
-    /** questo metodo trova un dipendente tramite la sua matricola
-     * @param la matricola del dipendente da trovare
-     * @return il dipendente trovato
-	 */
     @Override
     public Dipendente trovaDipendenteByMatricola(String matricola) {
 
@@ -140,7 +125,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
             statement.setString(1, matricola);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
                     return creaDipendenteDaRisultato(resultSet);
@@ -154,18 +139,15 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return null;
     }
 
-    /** questo metodo permette di visualizzare tutti i dipendenti
-     * @return la lista dei dipendenti 
-	 */
     @Override
     public List<Dipendente> trovaTuttiDipendenti() {
 
-        List<Dipendente> dipendenti = new ArrayList<>();
+        List<Dipendente> dipendenti = new java.util.ArrayList<>();
 
         String sql = "SELECT matricola, nome, cognome, email, password, data_nascita, ruolo "
                    + "FROM dipendenti";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 dipendenti.add(creaDipendenteDaRisultato(resultSet));
@@ -178,9 +160,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return dipendenti;
     }
 
-    /** questo metodo salva un turno di un dipendente in persistenza
-     * @param la matricola del dipendente e il turno a lui assegnato 
-	 */
     @Override
     public void salvaTurno(String matricola, Turno turno) {
 
@@ -206,14 +185,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
     }
 
-    /** questo metodo trova tutti i turni di un dipendente
-     * @param la matricola del dipendente di cui trovare i turni
-     * @return la lista dei turni
-	 */
     @Override
     public List<Turno> trovaTurniByMatricola(String matricola) {
 
-        List<Turno> turni = new ArrayList<>();
+        List<Turno> turni = new java.util.ArrayList<>();
 
         if (matricola == null) {
             return turni;
@@ -228,7 +203,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
             statement.setString(1, matricola);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
+            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
 
                 while (resultSet.next()) {
 
@@ -263,10 +238,6 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return turni;
     }
 
-    /** questo metodo aggiorna la presenza di un dipendente in un turno
-     * @param la matricola del dipendente, la data del turno, l'orario di inizio del turno, l'orario di ingresso del dipendente, 
-     * l'orario di uscita del dipendente, true se la presenza è stata registrata (altrimenti false) e true se il turno è stato completato (altrimenti false)
-	 */
     @Override
     public void aggiornaPresenza(String matricola, LocalDate dataTurno, LocalTime orarioInizio,
                                  LocalTime oraIngresso, LocalTime oraUscita, boolean presenzaRegistrata, boolean completato) {
@@ -306,11 +277,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
     }
 
-    /** questo metodo crea un dipendente
-     * @param i parametri del cliente da creare
-     * @return il cliente creato
-	 */
-    private Dipendente creaDipendenteDaRisultato(ResultSet resultSet) throws SQLException {
+    private Dipendente creaDipendenteDaRisultato(java.sql.ResultSet resultSet) throws SQLException {
 
         String matricola = resultSet.getString("matricola");
         String nome = resultSet.getString("nome");
@@ -346,6 +313,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         dipendente.setMatricola(matricola);
         dipendente.setRepositoryDipendenti(this);
+
+        if (configuratoreRuoli != null) {
+            configuratoreRuoli.accept(dipendente);
+        }
 
         return dipendente;
     }

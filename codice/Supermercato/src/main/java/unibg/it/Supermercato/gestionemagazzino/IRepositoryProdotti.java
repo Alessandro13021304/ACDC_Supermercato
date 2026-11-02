@@ -17,4 +17,8 @@ public interface IRepositoryProdotti {
     Prodotto trovaProdottoByCodiceABarre(String codiceABarre);
 
     List<Prodotto> trovaTuttiProdotti();
+
+    boolean decrementaQuantitaScaffale(String codiceABarre, int quantita);
+
+    boolean spostaDalMagazzinoAlloScaffale(String codiceABarre, int quantita);
 }

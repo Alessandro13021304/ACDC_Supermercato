@@ -4,7 +4,7 @@
 
 package unibg.it.Supermercato.gestionemagazzino;
 
-public enum TipoScorta {
+public enum ETipoScorta {
 	SCAFFALE,
 	MAGAZZINO
 

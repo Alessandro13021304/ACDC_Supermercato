@@ -17,7 +17,7 @@ import unibg.it.Supermercato.gestionemagazzino.IRepositoryOrdini;
 import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.GestoreScorte;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
+import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 import unibg.it.Supermercato.gestionemagazzino.GestoreProdotti;
 import unibg.it.Supermercato.gestionemagazzino.GestoreOrdini;
 
@@ -294,7 +294,7 @@ class ResponsabileDiRepartoTest {
                 1
         );
 
-        responsabile.aggiorna(prodotto, TipoScorta.MAGAZZINO);
+        responsabile.aggiorna(prodotto, ETipoScorta.MAGAZZINO);
 
         assertEquals(0, prodotto.getQuantitaMagazzino());
         assertEquals(1, responsabile.getOrdiniElaborati().size());

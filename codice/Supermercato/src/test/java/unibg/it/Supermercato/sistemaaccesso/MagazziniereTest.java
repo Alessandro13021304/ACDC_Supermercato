@@ -12,8 +12,8 @@ import unibg.it.Supermercato.persistenzadati.DBConnection;
 import unibg.it.Supermercato.persistenzadati.DBProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.GestoreScorte;
-import unibg.it.Supermercato.gestionemagazzino.IScorteObserver;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
+import unibg.it.Supermercato.gestionemagazzino.ScorteObserver;
+import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 import unibg.it.Supermercato.gestionemagazzino.GestoreProdotti;
 
 public class MagazziniereTest {
@@ -253,9 +253,9 @@ public class MagazziniereTest {
 
         GestoreScorte gestore = new GestoreScorte();
 
-        final TipoScorta[] tipoNotificato = {null};
+        final ETipoScorta[] tipoNotificato = {null};
 
-        IScorteObserver observer = (prodotto, tipoScorta) ->
+        ScorteObserver observer = (prodotto, tipoScorta) ->
                 tipoNotificato[0] = tipoScorta;
 
         gestore.aggiungiObserver(observer);
@@ -272,10 +272,10 @@ public class MagazziniereTest {
                 1
         );
 
-        magazziniere.aggiorna(prodotto, TipoScorta.SCAFFALE);
+        magazziniere.aggiorna(prodotto, ETipoScorta.SCAFFALE);
 
         assertEquals(15, prodotto.getQuantitaScaffale());
         assertEquals(0, prodotto.getQuantitaMagazzino());
-        assertEquals(TipoScorta.MAGAZZINO, tipoNotificato[0]);
+        assertEquals(ETipoScorta.MAGAZZINO, tipoNotificato[0]);
     }
 }

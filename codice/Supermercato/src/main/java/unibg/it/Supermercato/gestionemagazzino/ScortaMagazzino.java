@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScortaMagazzino {
-	
-	private static final int SOGLIA_MINIMA = 5;
 
     private List<Prodotto> prodotti;
 
@@ -34,7 +32,7 @@ public class ScortaMagazzino {
         List<Prodotto> prodottiDaRiordinare = new ArrayList<>();
 
         for (Prodotto prodotto : prodotti) {
-            if (prodotto.getQuantitaScaffale() < SOGLIA_MINIMA && prodotto.getQuantitaMagazzino() < SOGLIA_MINIMA) {
+            if (prodotto.getQuantitaScaffale() < ParametriScorte.SOGLIA_MINIMA && prodotto.getQuantitaMagazzino() < ParametriScorte.SOGLIA_MINIMA) {
                 prodottiDaRiordinare.add(prodotto);
             }
         }

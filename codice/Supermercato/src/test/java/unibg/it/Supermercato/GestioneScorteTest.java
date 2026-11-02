@@ -37,12 +37,12 @@ class GestioneScorteTest {
 
         gestoreScorte.aggiornaScorte(
                 prodotto,
-                TipoScorta.SCAFFALE
+                ETipoScorta.SCAFFALE
         );
 
         verify(observer).aggiorna(
                 prodotto,
-                TipoScorta.SCAFFALE
+                ETipoScorta.SCAFFALE
         );
     }
     
@@ -72,7 +72,7 @@ class GestioneScorteTest {
 
         gestoreScorte.aggiornaScorte(
                 prodotto,
-                TipoScorta.SCAFFALE
+                ETipoScorta.SCAFFALE
         );
 
         verifyNoInteractions(observer);
@@ -108,7 +108,7 @@ class GestioneScorteTest {
 
         gestoreScorte.aggiornaScorte(
                 prodotto,
-                TipoScorta.SCAFFALE
+                ETipoScorta.SCAFFALE
         );
 
         assertEquals(23, prodotto.getQuantitaScaffale());
@@ -161,7 +161,7 @@ class GestioneScorteTest {
 
         gestoreScorte.aggiornaScorte(
                 prodotto,
-                TipoScorta.MAGAZZINO
+                ETipoScorta.MAGAZZINO
         );
 
         assertEquals(

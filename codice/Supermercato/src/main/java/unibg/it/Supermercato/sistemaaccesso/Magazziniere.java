@@ -1,25 +1,16 @@
-/**
- * @author Alessandro Frassi
- */
-
 package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
-import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.gestionemagazzino.IProdotti;
-import unibg.it.Supermercato.gestionemagazzino.IScorteObserver;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
-import unibg.it.Supermercato.gestionemagazzino.IScorte;
+import unibg.it.Supermercato.gestionemagazzino.*;
 
-public class Magazziniere extends Dipendente implements IScorteObserver {
-	
-    private static final int SOGLIA_MINIMA = 5;
-    private static final int QUANTITA_RIFORNIMENTO = 20;
+public class Magazziniere extends Dipendente implements ScorteObserver {
+
     private IProdotti gestoreProdotti;
     private IScorte gestoreScorte;
+    private IRepositoryProdotti repositoryProdotti;
 
     public Magazziniere(String nome, String cognome, String email, String password, LocalDate dataNascita) {
         super(nome, cognome, email, password, dataNascita);
@@ -28,15 +19,19 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
     public void setGestoreProdotti(IProdotti gestoreProdotti) {
         this.gestoreProdotti = gestoreProdotti;
     }
-    
+
+    public void setRepositoryProdotti(IRepositoryProdotti repositoryProdotti) {
+        this.repositoryProdotti = repositoryProdotti;
+    }
+
     public void setGestoreScorte(IScorte gestoreScorte) {
         this.gestoreScorte = gestoreScorte;
-        
+
         if (gestoreScorte != null) {
             gestoreScorte.aggiungiObserver(this);
         }
     }
-    
+
     public Prodotto visualizzaProdotto(String codiceABarre) {
         if (gestoreProdotti == null) {
             return null;
@@ -44,7 +39,7 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
 
         return gestoreProdotti.cercaProdotto(codiceABarre);
     }
-    
+
     public List<Prodotto> visualizzaProdotti() {
         if (gestoreProdotti == null) {
             return new ArrayList<>();
@@ -52,7 +47,7 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
 
         return gestoreProdotti.visualizzaProdotti();
     }
-    
+
     public void rifornisciScaffale(Prodotto p, int qty) {
         if (p == null || qty <= 0) {
             return;
@@ -64,6 +59,10 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
 
         p.setQuantitaMagazzino(p.getQuantitaMagazzino() - qty);
         p.setQuantitaScaffale(p.getQuantitaScaffale() + qty);
+
+        if (repositoryProdotti != null) {
+            repositoryProdotti.spostaDalMagazzinoAlloScaffale(p.getCodiceABarre(), qty);
+        }
     }
 
     public boolean segnalaScorteInsufficientiMagazzino(Prodotto p) {
@@ -71,23 +70,23 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
             return false;
         }
 
-        boolean insufficiente = p.getQuantitaMagazzino() < SOGLIA_MINIMA;
+        boolean insufficiente = p.getQuantitaMagazzino() < ParametriScorte.SOGLIA_MINIMA;
 
         if (insufficiente && gestoreScorte != null) {
-            gestoreScorte.aggiornaScorte(p, TipoScorta.MAGAZZINO);
+            gestoreScorte.aggiornaScorte(p, ETipoScorta.MAGAZZINO);
         }
 
         return insufficiente;
     }
- 
+
     @Override
     public String getRuolo() {
         return "Magazziniere";
     }
-    
+
     @Override
-    public void aggiorna(Prodotto prodotto, TipoScorta tipoScorta) {
-        if (prodotto == null || tipoScorta != TipoScorta.SCAFFALE) {
+    public void aggiorna(Prodotto prodotto, ETipoScorta tipoScorta) {
+        if (prodotto == null || tipoScorta != ETipoScorta.SCAFFALE) {
             return;
         }
 
@@ -97,7 +96,7 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
             return;
         }
 
-        int quantitaDaSpostare = Math.min(QUANTITA_RIFORNIMENTO, quantitaMagazzino);
+        int quantitaDaSpostare = Math.min(ParametriScorte.QUANTITA_RIFORNIMENTO, quantitaMagazzino);
 
         rifornisciScaffale(prodotto, quantitaDaSpostare);
 

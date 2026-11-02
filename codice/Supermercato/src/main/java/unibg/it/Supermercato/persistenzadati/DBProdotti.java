@@ -164,6 +164,55 @@ public class DBProdotti implements IRepositoryProdotti {
         return prodotti;
     }
 
+    @Override
+    public boolean decrementaQuantitaScaffale(String codiceABarre, int quantita) {
+
+        if (codiceABarre == null || quantita <= 0) {
+            return false;
+        }
+
+        String sql = "UPDATE prodotti "
+                   + "SET quantita_scaffale = quantita_scaffale - ? "
+                   + "WHERE codice_a_barre = ? AND quantita_scaffale >= ?";
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, quantita);
+            statement.setString(2, codiceABarre);
+            statement.setInt(3, quantita);
+
+            return statement.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nell'aggiornamento della quantità a scaffale.", e);
+        }
+    }
+
+    @Override
+    public boolean spostaDalMagazzinoAlloScaffale(String codiceABarre, int quantita) {
+
+        if (codiceABarre == null || quantita <= 0) {
+            return false;
+        }
+
+        String sql = "UPDATE prodotti "
+                   + "SET quantita_magazzino = quantita_magazzino - ?, quantita_scaffale = quantita_scaffale + ? "
+                   + "WHERE codice_a_barre = ? AND quantita_magazzino >= ?";
+
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, quantita);
+            statement.setInt(2, quantita);
+            statement.setString(3, codiceABarre);
+            statement.setInt(4, quantita);
+
+            return statement.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore nel rifornimento dello scaffale.", e);
+        }
+    }
+
     private Prodotto creaProdottoDaRisultato(ResultSet resultSet) throws SQLException {
 
         return new Prodotto(

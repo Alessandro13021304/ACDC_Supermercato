@@ -28,6 +28,10 @@ public class Totem {
         this.carrelloFisico = carrelloFisico;
     }
 
+    public boolean isCassiereDisponibile() {
+        return cassiere != null;
+    }
+
     public boolean richiediControllo(SessioneSpesa sessione) {
         if (cassiere == null) {
             return false;
@@ -49,7 +53,12 @@ public class Totem {
             return false;
         }
 
-        return cassiere.effettuaControllo(sessione, carrelloFisico);
+        boolean esito = cassiere.effettuaControllo(sessione, carrelloFisico);
+
+        // Il controllo è terminato: il cassiere non è più al totem
+        registraPartenzaCassiere();
+
+        return esito;
     }
 
     public void registraArrivoCassiere(SessioneSpesa sessione) {

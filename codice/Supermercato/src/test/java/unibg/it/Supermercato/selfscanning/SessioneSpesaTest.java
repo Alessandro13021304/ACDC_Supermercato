@@ -20,7 +20,7 @@ import unibg.it.Supermercato.sistemaaccesso.Persona;
 import unibg.it.Supermercato.pagamentiesterni.PaymentGateway;
 
 class SessioneSpesaTest {
-	
+
     private final IAutenticazione autenticazione = new IAutenticazione() {
 
         @Override
@@ -62,7 +62,7 @@ class SessioneSpesaTest {
 
         assertEquals(2.50, sessione.carrello.calcolaTotale(), 0.001);
     }
-    
+
     @Test
     void scansionaDueVolteLoStessoProdottoIncrementaLaQuantita() {
 
@@ -92,7 +92,7 @@ class SessioneSpesaTest {
 
         assertEquals(5.00, sessione.carrello.calcolaTotale(), 0.001);
     }
-    
+
     @Test
     void scansionaDueVolteLoStessoProdottoMantieneUnSoloElemento() {
 
@@ -127,7 +127,7 @@ class SessioneSpesaTest {
         assertNotNull(elemento);
         assertEquals(2, elemento.getQuantita());
     }
-    
+
     @Test
     void rimuoviProdottoDiminuisceLaQuantita() {
 
@@ -159,7 +159,7 @@ class SessioneSpesaTest {
 
         assertEquals(2.50, sessione.carrello.calcolaTotale(), 0.001);
     }
-    
+
     @Test
     void rimuoviProdottoMantieneLoStessoElementoConQuantitaRidotta() {
 
@@ -196,7 +196,7 @@ class SessioneSpesaTest {
         assertNotNull(elemento);
         assertEquals(1, elemento.getQuantita());
     }
-    
+
     @Test
     void rimuoviUltimaUnitaEliminaElementoDalCarrello() {
 
@@ -227,7 +227,7 @@ class SessioneSpesaTest {
         assertEquals(0.0, sessione.carrello.calcolaTotale(), 0.001);
         assertEquals(0, sessione.carrello.numeroElementi());
     }
-    
+
     @Test
     void dopoTerminaSpesaNonPermetteNuoveScansioni() {
 
@@ -259,7 +259,7 @@ class SessioneSpesaTest {
 
         assertEquals(2.50, sessione.carrello.calcolaTotale(), 0.001);
     }
-    
+
     @Test
     void scansionaProdottoApplicaLoSconto() {
         Prodotto prodotto = new Prodotto(
@@ -287,7 +287,7 @@ class SessioneSpesaTest {
 
         assertEquals(8.0, sessione.carrello.calcolaTotale(), 0.001);
     }
-    
+
     @Test
     void effettuaPagamentoValidoCompletaLaSessione() {
 
@@ -316,9 +316,9 @@ class SessioneSpesaTest {
                 return false;
             }
         };
-        
+
         Totem totem = new Totem(1, new PaymentGateway());
-        
+
         Cassiere cassiere = new Cassiere(
                 "Luigi",
                 "Bianchi",
@@ -346,7 +346,7 @@ class SessioneSpesaTest {
         assertTrue(sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO));
         assertTrue(sessione.getStato() == EStatoSessione.COMPLETATA || sessione.getStato() == EStatoSessione.CONTROLLO);
     }
-    
+
     @Test
     void effettuaPagamentoPrimaDiTerminareLaSpesaFallisce() {
 
@@ -375,7 +375,7 @@ class SessioneSpesaTest {
 
         assertFalse(sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO));
     }
-    
+
     @Test
     void effettuaPagamentoConModalitaNullFallisce() {
 
@@ -405,7 +405,7 @@ class SessioneSpesaTest {
 
         assertFalse(sessione.effettuaPagamento(null));
     }
-    
+
     @Test
     void generaRicevutaDopoPagamentoCompletato() {
 
@@ -434,7 +434,7 @@ class SessioneSpesaTest {
                 return false;
             }
         };
-        
+
         Totem totem = new Totem(1, new PaymentGateway());
 
         sessione.setTotem(totem);
@@ -452,11 +452,11 @@ class SessioneSpesaTest {
         assertTrue(ricevuta.contains(String.format("%.2f", 2.50)));
         assertTrue(ricevuta.contains("CARTA_DI_CREDITO"));
     }
-    
+
     @Test
     void generaRicevutaPrimaDelPagamentoRestituisceStringaVuota() {
 
-    	Cliente cliente = new Cliente(
+        Cliente cliente = new Cliente(
                 "Mario",
                 "Rossi",
                 "mario@email.it",
@@ -464,11 +464,11 @@ class SessioneSpesaTest {
                 LocalDate.of(2000, 1, 1)
         );
 
-    	SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
+        SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
         assertEquals("", sessione.generaRicevuta());
     }
-    
+
     @Test
     void pagamentoRiuscitoAccumulaIPunti() throws Exception {
 
@@ -497,18 +497,18 @@ class SessioneSpesaTest {
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
-            		 "INSERT INTO clienti "
-            				 + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-            				 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO clienti "
+                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
-        	statement.setInt(1, 1);
-        	statement.setString(2, "Mario");
-        	statement.setString(3, "Rossi");
-        	statement.setString(4, "mario@email.it");
-        	statement.setString(5, "password");
-        	statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
-        	statement.setInt(7, 0);
-        	statement.setBoolean(8, false);
+            statement.setInt(1, 1);
+            statement.setString(2, "Mario");
+            statement.setString(3, "Rossi");
+            statement.setString(4, "mario@email.it");
+            statement.setString(5, "password");
+            statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
+            statement.setInt(7, 0);
+            statement.setBoolean(8, false);
             statement.executeUpdate();
         }
 
@@ -521,11 +521,11 @@ class SessioneSpesaTest {
                 return false;
             }
         };
-        
+
         sessione.setRepositoryClienti(repository);
-        
+
         Totem totem = new Totem(1, new PaymentGateway());
-        
+
         Cassiere cassiere = new Cassiere(
                 "Luigi",
                 "Bianchi",
@@ -549,16 +549,16 @@ class SessioneSpesaTest {
         sessione.terminaSpesa();
 
         assertTrue(sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO));
-        
+
         if (sessione.isInControllo()) {
             sessione.completaDopoControllo();
         }
 
         assertEquals(5, repository.trovaPuntiByCliente(cliente.getId()));
     }
-    
+
     @Test
-    void usaPremioFedeltaApplicaLoScontoEScalaIPunti() throws Exception {
+    void usaPremioFedeltaApplicaLoScontoSenzaScalareSubitoIPunti() throws Exception {
 
         Prodotto prodotto = new Prodotto(
                 "123456",
@@ -587,18 +587,18 @@ class SessioneSpesaTest {
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
-            		 "INSERT INTO clienti "
-            				 + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-            				 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO clienti "
+                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
-        	statement.setInt(1, 1);
-        	statement.setString(2, "Mario");
-        	statement.setString(3, "Rossi");
-        	statement.setString(4, "mario@email.it");
-        	statement.setString(5, "password");
-        	statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
-        	statement.setInt(7, 200);
-        	statement.setBoolean(8, false);
+            statement.setInt(1, 1);
+            statement.setString(2, "Mario");
+            statement.setString(3, "Rossi");
+            statement.setString(4, "mario@email.it");
+            statement.setString(5, "password");
+            statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
+            statement.setInt(7, 200);
+            statement.setBoolean(8, false);
             statement.executeUpdate();
         }
 
@@ -616,9 +616,11 @@ class SessioneSpesaTest {
         assertTrue(sessione.usaPremioFedelta());
 
         assertEquals(18.0, sessione.getTotaleDaPagare(), 0.001);
-        assertEquals(0, repository.trovaPuntiByCliente(cliente.getId()));
+
+        // I punti vengono scalati solo al completamento dell'acquisto
+        assertEquals(200, repository.trovaPuntiByCliente(cliente.getId()));
     }
-    
+
     @Test
     void usaPremioFedeltaConMenoDi100PuntiNonApplicaLoSconto() throws Exception {
 
@@ -649,18 +651,18 @@ class SessioneSpesaTest {
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
-            		 "INSERT INTO clienti "
-            				 + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-            				 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO clienti "
+                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
-        	statement.setInt(1, 1);
-        	statement.setString(2, "Mario");
-        	statement.setString(3, "Rossi");
-        	statement.setString(4, "mario@email.it");
-        	statement.setString(5, "password");
-        	statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
-        	statement.setInt(7, 99);
-        	statement.setBoolean(8, false);
+            statement.setInt(1, 1);
+            statement.setString(2, "Mario");
+            statement.setString(3, "Rossi");
+            statement.setString(4, "mario@email.it");
+            statement.setString(5, "password");
+            statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
+            statement.setInt(7, 99);
+            statement.setBoolean(8, false);
             statement.executeUpdate();
         }
 
@@ -680,7 +682,7 @@ class SessioneSpesaTest {
         assertEquals(20.0, sessione.getTotaleDaPagare(), 0.001);
         assertEquals(99, repository.trovaPuntiByCliente(cliente.getId()));
     }
-    
+
     @Test
     void pagamentoConPremioFedeltaAccumulaIPuntiSulTotaleScontato() throws Exception {
 
@@ -711,18 +713,18 @@ class SessioneSpesaTest {
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
-            		 "INSERT INTO clienti "
-            				 + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-            				 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO clienti "
+                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
-        	statement.setInt(1, 1);
-        	statement.setString(2, "Mario");
-        	statement.setString(3, "Rossi");
-        	statement.setString(4, "mario@email.it");
-        	statement.setString(5, "password");
-        	statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
-        	statement.setInt(7, 200);
-        	statement.setBoolean(8, false);
+            statement.setInt(1, 1);
+            statement.setString(2, "Mario");
+            statement.setString(3, "Rossi");
+            statement.setString(4, "mario@email.it");
+            statement.setString(5, "password");
+            statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
+            statement.setInt(7, 200);
+            statement.setBoolean(8, false);
             statement.executeUpdate();
         }
 
@@ -735,9 +737,9 @@ class SessioneSpesaTest {
                 return false;
             }
         };
-        
+
         sessione.setRepositoryClienti(repository);
-        
+
         Totem totem = new Totem(1, new PaymentGateway());
 
         sessione.setTotem(totem);
@@ -749,7 +751,7 @@ class SessioneSpesaTest {
         assertEquals(18.0, sessione.getTotaleDaPagare(), 0.001);
 
         assertTrue(sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO));
-        
+
         if (sessione.isInControllo()) {
             sessione.completaDopoControllo();
         }
@@ -757,7 +759,7 @@ class SessioneSpesaTest {
         assertEquals(EStatoSessione.COMPLETATA, sessione.getStato());
         assertEquals(9, repository.trovaPuntiByCliente(cliente.getId()));
     }
-    
+
     @Test
     void usaPremioFedeltaNonPuoEssereApplicatoDueVolte() throws Exception {
 
@@ -788,18 +790,18 @@ class SessioneSpesaTest {
 
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
-            		 "INSERT INTO clienti "
-            				 + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-            				 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO clienti "
+                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
-        	statement.setInt(1, 1);
-        	statement.setString(2, "Mario");
-        	statement.setString(3, "Rossi");
-        	statement.setString(4, "mario@email.it");
-        	statement.setString(5, "password");
-        	statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
-        	statement.setInt(7, 200);
-        	statement.setBoolean(8, false);
+            statement.setInt(1, 1);
+            statement.setString(2, "Mario");
+            statement.setString(3, "Rossi");
+            statement.setString(4, "mario@email.it");
+            statement.setString(5, "password");
+            statement.setDate(6, java.sql.Date.valueOf(LocalDate.of(2000, 1, 1)));
+            statement.setInt(7, 200);
+            statement.setBoolean(8, false);
             statement.executeUpdate();
         }
 
@@ -815,18 +817,18 @@ class SessioneSpesaTest {
         assertTrue(sessione.usaPremioFedelta());
 
         assertEquals(18.0, sessione.getTotaleDaPagare(), 0.001);
-        assertEquals(0, repository.trovaPuntiByCliente(cliente.getId()));
+        assertEquals(200, repository.trovaPuntiByCliente(cliente.getId()));
 
         assertFalse(sessione.usaPremioFedelta());
 
         assertEquals(18.0, sessione.getTotaleDaPagare(), 0.001);
-        assertEquals(0, repository.trovaPuntiByCliente(cliente.getId()));
+        assertEquals(200, repository.trovaPuntiByCliente(cliente.getId()));
     }
-    
+
     @Test
     void segnalaCambiaStato() {
 
-    	Cliente cliente = new Cliente(
+        Cliente cliente = new Cliente(
                 "Mario",
                 "Rossi",
                 "mario@email.it",
