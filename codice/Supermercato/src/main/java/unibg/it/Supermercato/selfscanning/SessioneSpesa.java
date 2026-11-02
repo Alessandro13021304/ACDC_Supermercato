@@ -8,14 +8,8 @@ import java.util.Random;
 
 import unibg.it.Supermercato.gestionefedelta.Promozione;
 import unibg.it.Supermercato.gestionefedelta.PuntiAccumulati;
-import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
-import unibg.it.Supermercato.gestionemagazzino.IScorte;
-import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
-import unibg.it.Supermercato.sistemaaccesso.Cliente;
-import unibg.it.Supermercato.sistemaaccesso.IAutenticazione;
-import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
-import unibg.it.Supermercato.sistemaaccesso.ISessioneControllabile;
+import unibg.it.Supermercato.gestionemagazzino.*;
+import unibg.it.Supermercato.sistemaaccesso.*;
 
 public class SessioneSpesa implements ISessioneControllabile {
 
@@ -107,7 +101,6 @@ public class SessioneSpesa implements ISessioneControllabile {
 
         totaleDaPagare = promozione.applicaSconto(totaleDaPagare, percentualeSconto);
 
-        // I punti vengono scalati solo quando l'acquisto è completato
         puntiDaScalare = promozione.calcolaPuntiDaScalare(puntiDisponibili);
 
         premioFedeltaApplicato = true;
@@ -130,7 +123,6 @@ public class SessioneSpesa implements ISessioneControllabile {
 
         boolean serveControllo = controlloNecessario();
 
-        // Se serve il controllo ma non c'è un cassiere, non si addebita nulla
         if (serveControllo && !totem.isCassiereDisponibile()) {
             return false;
         }
@@ -142,7 +134,6 @@ public class SessioneSpesa implements ISessioneControllabile {
         }
 
         if (serveControllo) {
-            // La sessione passa in CONTROLLO: il confronto parte quando il cassiere lo esegue
             totem.richiediControllo(this);
             totem.registraArrivoCassiere(this);
         } else {
@@ -175,17 +166,12 @@ public class SessioneSpesa implements ISessioneControllabile {
                 Prodotto prodotto = elemento.prodotto;
                 int quantitaAcquistata = elemento.getQuantita();
 
-                int nuovaQuantitaScaffale =
-                        prodotto.getQuantitaScaffale() - quantitaAcquistata;
+                prodotto.setQuantitaScaffale(prodotto.getQuantitaScaffale() - quantitaAcquistata);
 
-                prodotto.setQuantitaScaffale(nuovaQuantitaScaffale);
-                repositoryProdotti.modificaProdotto(prodotto);
+                repositoryProdotti.decrementaQuantitaScaffale(prodotto.getCodiceABarre(), quantitaAcquistata);
 
                 if (gestoreScorte != null) {
-                    gestoreScorte.aggiornaScorte(
-                            prodotto,
-                            TipoScorta.SCAFFALE
-                    );
+                    gestoreScorte.aggiornaScorte(prodotto, TipoScorta.SCAFFALE);
                 }
             }
         }
@@ -207,7 +193,6 @@ public class SessioneSpesa implements ISessioneControllabile {
     }
 
     public void avviaControllo() {
-        // Imposta solo lo stato: il confronto parte con Totem.effettuaControlloSpesa
         if (stato == EStatoSessione.PAGAMENTO) {
             stato = EStatoSessione.CONTROLLO;
         }

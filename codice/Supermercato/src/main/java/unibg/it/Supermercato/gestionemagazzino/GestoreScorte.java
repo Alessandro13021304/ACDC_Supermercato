@@ -3,23 +3,21 @@ package unibg.it.Supermercato.gestionemagazzino;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GestoreScorte implements IScorte{
-	
-	private List<ScorteObserver> osservatori;
-    private static final int SOGLIA_MINIMA = 5;
+public class GestoreScorte implements IScorte {
+
+    private List<ScorteObserver> osservatori;
 
     public GestoreScorte() {
         osservatori = new ArrayList<>();
     }
-    
+
     @Override
     public void aggiornaScorte(Prodotto prodotto, TipoScorta tipoScorta) {
         if (prodotto == null || tipoScorta == null) {
             return;
         }
-        
-        if (tipoScorta == TipoScorta.SCAFFALE
-                && prodotto.getQuantitaScaffale() >= SOGLIA_MINIMA) {
+
+        if (tipoScorta == TipoScorta.SCAFFALE && prodotto.getQuantitaScaffale() >= ParametriScorte.SOGLIA_MINIMA) {
             return;
         }
 
