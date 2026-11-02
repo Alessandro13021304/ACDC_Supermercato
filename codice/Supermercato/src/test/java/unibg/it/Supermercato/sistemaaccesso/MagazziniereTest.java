@@ -12,7 +12,7 @@ import unibg.it.Supermercato.persistenzadati.DBConnection;
 import unibg.it.Supermercato.persistenzadati.DBProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.GestoreScorte;
-import unibg.it.Supermercato.gestionemagazzino.ScorteObserver;
+import unibg.it.Supermercato.gestionemagazzino.IScorteObserver;
 import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 import unibg.it.Supermercato.gestionemagazzino.GestoreProdotti;
 
@@ -255,7 +255,7 @@ public class MagazziniereTest {
 
         final ETipoScorta[] tipoNotificato = {null};
 
-        ScorteObserver observer = (prodotto, tipoScorta) ->
+        IScorteObserver observer = (prodotto, tipoScorta) ->
                 tipoNotificato[0] = tipoScorta;
 
         gestore.aggiungiObserver(observer);

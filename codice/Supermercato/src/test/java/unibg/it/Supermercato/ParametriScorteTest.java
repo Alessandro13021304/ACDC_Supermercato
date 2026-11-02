@@ -27,7 +27,7 @@ class ParametriScorteTest {
     @Test
     void ilGestoreScorteNotificaSoloSottoLaSogliaMinima() {
         GestoreScorte gestore = new GestoreScorte();
-        ScorteObserver observer = mock(ScorteObserver.class);
+        IScorteObserver observer = mock(IScorteObserver.class);
         gestore.aggiungiObserver(observer);
 
         Prodotto allaSoglia = prodotto(ParametriScorte.SOGLIA_MINIMA, 10);

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import unibg.it.Supermercato.gestionemagazzino.*;
 
-public class Magazziniere extends Dipendente implements ScorteObserver {
+public class Magazziniere extends Dipendente implements IScorteObserver {
 
     private IProdotti gestoreProdotti;
     private IScorte gestoreScorte;

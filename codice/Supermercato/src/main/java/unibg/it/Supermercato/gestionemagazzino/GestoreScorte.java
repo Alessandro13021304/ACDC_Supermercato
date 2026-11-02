@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GestoreScorte implements IScorte {
 
-    private List<ScorteObserver> osservatori;
+    private List<IScorteObserver> osservatori;
 
     public GestoreScorte() {
         osservatori = new ArrayList<>();
@@ -25,19 +25,19 @@ public class GestoreScorte implements IScorte {
     }
 
     @Override
-    public void aggiungiObserver(ScorteObserver observer) {
+    public void aggiungiObserver(IScorteObserver observer) {
         if (observer != null && !osservatori.contains(observer)) {
             osservatori.add(observer);
         }
     }
 
     @Override
-    public void rimuoviObserver(ScorteObserver observer) {
+    public void rimuoviObserver(IScorteObserver observer) {
         osservatori.remove(observer);
     }
 
     public void notificaObserver(Prodotto prodotto, ETipoScorta tipoScorta) {
-        for (ScorteObserver observer : osservatori) {
+        for (IScorteObserver observer : osservatori) {
             observer.aggiorna(prodotto, tipoScorta);
         }
     }

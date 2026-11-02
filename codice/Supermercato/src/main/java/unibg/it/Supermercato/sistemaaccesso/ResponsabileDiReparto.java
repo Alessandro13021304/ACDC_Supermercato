@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import unibg.it.Supermercato.gestionemagazzino.*;
 
-public class ResponsabileDiReparto extends Dipendente implements ScorteObserver {
+public class ResponsabileDiReparto extends Dipendente implements IScorteObserver {
 
     private IProdotti gestoreProdotti;
     private Fornitore fornitore;
