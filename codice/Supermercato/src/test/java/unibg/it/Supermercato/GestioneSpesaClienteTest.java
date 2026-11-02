@@ -78,7 +78,7 @@ class GestioneSpesaClienteTest {
                 0.001
         );
     }
-    
+
     @Test
     void clienteCompletaLaSpesaConPagamento() {
 
@@ -143,7 +143,7 @@ class GestioneSpesaClienteTest {
 
         verify(pagamento).paga(2.50);
     }
-    
+
     @Test
     void clienteSegnalatoRichiedeControlloDellaSpesa() {
 
@@ -214,8 +214,11 @@ class GestioneSpesaClienteTest {
 
         verify(repositoryClienti)
                 .isClienteSegnalato(cliente.getId());
+
+        // Senza cassiere il pagamento non deve essere addebitato
+        verify(pagamento, never()).paga(anyDouble());
     }
-    
+
     @Test
     void clienteGeneraLaRicevutaDopoLaSpesa() {
 
@@ -284,7 +287,7 @@ class GestioneSpesaClienteTest {
         assertNotNull(ricevuta);
         assertFalse(ricevuta.isEmpty());
     }
-    
+
     @Test
     void clienteUsaPremioFedeltaEApplicaLoSconto() {
 
@@ -351,19 +354,20 @@ class GestioneSpesaClienteTest {
                 0.001
         );
 
-        verify(repositoryClienti)
-                .scalaPunti(cliente.getId(), 200);
+        // I punti vengono scalati solo al completamento dell'acquisto
+        verify(repositoryClienti, never())
+                .scalaPunti(anyInt(), anyInt());
     }
-    
+
     @Test
     void spesaCompletataAggiornaLaGestioneDelleScorte() {
 
-    	IAutenticazione autenticazione =
-    	        mock(IAutenticazione.class);
+        IAutenticazione autenticazione =
+                mock(IAutenticazione.class);
 
         IScorte gestoreScorte =
                 mock(IScorte.class);
-        
+
         IRepositoryProdotti repositoryProdotti =
                 mock(IRepositoryProdotti.class);
 

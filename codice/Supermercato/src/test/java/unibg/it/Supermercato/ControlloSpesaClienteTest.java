@@ -95,6 +95,14 @@ class ControlloSpesaClienteTest {
 
         assertTrue(pagamentoEffettuato);
 
+        // Il pagamento porta la sessione in controllo; il cassiere esegue poi il confronto
+        assertEquals(
+                EStatoSessione.CONTROLLO,
+                sessione.getStato()
+        );
+
+        assertTrue(totem.effettuaControlloSpesa(sessione));
+
         assertEquals(
                 EStatoSessione.COMPLETATA,
                 sessione.getStato()
@@ -183,6 +191,14 @@ class ControlloSpesaClienteTest {
                 );
 
         assertTrue(pagamentoEffettuato);
+
+        // Il pagamento porta la sessione in controllo; il cassiere esegue poi il confronto
+        assertEquals(
+                EStatoSessione.CONTROLLO,
+                sessione.getStato()
+        );
+
+        assertFalse(totem.effettuaControlloSpesa(sessione));
 
         assertEquals(
                 EStatoSessione.SEGNALATA,

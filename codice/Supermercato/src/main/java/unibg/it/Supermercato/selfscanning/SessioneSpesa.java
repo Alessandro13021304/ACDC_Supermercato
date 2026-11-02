@@ -26,6 +26,7 @@ public class SessioneSpesa implements ISessioneControllabile {
     private IRepositoryProdotti repositoryProdotti;
     private double totaleDaPagare;
     private boolean premioFedeltaApplicato;
+    private int puntiDaScalare;
     private IScorte gestoreScorte;
     private final Random random;
 
@@ -47,6 +48,7 @@ public class SessioneSpesa implements ISessioneControllabile {
         this.cliente = cliente;
         this.random = random;
         premioFedeltaApplicato = false;
+        puntiDaScalare = 0;
     }
 
     public boolean scansionaProdotto(Prodotto p) {
@@ -105,8 +107,8 @@ public class SessioneSpesa implements ISessioneControllabile {
 
         totaleDaPagare = promozione.applicaSconto(totaleDaPagare, percentualeSconto);
 
-        int puntiDaScalare = promozione.calcolaPuntiDaScalare(puntiDisponibili);
-        repositoryClienti.scalaPunti(cliente.getId(), puntiDaScalare);
+        // I punti vengono scalati solo quando l'acquisto è completato
+        puntiDaScalare = promozione.calcolaPuntiDaScalare(puntiDisponibili);
 
         premioFedeltaApplicato = true;
 
@@ -126,32 +128,40 @@ public class SessioneSpesa implements ISessioneControllabile {
             return false;
         }
 
-        pagamento = new Pagamento(totaleDaPagare, modalita);
+        boolean serveControllo = controlloNecessario();
 
-        if (totem.effettuaPagamento(totaleDaPagare)) {
-
-            if (controlloNecessario()) {
-
-                if (totem.richiediControllo(this)) {
-                    totem.registraArrivoCassiere(this);
-                } else {
-                    return false;
-                }
-
-            } else {
-                registraAcquistoCompletato();
-                stato = EStatoSessione.COMPLETATA;
-            }
-
-            return true;
+        // Se serve il controllo ma non c'è un cassiere, non si addebita nulla
+        if (serveControllo && !totem.isCassiereDisponibile()) {
+            return false;
         }
 
-        return false;
+        pagamento = new Pagamento(totaleDaPagare, modalita);
+
+        if (!totem.effettuaPagamento(totaleDaPagare)) {
+            return false;
+        }
+
+        if (serveControllo) {
+            // La sessione passa in CONTROLLO: il confronto parte quando il cassiere lo esegue
+            totem.richiediControllo(this);
+            totem.registraArrivoCassiere(this);
+        } else {
+            registraAcquistoCompletato();
+            stato = EStatoSessione.COMPLETATA;
+        }
+
+        return true;
     }
 
     private void registraAcquistoCompletato() {
 
         if (repositoryClienti != null && cliente != null) {
+
+            if (puntiDaScalare > 0) {
+                repositoryClienti.scalaPunti(cliente.getId(), puntiDaScalare);
+                puntiDaScalare = 0;
+            }
+
             PuntiAccumulati puntiAccumulati = new PuntiAccumulati();
             int nuoviPunti = puntiAccumulati.calcolaPunti(totaleDaPagare);
 
@@ -197,12 +207,9 @@ public class SessioneSpesa implements ISessioneControllabile {
     }
 
     public void avviaControllo() {
+        // Imposta solo lo stato: il confronto parte con Totem.effettuaControlloSpesa
         if (stato == EStatoSessione.PAGAMENTO) {
             stato = EStatoSessione.CONTROLLO;
-
-            if (totem != null && totem.isCassiereArrivato()) {
-                totem.effettuaControlloSpesa(this);
-            }
         }
     }
 
