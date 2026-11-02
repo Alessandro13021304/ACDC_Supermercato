@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
 
-import unibg.it.Supermercato.persistenzadati.*;
 import unibg.it.Supermercato.gestionemagazzino.GestoreOrdini;
 import unibg.it.Supermercato.gestionemagazzino.IRepositoryOrdini;
 import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
@@ -48,7 +47,7 @@ class GestioneOrdineTest {
     }
 
     @Test
-    void gestoreOrdiniCreaESalvaUnOrdine() {
+    void gestoreOrdiniCreaUnOrdineSenzaSalvarlo() {
 
         IRepositoryOrdini repositoryOrdini =
                 mock(IRepositoryOrdini.class);
@@ -69,7 +68,44 @@ class GestioneOrdineTest {
         assertSame(fornitore, ordine.getFornitore());
         assertEquals("CREATO", ordine.getStato());
 
+        verifyNoInteractions(repositoryOrdini);
+    }
+
+    @Test
+    void gestoreOrdiniSalvaUnOrdine() {
+
+        IRepositoryOrdini repositoryOrdini =
+                mock(IRepositoryOrdini.class);
+
+        GestoreOrdini gestoreOrdini =
+                new GestoreOrdini(repositoryOrdini);
+
+        Fornitore fornitore = new Fornitore(
+                "Fornitore Alimentare",
+                "02-1234567",
+                "fornitore@email.it"
+        );
+
+        OrdineFornitore ordine =
+                gestoreOrdini.creaOrdine(fornitore);
+
+        gestoreOrdini.salvaOrdine(ordine);
+
         verify(repositoryOrdini).salvaOrdine(ordine);
+    }
+
+    @Test
+    void gestoreOrdiniNonSalvaUnOrdineNull() {
+
+        IRepositoryOrdini repositoryOrdini =
+                mock(IRepositoryOrdini.class);
+
+        GestoreOrdini gestoreOrdini =
+                new GestoreOrdini(repositoryOrdini);
+
+        gestoreOrdini.salvaOrdine(null);
+
+        verifyNoInteractions(repositoryOrdini);
     }
     
     @Test
