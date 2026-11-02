@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
+import java.util.function.Consumer;
 
 import unibg.it.Supermercato.persistenzadati.*;
 import unibg.it.Supermercato.sistemaaccesso.*;
@@ -21,6 +24,11 @@ import unibg.it.Supermercato.gestionefedelta.*;
 public class App {
 
     private static final Logger logger = LogManager.getLogger(App.class);
+
+    // Matricole dei dipendenti gia' registrati come osservatori delle scorte:
+    // ogni lettura dal database crea una nuova istanza, e senza questo controllo
+    // la stessa persona verrebbe notificata (e ordinerebbe al fornitore) piu' volte
+    private static final Set<String> osservatoriRegistrati = new HashSet<>();
 
     public static void main(String[] args) {
 
@@ -65,7 +73,20 @@ public class App {
         totem.setCarrelloFisico(carrelloFisico);
         
         GestoreProdotti gestoreProdotti = new GestoreProdotti(dbProdotti);
-        
+        GestoreScorte gestoreScorte = new GestoreScorte();
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(dbOrdini);
+        gestoreOrdini.setRepositoryProdotti(dbProdotti);
+        Fornitore fornitore = new Fornitore("Fornitore Demo");
+
+        // Composition root: collega ai ruoli letti dal database i loro collaboratori
+        Consumer<Dipendente> configuratoreRuoli = dipendente -> configuraRuolo(
+                dipendente, dbDipendenti, dbProdotti, gestoreProdotti, gestoreScorte,
+                gestoreOrdini, controlloSpesa, fornitore);
+        dbDipendenti.setConfiguratoreRuoli(configuratoreRuoli);
+
+        // Rilegge i dipendenti esistenti: magazzinieri e responsabili si registrano come osservatori
+        dbDipendenti.trovaTuttiDipendenti();
+
         // Creazione dei prodotti 
         Prodotto pasta = gestoreProdotti.cercaProdotto("DEMO0001");
 
@@ -101,8 +122,6 @@ public class App {
 
         logger.info("Prodotti pronti.");
               
-        Fornitore fornitore = new Fornitore("Fornitore Demo");        
-        GestoreOrdini gestoreOrdini = new GestoreOrdini(dbOrdini);
                
         try (Scanner scanner = new Scanner(System.in)) {
             int scelta;
@@ -140,7 +159,7 @@ public class App {
                 				 break;
                         case 11: autenticaManager(authService, dbDipendenti, scanner);
                         		 break;
-                        case 12: simulaSpesa(authService, dbClienti, dbProdotti, totem, carrelloFisico, scanner);
+                        case 12: simulaSpesa(authService, dbClienti, dbProdotti, gestoreScorte, totem, carrelloFisico, scanner);
                         		 break;
                         default: System.out.println("Scelta non valida. Riprova.");
                     }
@@ -156,6 +175,41 @@ public class App {
     
     
     
+    private static void configuraRuolo(Dipendente dipendente, DBDipendenti dbDipendenti, IRepositoryProdotti dbProdotti,
+                                       GestoreProdotti gestoreProdotti, GestoreScorte gestoreScorte,
+                                       GestoreOrdini gestoreOrdini, IControlloSpesa controlloSpesa, Fornitore fornitore) {
+
+        if (dipendente instanceof Manager) {
+            Manager manager = (Manager) dipendente;
+            manager.setGestoreTurni(new GestoreTurni(dbDipendenti));
+            manager.setCalcoloStipendi(new CalcoloStipendi());
+
+        } else if (dipendente instanceof Cassiere) {
+            ((Cassiere) dipendente).setControlloSpesa(controlloSpesa);
+
+        } else if (dipendente instanceof Magazziniere) {
+            Magazziniere magazziniere = (Magazziniere) dipendente;
+            magazziniere.setGestoreProdotti(gestoreProdotti);
+            magazziniere.setRepositoryProdotti(dbProdotti);
+
+            // setGestoreScorte registra il magazziniere come osservatore: lo facciamo una volta sola
+            if (osservatoriRegistrati.add(dipendente.getMatricola())) {
+                magazziniere.setGestoreScorte(gestoreScorte);
+            }
+
+        } else if (dipendente instanceof ResponsabileDiReparto) {
+            ResponsabileDiReparto responsabile = (ResponsabileDiReparto) dipendente;
+            responsabile.setGestoreProdotti(gestoreProdotti);
+            responsabile.setGestoreOrdini(gestoreOrdini);
+            responsabile.setFornitore(fornitore);
+            responsabile.setNumeroReparto(1); // i prodotti della demo appartengono al reparto 1
+
+            if (osservatoriRegistrati.add(dipendente.getMatricola())) {
+                responsabile.setGestoreScorte(gestoreScorte);
+            }
+        }
+    }
+
     private static void mostraMenu() {
         System.out.println("\n====================================");
         System.out.println("       SUPERMERCATO - DEMO");
@@ -305,7 +359,8 @@ public class App {
 	            + " | Magazzino: " + prodotto.getQuantitaMagazzino()
 	        );
 	
-	        if (prodotto.getQuantitaScaffale() < 5 && prodotto.getQuantitaMagazzino() < 5) {
+	        if (prodotto.getQuantitaScaffale() < ParametriScorte.SOGLIA_MINIMA
+	            && prodotto.getQuantitaMagazzino() < ParametriScorte.SOGLIA_MINIMA) {
 	            System.out.println("ATTENZIONE: scorte insufficienti, prodotto da riordinare.");
 	            scorteInsufficienti = true;
 	        }
@@ -750,7 +805,10 @@ public class App {
 	        System.out.println("Nome e cognome: " + dipendente.getNome() + " " + dipendente.getCognome());
 	        System.out.println("Email: " + dipendente.getEmail());
 	        System.out.println("Ruolo: " + dipendente.getRuolo());
-	
+
+	        // Rilegge il dipendente: il configuratore ne collega i collaboratori
+	        dbDipendenti.trovaDipendenteByMatricola(dipendente.getMatricola());
+
 	    } catch (RuntimeException e) {
 	        System.out.println("Errore durante la registrazione.");
 	        logger.error("Errore durante la registrazione del dipendente.", e);
@@ -838,8 +896,6 @@ public class App {
 	        if (persona instanceof Manager) {
 	            Manager manager = (Manager) persona;
 
-	            manager.setGestoreTurni(new GestoreTurni(dbDipendenti));
-	            manager.setCalcoloStipendi(new CalcoloStipendi());
 
 	            System.out.println("\nAutenticazione riuscita!");
 	            System.out.println("Benvenuto/a, " + manager.getNome() + " " + manager.getCognome());
@@ -962,17 +1018,13 @@ public class App {
 
 	                Turno turno = new Turno(data, inizio, fine);
 
-	                List<Turno> turniPrima = dbDipendenti.trovaTurniByMatricola(matricola);
+	                boolean assegnato = manager.assegnaTurno(dipendente, turno);
 
-	                manager.assegnaTurno(dipendente, turno);
-
-	                List<Turno> turniDopo = dbDipendenti.trovaTurniByMatricola(matricola);
-
-	                if (turniDopo.size() > turniPrima.size()) {
+	                if (assegnato) {
 	                    System.out.println("\nTurno assegnato correttamente!");
 	                } else {
-	                    System.out.println("\nImpossibile assegnare il turno: si sovrappone a un turno già esistente.");
-	                }                
+	                    System.out.println("\nImpossibile assegnare il turno: orario non valido o sovrapposto a un turno esistente.");
+	                }
 	                break;
 	            
 	            case "0":
@@ -988,7 +1040,7 @@ public class App {
 	
 	
 
-	private static void simulaSpesa(AuthService authService, IRepositoryClienti dbClienti, IRepositoryProdotti dbProdotti, Totem totem, CarrelloFisico carrelloFisico, Scanner scanner) {
+	private static void simulaSpesa(AuthService authService, IRepositoryClienti dbClienti, IRepositoryProdotti dbProdotti, GestoreScorte gestoreScorte, Totem totem, CarrelloFisico carrelloFisico, Scanner scanner) {
 	
 	    scanner.nextLine();
 	    
@@ -1016,6 +1068,7 @@ public class App {
 	
 	    sessione.setRepositoryClienti(dbClienti);
 	    sessione.setRepositoryProdotti(dbProdotti);
+	    sessione.setGestoreScorte(gestoreScorte);
 	    sessione.setTotem(totem);
 	
 	    System.out.println("\nSessione di spesa avviata!");	    
@@ -1246,7 +1299,6 @@ public class App {
 		        boolean controlloSuperato = totem.effettuaControlloSpesa(sessione);
 		
 		        if (controlloSuperato) {
-		            sessione.completaDopoControllo();		
 		            System.out.println("\nControllo superato!");
 		            
 		            int puntiFinali = sessione.getCliente().visualizzaPunti();
@@ -1261,7 +1313,6 @@ public class App {
 			        System.out.println("Punti fedeltà totali: " + puntiFinali);
 		
 		        } else {
-		            sessione.segnala();
 		            System.out.println("\nControllo non superato. La spesa è stata segnalata.");
 		            
 		        }		
@@ -1377,3 +1428,5 @@ public class App {
 	    }
 	}
 }
+
+
