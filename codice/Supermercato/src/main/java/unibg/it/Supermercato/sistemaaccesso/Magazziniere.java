@@ -1,3 +1,7 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;
@@ -6,11 +10,11 @@ import java.util.ArrayList;
 
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.IProdotti;
-import unibg.it.Supermercato.gestionemagazzino.ScorteObserver;
+import unibg.it.Supermercato.gestionemagazzino.IScorteObserver;
 import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
 import unibg.it.Supermercato.gestionemagazzino.IScorte;
 
-public class Magazziniere extends Dipendente implements ScorteObserver {
+public class Magazziniere extends Dipendente implements IScorteObserver {
 	
     private static final int SOGLIA_MINIMA = 5;
     private static final int QUANTITA_RIFORNIMENTO = 20;

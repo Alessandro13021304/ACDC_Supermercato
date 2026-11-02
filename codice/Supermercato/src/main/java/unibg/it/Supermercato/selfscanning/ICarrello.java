@@ -1,3 +1,7 @@
+/**
+ * @author Davide Anthony Carmona Contreras
+ */
+
 package unibg.it.Supermercato.selfscanning;
 
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;

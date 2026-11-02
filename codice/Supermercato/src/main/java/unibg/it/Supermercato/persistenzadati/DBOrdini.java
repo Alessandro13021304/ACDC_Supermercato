@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Dentella
+ */
+
 package unibg.it.Supermercato.persistenzadati;
 
 import java.sql.Connection;
@@ -13,14 +17,19 @@ public class DBOrdini implements IRepositoryOrdini {
 
     private boolean usaDatabaseTest;
 
+    // non usa il database di test
     public DBOrdini() {
         this.usaDatabaseTest = false;
     }
 
+    // usa il database di test
     public DBOrdini(boolean usaDatabaseTest) {
         this.usaDatabaseTest = usaDatabaseTest;
     }
 
+    /** questo metodo si connette a DBConnection
+	 * @return l'istanza della connessione trovata
+	 */
     private Connection getConnection() throws SQLException {
         if (usaDatabaseTest) {
             return DBConnection.getInstance().getTestConnection("prodotti");
@@ -29,6 +38,9 @@ public class DBOrdini implements IRepositoryOrdini {
         return DBConnection.getInstance().getConnection("prodotti");
     }
 
+    /** questo metodo salva un ordine in persistenza
+     * @param l'ordine da salvare
+	 */
     @Override
     public void salvaOrdine(OrdineFornitore ordine) {
 
@@ -76,6 +88,9 @@ public class DBOrdini implements IRepositoryOrdini {
         }
     }
 
+    /** questo metodo permette di visualizzare tutti gli ordini
+     * @return la lista degli ordini 
+	 */
     @Override
     public List<OrdineFornitore> trovaTuttiOrdini() {
 
@@ -84,7 +99,7 @@ public class DBOrdini implements IRepositoryOrdini {
         String sql = "SELECT id, fornitore_nome, data_ordine, stato, totale "
                    + "FROM ordini_fornitore";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
 
@@ -111,6 +126,9 @@ public class DBOrdini implements IRepositoryOrdini {
         return ordini;
     }
     
+    /** questo metodo salva le righe di un ordine in persistenza
+     * @param la connessione, l'ordine in cui sono contenute le righe, l'id dell'ordine
+	 */
     private void caricaRigheOrdine(Connection connection, OrdineFornitore ordine, int ordineId) {
 
         String sql = "SELECT codice_prodotto, quantita, prezzo "
