@@ -28,7 +28,7 @@ public class GestoreScorteTest {
                 1
         );
 
-        gestore.notificaObserver(prodotto, TipoScorta.SCAFFALE);
+        gestore.notificaObserver(prodotto, ETipoScorta.SCAFFALE);
 
         assertTrue(notificato[0]);
     }
@@ -56,7 +56,7 @@ public class GestoreScorteTest {
                 1
         );
 
-        gestore.notificaObserver(prodotto, TipoScorta.SCAFFALE);
+        gestore.notificaObserver(prodotto, ETipoScorta.SCAFFALE);
 
         assertFalse(notificato[0]);
     }
@@ -85,7 +85,7 @@ public class GestoreScorteTest {
                 1
         );
 
-        gestore.notificaObserver(prodotto, TipoScorta.SCAFFALE);
+        gestore.notificaObserver(prodotto, ETipoScorta.SCAFFALE);
 
         assertEquals(2, notifiche[0]);
     }
@@ -112,7 +112,7 @@ public class GestoreScorteTest {
                 1
         );
 
-        gestore.aggiornaScorte(prodotto, TipoScorta.SCAFFALE);
+        gestore.aggiornaScorte(prodotto, ETipoScorta.SCAFFALE);
 
         assertTrue(notificato[0]);
     }

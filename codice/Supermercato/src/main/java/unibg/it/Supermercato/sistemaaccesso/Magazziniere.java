@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.IProdotti;
 import unibg.it.Supermercato.gestionemagazzino.ScorteObserver;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
+import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 import unibg.it.Supermercato.gestionemagazzino.IScorte;
 
 public class Magazziniere extends Dipendente implements ScorteObserver {
@@ -70,7 +70,7 @@ public class Magazziniere extends Dipendente implements ScorteObserver {
         boolean insufficiente = p.getQuantitaMagazzino() < SOGLIA_MINIMA;
 
         if (insufficiente && gestoreScorte != null) {
-            gestoreScorte.aggiornaScorte(p, TipoScorta.MAGAZZINO);
+            gestoreScorte.aggiornaScorte(p, ETipoScorta.MAGAZZINO);
         }
 
         return insufficiente;
@@ -82,8 +82,8 @@ public class Magazziniere extends Dipendente implements ScorteObserver {
     }
     
     @Override
-    public void aggiorna(Prodotto prodotto, TipoScorta tipoScorta) {
-        if (prodotto == null || tipoScorta != TipoScorta.SCAFFALE) {
+    public void aggiorna(Prodotto prodotto, ETipoScorta tipoScorta) {
+        if (prodotto == null || tipoScorta != ETipoScorta.SCAFFALE) {
             return;
         }
 

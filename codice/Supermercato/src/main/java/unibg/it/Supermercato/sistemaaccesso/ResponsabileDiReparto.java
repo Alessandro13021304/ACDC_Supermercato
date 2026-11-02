@@ -9,7 +9,7 @@ import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 import unibg.it.Supermercato.gestionemagazzino.IProdotti;
 import unibg.it.Supermercato.gestionemagazzino.ScorteObserver;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
+import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 import unibg.it.Supermercato.gestionemagazzino.IScorte;
 import unibg.it.Supermercato.gestionemagazzino.IOrdini;
 
@@ -99,7 +99,7 @@ public class ResponsabileDiReparto extends Dipendente implements ScorteObserver 
         boolean insufficiente = p.getQuantitaScaffale() < SOGLIA_MINIMA;
 
         if (insufficiente && gestoreScorte != null) {
-            gestoreScorte.aggiornaScorte(p, TipoScorta.SCAFFALE);
+            gestoreScorte.aggiornaScorte(p, ETipoScorta.SCAFFALE);
         }
 
         return insufficiente;
@@ -137,8 +137,8 @@ public class ResponsabileDiReparto extends Dipendente implements ScorteObserver 
     }
     
     @Override
-    public void aggiorna(Prodotto prodotto, TipoScorta tipoScorta) {
-        if (prodotto == null || tipoScorta != TipoScorta.MAGAZZINO) {
+    public void aggiorna(Prodotto prodotto, ETipoScorta tipoScorta) {
+        if (prodotto == null || tipoScorta != ETipoScorta.MAGAZZINO) {
             return;
         }
         

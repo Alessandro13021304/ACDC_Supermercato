@@ -1,6 +1,6 @@
 package unibg.it.Supermercato.gestionemagazzino;
 
-public enum StatoOrdine {
+public enum EStatoOrdine {
 
     CREATO,
     RICEVUTO

@@ -429,7 +429,7 @@ class GestioneSpesaClienteTest {
 
         verify(gestoreScorte).aggiornaScorte(
                 prodotto,
-                TipoScorta.SCAFFALE
+                ETipoScorta.SCAFFALE
         );
     }
 }

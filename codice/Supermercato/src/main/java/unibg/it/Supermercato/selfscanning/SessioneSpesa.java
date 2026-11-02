@@ -11,7 +11,7 @@ import unibg.it.Supermercato.gestionefedelta.PuntiAccumulati;
 import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
 import unibg.it.Supermercato.gestionemagazzino.IScorte;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
-import unibg.it.Supermercato.gestionemagazzino.TipoScorta;
+import unibg.it.Supermercato.gestionemagazzino.ETipoScorta;
 import unibg.it.Supermercato.sistemaaccesso.Cliente;
 import unibg.it.Supermercato.sistemaaccesso.IAutenticazione;
 import unibg.it.Supermercato.sistemaaccesso.IRepositoryClienti;
@@ -184,7 +184,7 @@ public class SessioneSpesa implements ISessioneControllabile {
                 if (gestoreScorte != null) {
                     gestoreScorte.aggiornaScorte(
                             prodotto,
-                            TipoScorta.SCAFFALE
+                            ETipoScorta.SCAFFALE
                     );
                 }
             }

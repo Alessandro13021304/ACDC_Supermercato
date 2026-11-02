@@ -29,7 +29,7 @@ class GestorePresenzeTest {
     void testRegistraIngresso() {
 
         DBClienti repositoryClienti = new DBClienti();
-        
+
         IControlloSpesa controlloSpesa = null;
 
         Dipendente cassiere = new Cassiere(
@@ -46,11 +46,12 @@ class GestorePresenzeTest {
 
         DBDipendenti repository = new DBDipendenti(true);
         repository.salvaDipendente(cassiere);
-        
+
         AuthService autenticazione = new AuthService(repositoryClienti, repository);
 
-        LocalTime oraInizio = LocalTime.now().plusMinutes(5);
-        LocalTime oraFine = oraInizio.plusHours(8);
+        // Orari fissi: il turno deve iniziare e finire nello stesso giorno, a qualsiasi ora di esecuzione
+        LocalTime oraInizio = LocalTime.of(8, 0);
+        LocalTime oraFine = LocalTime.of(16, 0);
 
         Turno turno = new Turno(
                 LocalDate.now(),
@@ -76,16 +77,16 @@ class GestorePresenzeTest {
         assertTrue(turnoSalvato.presenzaIniziata());
         assertFalse(turnoSalvato.isCompletato());
     }
-    
+
     @Test
     void testRegistraUscita() {
 
         DBClienti repositoryClienti = new DBClienti();
-        
+
         IControlloSpesa controlloSpesa = null;
 
         Dipendente cassiere = new Cassiere(
-        		"Mario",
+                "Mario",
                 "Rossi",
                 "mario.uscita@test.it",
                 "password",
@@ -98,11 +99,11 @@ class GestorePresenzeTest {
 
         DBDipendenti repository = new DBDipendenti(true);
         repository.salvaDipendente(cassiere);
-        
+
         AuthService autenticazione = new AuthService(repositoryClienti, repository);
 
-        LocalTime oraInizio = LocalTime.now().plusMinutes(5);
-        LocalTime oraFine = oraInizio.plusHours(8);
+        LocalTime oraInizio = LocalTime.of(8, 0);
+        LocalTime oraFine = LocalTime.of(16, 0);
 
         Turno turno = new Turno(
                 LocalDate.now(),
@@ -131,12 +132,12 @@ class GestorePresenzeTest {
         assertTrue(turnoSalvato.presenzaIniziata());
         assertTrue(turnoSalvato.isCompletato());
     }
-    
+
     @Test
     void testCalcolaOreLavorate() {
 
         DBClienti repositoryClienti = new DBClienti();
-        
+
         IControlloSpesa controlloSpesa = null;
 
         Dipendente cassiere = new Cassiere(
@@ -161,12 +162,12 @@ class GestorePresenzeTest {
         turno.impostaOraUscita(LocalTime.of(16, 0));
 
         DBDipendenti repository = new DBDipendenti(true);
-        
+
         cassiere.setRepositoryDipendenti(repository);
-        
+
         repository.salvaDipendente(cassiere);
         repository.salvaTurno(cassiere.getMatricola(), turno);
-        
+
         repository.aggiornaPresenza(
                 cassiere.getMatricola(),
                 turno.getData(),
@@ -186,4 +187,5 @@ class GestorePresenzeTest {
         assertEquals(8.0, oreLavorate, 0.01);
     }
 }
+
 

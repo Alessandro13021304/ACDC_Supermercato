@@ -13,12 +13,12 @@ public class GestoreScorte implements IScorte{
     }
     
     @Override
-    public void aggiornaScorte(Prodotto prodotto, TipoScorta tipoScorta) {
+    public void aggiornaScorte(Prodotto prodotto, ETipoScorta tipoScorta) {
         if (prodotto == null || tipoScorta == null) {
             return;
         }
         
-        if (tipoScorta == TipoScorta.SCAFFALE
+        if (tipoScorta == ETipoScorta.SCAFFALE
                 && prodotto.getQuantitaScaffale() >= SOGLIA_MINIMA) {
             return;
         }
@@ -38,7 +38,7 @@ public class GestoreScorte implements IScorte{
         osservatori.remove(observer);
     }
 
-    public void notificaObserver(Prodotto prodotto, TipoScorta tipoScorta) {
+    public void notificaObserver(Prodotto prodotto, ETipoScorta tipoScorta) {
         for (ScorteObserver observer : osservatori) {
             observer.aggiorna(prodotto, tipoScorta);
         }

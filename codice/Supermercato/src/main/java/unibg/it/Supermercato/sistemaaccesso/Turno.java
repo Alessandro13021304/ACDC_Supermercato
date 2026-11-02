@@ -1,5 +1,6 @@
 package unibg.it.Supermercato.sistemaaccesso;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -21,16 +22,29 @@ public class Turno {
         this.completato = false;
     }
 
+    
+    public boolean isOrarioValido() {
+        return orarioInizio != null && orarioFine != null && orarioInizio.isBefore(orarioFine);
+    }
+
     public void registraInizio() {
-        if (!presenzaRegistrata) {
-            oraIngresso = LocalTime.now();
+        registraInizio(LocalTime.now(Clock.systemDefaultZone()));
+    }
+
+    public void registraInizio(LocalTime ora) {
+        if (ora != null && !presenzaRegistrata) {
+            oraIngresso = ora;
             presenzaRegistrata = true;
         }
     }
 
     public void registraFine() {
-        if (presenzaRegistrata && !completato) {
-            oraUscita = LocalTime.now();
+        registraFine(LocalTime.now(Clock.systemDefaultZone()));
+    }
+
+    public void registraFine(LocalTime ora) {
+        if (ora != null && presenzaRegistrata && !completato) {
+            oraUscita = ora;
             completato = true;
         }
     }
@@ -46,7 +60,7 @@ public class Turno {
     public LocalTime getOrarioInizio() {
         return orarioInizio;
     }
-    
+
     public LocalTime getOrarioFine() {
         return orarioFine;
     }
@@ -54,7 +68,7 @@ public class Turno {
     public boolean presenzaIniziata() {
         return presenzaRegistrata;
     }
-    
+
     public LocalTime getOraIngresso() {
         return oraIngresso;
     }
@@ -62,11 +76,11 @@ public class Turno {
     public LocalTime getOraUscita() {
         return oraUscita;
     }
-    
+
     public LocalDate getData() {
         return data;
     }
-    
+
     public void impostaOraIngresso(LocalTime oraIngresso) {
         this.oraIngresso = oraIngresso;
         this.presenzaRegistrata = oraIngresso != null;

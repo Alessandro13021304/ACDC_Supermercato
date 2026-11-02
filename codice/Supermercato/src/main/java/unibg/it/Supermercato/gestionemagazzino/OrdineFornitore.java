@@ -8,7 +8,7 @@ public class OrdineFornitore {
 
     private int id;
     private LocalDate dataOrdine;
-    private StatoOrdine stato;
+    private EStatoOrdine stato;
     private double totale;
 
     public Fornitore fornitore;
@@ -17,7 +17,7 @@ public class OrdineFornitore {
     public OrdineFornitore(Fornitore fornitore) {
         this.fornitore = fornitore;
         this.dataOrdine = LocalDate.now();
-        this.stato = StatoOrdine.CREATO;
+        this.stato = EStatoOrdine.CREATO;
         this.totale = 0.0;
         this.righe = new ArrayList<>();
     }
@@ -25,7 +25,7 @@ public class OrdineFornitore {
     public OrdineFornitore(Fornitore fornitore, LocalDate dataOrdine, String stato, double totale) {
         this.fornitore = fornitore;
         this.dataOrdine = dataOrdine;
-        this.stato = StatoOrdine.valueOf(stato);
+        this.stato = EStatoOrdine.valueOf(stato);
         this.totale = totale;
         this.righe = new ArrayList<>();
     }
@@ -68,16 +68,16 @@ public class OrdineFornitore {
         return stato.name();
     }
 
-    public StatoOrdine getStatoOrdine() {
+    public EStatoOrdine getStatoOrdine() {
         return stato;
     }
 
     public boolean isRicevuto() {
-        return stato == StatoOrdine.RICEVUTO;
+        return stato == EStatoOrdine.RICEVUTO;
     }
 
     public void segnaRicevuto() {
-        stato = StatoOrdine.RICEVUTO;
+        stato = EStatoOrdine.RICEVUTO;
     }
 
     public double getTotale() {

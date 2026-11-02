@@ -15,9 +15,11 @@ public class GestoreTurni implements ITurni {
         this.repositoryDipendenti = repositoryDipendenti;
     }
 
-    public void assegnaTurno(Dipendente dipendente, Turno turno) {
-        if (dipendente == null || turno == null) {
-            return;
+    @Override
+    public boolean assegnaTurno(Dipendente dipendente, Turno turno) {
+        // Il turno deve avere una data e un orario di inizio precedente a quello di fine
+        if (dipendente == null || turno == null || turno.getData() == null || !turno.isOrarioValido()) {
+            return false;
         }
 
         dipendente.setRepositoryDipendenti(repositoryDipendenti);
@@ -29,7 +31,7 @@ public class GestoreTurni implements ITurni {
 
         for (Turno turnoEsistente : turniEsistenti) {
             if (turnoSovrapposto(turno, turnoEsistente)) {
-                return;
+                return false;
             }
         }
 
@@ -37,11 +39,13 @@ public class GestoreTurni implements ITurni {
                 dipendente.getMatricola(),
                 turno
         );
+
+        return true;
     }
 
     private boolean turnoSovrapposto(Turno nuovoTurno, Turno turnoEsistente) {
 
-        if (!nuovoTurno.getData().equals(turnoEsistente.getData())) {
+        if (turnoEsistente == null || !nuovoTurno.getData().equals(turnoEsistente.getData())) {
             return false;
         }
 
