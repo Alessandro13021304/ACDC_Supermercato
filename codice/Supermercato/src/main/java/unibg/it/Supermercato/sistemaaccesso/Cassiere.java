@@ -8,10 +8,13 @@ public class Cassiere extends Dipendente {
     private IControlloSpesa controlloSpesa;
     private int numeroTotemControllo;
 
-    public Cassiere(String nome, String cognome, String email, String password, LocalDate dataNascita,
-            IRepositoryClienti repositoryClienti, IControlloSpesa controlloSpesa) {
+    public Cassiere(String nome, String cognome, String email, String password, LocalDate dataNascita, IRepositoryClienti repositoryClienti, IControlloSpesa controlloSpesa) {
         super(nome, cognome, email, password, dataNascita);
         this.repositoryClienti = repositoryClienti;
+        this.controlloSpesa = controlloSpesa;
+    }
+
+    public void setControlloSpesa(IControlloSpesa controlloSpesa) {
         this.controlloSpesa = controlloSpesa;
     }
 
@@ -30,7 +33,7 @@ public class Cassiere extends Dipendente {
     }
 
     public boolean effettuaControllo(ISessioneControllabile s, ICarrelloFisico carrelloFisico) {
-        if (s == null || !s.isInControllo()) {
+        if (s == null || !s.isInControllo() || controlloSpesa == null) {
             return false;
         }
 

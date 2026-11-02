@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.function.Consumer;
 
 import unibg.it.Supermercato.sistemaaccesso.Cassiere;
 import unibg.it.Supermercato.sistemaaccesso.Dipendente;
@@ -20,6 +21,7 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
     private boolean usaDatabaseTest;
     private IRepositoryClienti repositoryClienti;
+    private Consumer<Dipendente> configuratoreRuoli;
 
     public DBDipendenti() {
         this(false, null);
@@ -36,6 +38,11 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
     public void setRepositoryClienti(IRepositoryClienti repositoryClienti) {
         this.repositoryClienti = repositoryClienti;
+    }
+
+    // Il configuratore collega ai ruoli caricati dal database i collaboratori che persistenzadati non conosce
+    public void setConfiguratoreRuoli(Consumer<Dipendente> configuratoreRuoli) {
+        this.configuratoreRuoli = configuratoreRuoli;
     }
 
     private Connection getConnection() throws SQLException {
@@ -306,6 +313,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         dipendente.setMatricola(matricola);
         dipendente.setRepositoryDipendenti(this);
+
+        if (configuratoreRuoli != null) {
+            configuratoreRuoli.accept(dipendente);
+        }
 
         return dipendente;
     }
