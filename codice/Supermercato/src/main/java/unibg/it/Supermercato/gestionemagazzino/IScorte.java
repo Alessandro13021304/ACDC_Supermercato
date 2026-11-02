@@ -1,11 +1,15 @@
+/**
+ * @author Chiara Tremolada
+ */
+
 package unibg.it.Supermercato.gestionemagazzino;
 
 public interface IScorte {
 	
 void aggiornaScorte(Prodotto prodotto, ETipoScorta tipoScorta);
 	
-	void aggiungiObserver(ScorteObserver observer);
+	void aggiungiObserver(IScorteObserver observer);
 	
-	void rimuoviObserver(ScorteObserver observer);
+	void rimuoviObserver(IScorteObserver observer);
 
 }

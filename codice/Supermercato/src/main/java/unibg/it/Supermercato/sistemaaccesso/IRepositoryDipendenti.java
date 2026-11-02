@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Dentella
+ */
+
 package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;

@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Dentella
+ */
+
 package unibg.it.Supermercato.persistenzadati;
 
 import java.sql.Connection;
@@ -6,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
 import unibg.it.Supermercato.sistemaaccesso.AcquistoStorico;
 import unibg.it.Supermercato.sistemaaccesso.Cliente;
@@ -15,14 +20,19 @@ public class DBClienti implements IRepositoryClienti {
 
     private boolean usaDatabaseTest;
 
+    // non usa il database di test
     public DBClienti() {
         this.usaDatabaseTest = false;
     }
 
+    // usa il database di test
     public DBClienti(boolean usaDatabaseTest) {
         this.usaDatabaseTest = usaDatabaseTest;
     }
 
+    /** questo metodo si connette a DBConnection
+	 * @return l'istanza della connessione trovata
+	 */
     private Connection getConnection() throws SQLException {
         if (usaDatabaseTest) {
             return DBConnection.getInstance().getTestConnection("clienti");
@@ -31,6 +41,9 @@ public class DBClienti implements IRepositoryClienti {
         return DBConnection.getInstance().getConnection("clienti");
     }
 
+    /** questo metodo salva un cliente in persistenza
+     * @param il cliente da salvare
+	 */
     @Override
     public void salvaCliente(Cliente cliente) {
 
@@ -51,7 +64,7 @@ public class DBClienti implements IRepositoryClienti {
 
             statement.executeUpdate();
 
-            try (java.sql.ResultSet resultSet = statement.getGeneratedKeys()) {
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 if (resultSet.next()) {
                     cliente.setId(resultSet.getInt(1));
                 }
@@ -62,6 +75,10 @@ public class DBClienti implements IRepositoryClienti {
         }
     }
 
+    /** questo metodo verifica le credenziali di un cliente
+     * @param l'email e la password del cliente che si sta autenticando
+     * @return il cliente autenticato
+	 */
     @Override
     public Cliente verificaCredenziali(String email, String password) {
 
@@ -78,7 +95,7 @@ public class DBClienti implements IRepositoryClienti {
             statement.setString(1, email);
             statement.setString(2, password);
 
-            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
                     return creaClienteDaRisultato(resultSet);
@@ -92,6 +109,10 @@ public class DBClienti implements IRepositoryClienti {
         return null;
     }
 
+    /** questo metodo trova un cliente tramite il suo id
+     * @param l'id del cliente da trovare
+     * @return il cliente trovato
+	 */
     @Override
     public Cliente trovaClienteById(int clienteId) {
 
@@ -103,7 +124,7 @@ public class DBClienti implements IRepositoryClienti {
 
             statement.setInt(1, clienteId);
 
-            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
                     return creaClienteDaRisultato(resultSet);
@@ -116,16 +137,19 @@ public class DBClienti implements IRepositoryClienti {
 
         return null;
     }
-
+    
+    /** questo metodo permette di visualizzare tutti i clienti
+     * @return la lista dei clienti 
+	 */
     @Override
-    public java.util.List<Cliente> trovaTuttiIClienti() {
+    public List<Cliente> trovaTuttiIClienti() {
 
-        java.util.List<Cliente> clienti = new java.util.ArrayList<>();
+        List<Cliente> clienti = new ArrayList<>();
 
         String sql = "SELECT id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato "
                    + "FROM clienti";
 
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); java.sql.ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 clienti.add(creaClienteDaRisultato(resultSet));
@@ -138,6 +162,10 @@ public class DBClienti implements IRepositoryClienti {
         return clienti;
     }
 
+    /** questo metodo trova i punti fedeltà di un cliente
+     * @param l'id del cliente di cui trovare i punti
+     * @return i punti del cliente
+	 */
     @Override
     public int trovaPuntiByCliente(int clienteId) {
         String sql = "SELECT punti_fedelta "
@@ -148,7 +176,7 @@ public class DBClienti implements IRepositoryClienti {
 
             statement.setInt(1, clienteId);
 
-            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt("punti_fedelta");
                 }
@@ -161,6 +189,9 @@ public class DBClienti implements IRepositoryClienti {
         return 0;
     }
 
+    /** questo metodo aggiunge punti fedeltà ad un cliente
+     * @param l'id del cliente a cui aggiungere punti e i punti da aggiungere
+	 */
     @Override
     public void aggiungiPunti(int clienteId, int punti) {
 
@@ -180,6 +211,9 @@ public class DBClienti implements IRepositoryClienti {
         }
     }
 
+    /** questo metodo scala punti fedeltà ad un cliente
+     * @param l'id del cliente a cui scalare punti e i punti da scalare
+	 */
     @Override
     public void scalaPunti(int clienteId, int punti) {
 
@@ -200,6 +234,9 @@ public class DBClienti implements IRepositoryClienti {
         }
     }
 
+    /** questo metodo salva lo storico di una spesa in persistenza
+     * @param l'id del cliente che ha fatto la spesa, la data e l'importo pagato
+	 */
     @Override
     public void salvaStorico(int clienteId, LocalDateTime data, double totale) {
 
@@ -223,6 +260,10 @@ public class DBClienti implements IRepositoryClienti {
         }
     }
 
+    /** questo metodo fa vedere le spese fatte da un cliente
+     * @param l'id del cliente di cui si vogliono vedere le spese
+     * @return la lista delle spese fatte
+	 */
     @Override
     public List<AcquistoStorico> trovaStoricoByCliente(int clienteId) {
 
@@ -231,13 +272,13 @@ public class DBClienti implements IRepositoryClienti {
                    + "WHERE cliente_id = ? "
                    + "ORDER BY data_spesa";
 
-        List<AcquistoStorico> storico = new java.util.ArrayList<>();
+        List<AcquistoStorico> storico = new ArrayList<>();
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, clienteId);
 
-            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
 
                 while (resultSet.next()) {
 
@@ -255,6 +296,9 @@ public class DBClienti implements IRepositoryClienti {
         return storico;
     }
 
+    /** questo metodo salva una segnalazione in persistenza
+     * @param l'id del cliente segnalato e la data in cui è stato segnalato
+	 */
     @Override
     public void registraSegnalazione(int clienteId, LocalDateTime data) {
 
@@ -287,6 +331,10 @@ public class DBClienti implements IRepositoryClienti {
         }
     }
 
+    /** questo metodo fa vedere le segnalazioni di un cliente
+     * @param l'id del cliente segnalato
+     * @return la lista delle date in cui è stato segnalato
+	 */
     @Override
     public List<LocalDateTime> trovaSegnalazioniByCliente(int clienteId) {
 
@@ -295,7 +343,7 @@ public class DBClienti implements IRepositoryClienti {
                    + "WHERE cliente_id = ? "
                    + "ORDER BY data_segnalazione";
 
-        List<LocalDateTime> segnalazioni = new java.util.ArrayList<>();
+        List<LocalDateTime> segnalazioni = new ArrayList<>();
 
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -314,6 +362,10 @@ public class DBClienti implements IRepositoryClienti {
         return segnalazioni;
     }
 
+    /** questo metodo dice se un cliente è stato segnalato o no
+     * @param l'id del cliente di cui si vuole sapere se è stato segnalato
+     * @return true se è stato segnalato, altrimenti false
+	 */
     @Override
     public boolean isClienteSegnalato(int clienteId) {
 
@@ -325,7 +377,7 @@ public class DBClienti implements IRepositoryClienti {
 
             statement.setInt(1, clienteId);
 
-            try (java.sql.ResultSet resultSet = statement.executeQuery()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
                     return resultSet.getBoolean("segnalato");
@@ -339,6 +391,10 @@ public class DBClienti implements IRepositoryClienti {
         return false;
     }
 
+    /** questo metodo crea un cliente
+     * @param i parametri del cliente da creare
+     * @return il cliente creato
+	 */
     private Cliente creaClienteDaRisultato(ResultSet resultSet) throws SQLException {
 
         Cliente cliente = new Cliente(

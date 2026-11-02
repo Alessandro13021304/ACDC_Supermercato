@@ -1,3 +1,7 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.gestionedipendenti;
 
 import java.time.Clock;
@@ -61,6 +65,10 @@ public class GestorePresenze implements IPresenze {
         salvaPresenza(dipendente, turno);
     }
 
+    /**
+	 * @param
+	 * @return 
+	 */
     @Override
     public void registraIngresso(Dipendente dipendente) {
         if (dipendente != null) {
@@ -68,6 +76,10 @@ public class GestorePresenze implements IPresenze {
         }
     }
 
+    /**
+	 * @param
+	 * @return 
+	 */
     @Override
     public void registraUscita(Dipendente dipendente) {
         if (dipendente != null) {
@@ -75,6 +87,10 @@ public class GestorePresenze implements IPresenze {
         }
     }
 
+    /**
+	 * @param
+	 * @return 
+	 */
     @Override
     public double calcolaOreLavorate(Dipendente dipendente) {
         if (dipendente == null) {

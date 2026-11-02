@@ -19,8 +19,8 @@ class GestioneScorteTest {
         GestoreScorte gestoreScorte =
                 new GestoreScorte();
 
-        ScorteObserver observer =
-                mock(ScorteObserver.class);
+        IScorteObserver observer =
+                mock(IScorteObserver.class);
 
         Prodotto prodotto = new Prodotto(
                 "8001234567890",
@@ -52,8 +52,8 @@ class GestioneScorteTest {
         GestoreScorte gestoreScorte =
                 new GestoreScorte();
 
-        ScorteObserver observer =
-                mock(ScorteObserver.class);
+        IScorteObserver observer =
+                mock(IScorteObserver.class);
 
         Prodotto prodotto = new Prodotto(
                 "8001234567890",

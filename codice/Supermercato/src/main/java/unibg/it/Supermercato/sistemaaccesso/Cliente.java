@@ -1,10 +1,14 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.sistemaaccesso;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente extends Persona implements RuoloUtente {
+public class Cliente extends Persona implements IRuoloUtente {
 
     private int id;
     private int puntiFedelta;

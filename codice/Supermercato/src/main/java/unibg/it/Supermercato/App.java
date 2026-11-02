@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Dentella
+ */
+
 package unibg.it.Supermercato;
 
 import org.apache.logging.log4j.LogManager;

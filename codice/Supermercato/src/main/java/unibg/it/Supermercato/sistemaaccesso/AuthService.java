@@ -1,3 +1,7 @@
+/**
+ * @author Alessandro Frassi
+ */
+
 package unibg.it.Supermercato.sistemaaccesso;
 
 public class AuthService implements IAutenticazione {

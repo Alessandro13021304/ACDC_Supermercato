@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Tremolada
+ */
+
 package unibg.it.Supermercato.gestionemagazzino;
 
 import java.util.Objects;

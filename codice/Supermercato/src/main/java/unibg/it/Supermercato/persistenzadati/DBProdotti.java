@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Dentella
+ */
+
 package unibg.it.Supermercato.persistenzadati;
 
 import java.sql.Connection;
@@ -5,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 
 import unibg.it.Supermercato.gestionemagazzino.IRepositoryProdotti;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
@@ -21,6 +26,9 @@ public class DBProdotti implements IRepositoryProdotti {
         this.usaDatabaseTest = usaDatabaseTest;
     }
 
+    /** questo metodo si connette a DBConnection
+	 * @return l'istanza della connessione trovata
+	 */
     private Connection getConnection() throws SQLException {
         if (usaDatabaseTest) {
             return DBConnection.getInstance().getTestConnection("prodotti");
@@ -138,7 +146,7 @@ public class DBProdotti implements IRepositoryProdotti {
     @Override
     public List<Prodotto> trovaTuttiProdotti() {
 
-        List<Prodotto> prodotti = new java.util.ArrayList<>();
+        List<Prodotto> prodotti = new ArrayList<>();
 
         String sql = "SELECT codice_a_barre, nome, descrizione, prezzo, sconto, quantita_scaffale, quantita_magazzino, numero_reparto "
                    + "FROM prodotti";
