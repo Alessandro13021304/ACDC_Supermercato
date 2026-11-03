@@ -20,41 +20,21 @@ class GestionePresenzaTest {
 	@Test
 	void dipendenteRegistraIngressoEUscita() {
 
-	    IRepositoryDipendenti repositoryDipendenti =
-	            mock(IRepositoryDipendenti.class);
+	    IRepositoryDipendenti repositoryDipendenti = mock(IRepositoryDipendenti.class);
 
-	    IAutenticazione autenticazione =
-	            mock(IAutenticazione.class);
+	    IAutenticazione autenticazione = mock(IAutenticazione.class);
 
-	    GestorePresenze gestorePresenze =
-	            new GestorePresenze(
-	                    repositoryDipendenti,
-	                    autenticazione
-	            );
+	    GestorePresenze gestorePresenze = new GestorePresenze(repositoryDipendenti, autenticazione);
 
-	    Magazziniere dipendente = new Magazziniere(
-	            "Mario",
-	            "Rossi",
-	            "mario@email.it",
-	            "password",
-	            LocalDate.of(1990, 1, 1)
-	    );
+	    Magazziniere dipendente = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
 
 	    dipendente.setMatricola("M001");
 
-	    Turno turno = new Turno(
-	            LocalDate.now(),
-	            LocalTime.of(8, 0),
-	            LocalTime.of(14, 0)
-	    );
+	    Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
-	    when(autenticazione.autentica(
-	            "mario@email.it",
-	            "password"
-	    )).thenReturn(dipendente);
+	    when(autenticazione.autentica("mario@email.it", "password")).thenReturn(dipendente);
 
-	    when(repositoryDipendenti.trovaTurniByMatricola("M001"))
-	            .thenReturn(List.of(turno));
+	    when(repositoryDipendenti.trovaTurniByMatricola("M001")).thenReturn(List.of(turno));
 
 	    gestorePresenze.registraIngresso(dipendente);
 
@@ -62,15 +42,7 @@ class GestionePresenzaTest {
 	    assertFalse(turno.isCompletato());
 	    assertNotNull(turno.getOraIngresso());
 
-	    verify(repositoryDipendenti).aggiornaPresenza(
-	            eq("M001"),
-	            eq(turno.getData()),
-	            eq(turno.getOrarioInizio()),
-	            eq(turno.getOraIngresso()),
-	            eq(turno.getOraUscita()),
-	            eq(true),
-	            eq(false)
-	    );
+	    verify(repositoryDipendenti).aggiornaPresenza(eq("M001"), eq(turno.getData()), eq(turno.getOrarioInizio()), eq(turno.getOraIngresso()), eq(turno.getOraUscita()), eq(true), eq(false));
 
 	    gestorePresenze.registraUscita(dipendente);
 
@@ -78,58 +50,32 @@ class GestionePresenzaTest {
 	    assertTrue(turno.isCompletato());
 	    assertNotNull(turno.getOraUscita());
 
-	    verify(repositoryDipendenti).aggiornaPresenza(
-	            eq("M001"),
-	            eq(turno.getData()),
-	            eq(turno.getOrarioInizio()),
-	            eq(turno.getOraIngresso()),
-	            eq(turno.getOraUscita()),
-	            eq(true),
-	            eq(true)
-	    );
+	    verify(repositoryDipendenti).aggiornaPresenza(eq("M001"), eq(turno.getData()), eq(turno.getOrarioInizio()), eq(turno.getOraIngresso()), eq(turno.getOraUscita()), eq(true), eq(true));
 	}
 	
 	@Test
 	void calcolaCorrettamenteLeOreLavorate() {
 
-	    IRepositoryDipendenti repositoryDipendenti =
-	            mock(IRepositoryDipendenti.class);
+	    IRepositoryDipendenti repositoryDipendenti = mock(IRepositoryDipendenti.class);
 
-	    IAutenticazione autenticazione =
-	            mock(IAutenticazione.class);
+	    IAutenticazione autenticazione = mock(IAutenticazione.class);
 
-	    GestorePresenze gestorePresenze =
-	            new GestorePresenze(
-	                    repositoryDipendenti,
-	                    autenticazione
-	            );
+	    GestorePresenze gestorePresenze = new GestorePresenze(repositoryDipendenti, autenticazione);
 
-	    Magazziniere dipendente = new Magazziniere(
-	            "Mario",
-	            "Rossi",
-	            "mario@email.it",
-	            "password",
-	            LocalDate.of(1990, 1, 1)
-	    );
+	    Magazziniere dipendente = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
 
 	    dipendente.setMatricola("M001");
 
-	    Turno turno = new Turno(
-	            LocalDate.of(2026, 10, 10),
-	            LocalTime.of(8, 0),
-	            LocalTime.of(14, 0)
-	    );
+	    Turno turno = new Turno(LocalDate.of(2026, 10, 10), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
 	    turno.impostaOraIngresso(LocalTime.of(8, 0));
 	    turno.impostaOraUscita(LocalTime.of(14, 0));
 
-	    when(repositoryDipendenti.trovaTurniByMatricola("M001"))
-	            .thenReturn(List.of(turno));
+	    when(repositoryDipendenti.trovaTurniByMatricola("M001")).thenReturn(List.of(turno));
 
 	    dipendente.setRepositoryDipendenti(repositoryDipendenti);
 
-	    double oreLavorate =
-	            gestorePresenze.calcolaOreLavorate(dipendente);
+	    double oreLavorate = gestorePresenze.calcolaOreLavorate(dipendente);
 
 	    assertEquals(6.0, oreLavorate);
 	}
@@ -137,41 +83,21 @@ class GestionePresenzaTest {
 	@Test
 	void autenticazioneFallitaNonRegistraLaPresenza() {
 
-	    IRepositoryDipendenti repositoryDipendenti =
-	            mock(IRepositoryDipendenti.class);
+	    IRepositoryDipendenti repositoryDipendenti = mock(IRepositoryDipendenti.class);
 
-	    IAutenticazione autenticazione =
-	            mock(IAutenticazione.class);
+	    IAutenticazione autenticazione = mock(IAutenticazione.class);
 
-	    GestorePresenze gestorePresenze =
-	            new GestorePresenze(
-	                    repositoryDipendenti,
-	                    autenticazione
-	            );
+	    GestorePresenze gestorePresenze = new GestorePresenze(repositoryDipendenti, autenticazione);
 
-	    Magazziniere dipendente = new Magazziniere(
-	            "Mario",
-	            "Rossi",
-	            "mario@email.it",
-	            "password",
-	            LocalDate.of(1990, 1, 1)
-	    );
+	    Magazziniere dipendente = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
 
 	    dipendente.setMatricola("M001");
 
-	    Turno turno = new Turno(
-	            LocalDate.now(),
-	            LocalTime.of(8, 0),
-	            LocalTime.of(14, 0)
-	    );
+	    Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
-	    when(autenticazione.autentica(
-	            "mario@email.it",
-	            "password"
-	    )).thenReturn(null);
+	    when(autenticazione.autentica("mario@email.it", "password")).thenReturn(null);
 
-	    when(repositoryDipendenti.trovaTurniByMatricola("M001"))
-	            .thenReturn(List.of(turno));
+	    when(repositoryDipendenti.trovaTurniByMatricola("M001")).thenReturn(List.of(turno));
 
 	    gestorePresenze.registraIngresso(dipendente);
 

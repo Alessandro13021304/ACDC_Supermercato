@@ -31,13 +31,7 @@ class ResponsabileDiRepartoTest {
     @Test
     void elaboraOrdineDeveCreareOrdineCon100PezziPerProdotto() {
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario@supermercato.it",
-                "password",
-                LocalDate.of(1980, 1, 1)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario@supermercato.it", "password", LocalDate.of(1980, 1, 1));
 
         IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
 
@@ -45,18 +39,13 @@ class ResponsabileDiRepartoTest {
 
         Fornitore fornitore = new Fornitore("Fornitore Test");
 
-        Prodotto prodotto1 = new Prodotto(
-                "001", "Pasta", 2.00, "Pasta", 0.0, 2, 3, 1
-        );
+        Prodotto prodotto1 = new Prodotto("001", "Pasta", 2.00, "Pasta", 0.0, 2, 3, 1);
 
-        Prodotto prodotto2 = new Prodotto(
-                "002", "Latte", 1.50, "Latte", 0.0, 1, 2, 1
-        );
+        Prodotto prodotto2 = new Prodotto("002", "Latte", 1.50, "Latte", 0.0, 1, 2, 1);
 
         List<Prodotto> prodotti = List.of(prodotto1, prodotto2);
 
-        OrdineFornitore ordine =
-                responsabile.elaboraOrdine(fornitore, prodotti);
+        OrdineFornitore ordine = responsabile.elaboraOrdine(fornitore, prodotti);
 
         assertNotNull(ordine);
         assertEquals(fornitore, ordine.getFornitore());
@@ -75,71 +64,42 @@ class ResponsabileDiRepartoTest {
     void testVisualizzaProdottoDaCatalogo() {
         DBProdotti db = new DBProdotti(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 10.0, 8, 20, 1);
 
         db.salvaProdotto(prodotto);
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario.rossi@email.it", "password", LocalDate.of(1990, 1, 1));
 
         GestoreProdotti gestoreProdotti = new GestoreProdotti(db);
         responsabile.setGestoreProdotti(gestoreProdotti);
 
-        Prodotto risultato = responsabile.visualizzaProdotto("123456789");
+        Prodotto risultato = responsabile.visualizzaProdotto("123");
 
         assertNotNull(risultato);
-        assertEquals("123456789", risultato.getCodiceABarre());
+        assertEquals("123", risultato.getCodiceABarre());
         assertEquals("Pasta", risultato.getNome());
         assertEquals(1.50, risultato.getPrezzo());
     }
     
     @Test
     void testAggiungiProdotto() {
+    	
         DBProdotti db = new DBProdotti(true);
         GestoreProdotti gestoreProdotti = new GestoreProdotti(db);
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario.rossi@email.it", "password", LocalDate.of(1990, 1, 1));
 
         responsabile.setGestoreProdotti(gestoreProdotti);
 
-        Prodotto prodotto = new Prodotto(
-                "111111111",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                10.0,
-                10,
-                30,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 10.0, 10, 30, 1);
 
         responsabile.aggiungiProdotto(prodotto);
 
-        Prodotto risultato = db.trovaProdottoByCodiceABarre("111111111");
+        Prodotto risultato = db.trovaProdottoByCodiceABarre("123");
 
         assertNotNull(risultato);
-        assertEquals("111111111", risultato.getCodiceABarre());
-        assertEquals("Biscotti", risultato.getNome());
+        assertEquals("123", risultato.getCodiceABarre());
+        assertEquals("Pasta", risultato.getNome());
         assertEquals(2.50, risultato.getPrezzo());
     }
     
@@ -148,34 +108,19 @@ class ResponsabileDiRepartoTest {
         DBProdotti db = new DBProdotti(true);
         GestoreProdotti gestoreProdotti = new GestoreProdotti(db);
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario.rossi@email.it", "password", LocalDate.of(1990, 1, 1));
 
         responsabile.setGestoreProdotti(gestoreProdotti);
 
-        Prodotto prodotto = new Prodotto(
-                "222222222",
-                "Latte",
-                1.50,
-                "Latte intero",
-                0.0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 10, 20, 1);
 
         db.salvaProdotto(prodotto);
 
-        assertNotNull(db.trovaProdottoByCodiceABarre("222222222"));
+        assertNotNull(db.trovaProdottoByCodiceABarre("123"));
 
         responsabile.rimuoviProdotto(prodotto);
 
-        assertNull(db.trovaProdottoByCodiceABarre("222222222"));
+        assertNull(db.trovaProdottoByCodiceABarre("123"));
     }
     
     @Test
@@ -183,49 +128,25 @@ class ResponsabileDiRepartoTest {
         DBProdotti db = new DBProdotti(true);
         GestoreProdotti gestoreProdotti = new GestoreProdotti(db);
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario.rossi@email.it", "password", LocalDate.of(1990, 1, 1));
 
         responsabile.setGestoreProdotti(gestoreProdotti);
 
-        Prodotto prodotto = new Prodotto(
-                "333333333",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                0.0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 10, 20, 1);
 
         db.salvaProdotto(prodotto);
 
-        Prodotto prodottoModificato = new Prodotto(
-                "333333333",
-                "Pasta Integrale",
-                2.00,
-                "Pasta integrale di semola",
-                10.0,
-                15,
-                25,
-                1
-        );
+        Prodotto prodottoModificato = new Prodotto("123", "Pasta Integrale", 2.00, "Pasta integrale", 10.0, 15, 25, 1);
 
         responsabile.modificaProdotto(prodottoModificato);
 
-        Prodotto risultato = db.trovaProdottoByCodiceABarre("333333333");
+        Prodotto risultato = db.trovaProdottoByCodiceABarre("123");
 
         assertNotNull(risultato);
-        assertEquals("333333333", risultato.getCodiceABarre());
+        assertEquals("123", risultato.getCodiceABarre());
         assertEquals("Pasta Integrale", risultato.getNome());
         assertEquals(2.00, risultato.getPrezzo());
-        assertEquals("Pasta integrale di semola", risultato.getDescrizione());
+        assertEquals("Pasta integrale", risultato.getDescrizione());
         assertEquals(10.0, risultato.getSconto());
         assertEquals(15, risultato.getQuantitaScaffale());
         assertEquals(25, risultato.getQuantitaMagazzino());
@@ -233,24 +154,10 @@ class ResponsabileDiRepartoTest {
     
     @Test
     void testSegnalaScorteInsufficientiScaffale() {
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                3,   
-                20,
-                1
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario.rossi@email.it", "password", LocalDate.of(1990, 1, 1));
+
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 10.0, 3, 20, 1);
 
         assertTrue(responsabile.segnalaScorteInsufficientiScaffale(prodotto));
 
@@ -264,13 +171,7 @@ class ResponsabileDiRepartoTest {
     @Test
     void aggiornaConMagazzinoInsufficienteElaboraOrdine() {
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Mario",
-                "Rossi",
-                "mario@supermercato.it",
-                "password",
-                LocalDate.of(1980, 1, 1)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Mario", "Rossi", "mario.rossi@email.it", "password", LocalDate.of(1990, 1, 1));
 
         responsabile.setNumeroReparto(1);
 
@@ -283,16 +184,7 @@ class ResponsabileDiRepartoTest {
         GestoreScorte gestore = new GestoreScorte();
         responsabile.setGestoreScorte(gestore);
 
-        Prodotto prodotto = new Prodotto(
-                "001",
-                "Pasta",
-                2.00,
-                "Pasta",
-                0.0,
-                3,
-                0,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.00, "Pasta", 0.0, 3, 0, 1);
 
         responsabile.aggiorna(prodotto, ETipoScorta.MAGAZZINO);
 

@@ -22,8 +22,7 @@ class DBOrdiniStatoTest {
         repositoryProdotti = new DBProdotti(true);
         repositoryOrdini = new DBOrdini(true);
 
-        prodotto = new Prodotto(
-                "123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
+        prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         repositoryProdotti.salvaProdotto(prodotto);
     }

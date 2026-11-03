@@ -32,15 +32,7 @@ class GestoreTurniTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Dipendente cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.gestoreturni@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Dipendente cassiere = new Cassiere("Mario", "Rossi", "mario.gestoreturni@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C012");
 
@@ -50,11 +42,7 @@ class GestoreTurniTest {
 
         GestoreTurni gestoreTurni = new GestoreTurni(repository);
 
-        Turno turno = new Turno(
-                LocalDate.of(2026, 10, 6),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0)
-        );
+        Turno turno = new Turno(LocalDate.of(2026, 10, 6), LocalTime.of(8, 0), LocalTime.of(16, 0));
 
         gestoreTurni.assegnaTurno(cassiere, turno);
 

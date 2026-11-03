@@ -32,15 +32,11 @@ class GestorePresenzeCredenzialiTest {
     private Clock orologio(int ora, int minuti) {
         ZoneId zona = ZoneId.systemDefault();
 
-        return Clock.fixed(
-                LocalDateTime.of(OGGI, LocalTime.of(ora, minuti)).atZone(zona).toInstant(),
-                zona
-        );
+        return Clock.fixed(LocalDateTime.of(OGGI, LocalTime.of(ora, minuti)).atZone(zona).toInstant(), zona);
     }
 
     private void verificaNessunaPresenzaSalvata() {
-        verify(repository, never()).aggiornaPresenza(
-                any(), any(), any(), any(), any(), anyBoolean(), anyBoolean());
+        verify(repository, never()).aggiornaPresenza(any(), any(), any(), any(), any(), anyBoolean(), anyBoolean());
     }
 
     @BeforeEach
@@ -48,12 +44,10 @@ class GestorePresenzeCredenzialiTest {
         repository = mock(IRepositoryDipendenti.class);
         autenticazione = mock(IAutenticazione.class);
 
-        dipendente = new Magazziniere(
-                "Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
+        dipendente = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
         dipendente.setMatricola("M001");
 
-        altroDipendente = new Magazziniere(
-                "Anna", "Verdi", "anna@email.it", "password2", LocalDate.of(1992, 2, 2));
+        altroDipendente = new Magazziniere("Anna", "Verdi", "anna@email.it", "password2", LocalDate.of(1992, 2, 2));
         altroDipendente.setMatricola("M002");
 
         turno = new Turno(OGGI, LocalTime.of(8, 0), LocalTime.of(16, 0));
@@ -124,4 +118,3 @@ class GestorePresenzeCredenzialiTest {
         verificaNessunaPresenzaSalvata();
     }
 }
-

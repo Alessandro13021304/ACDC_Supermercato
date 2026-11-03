@@ -23,16 +23,7 @@ public class GestoreProdottiTest {
     @Test
     void testAggiungiProdotto() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
@@ -45,16 +36,7 @@ public class GestoreProdottiTest {
     @Test
     void testRimuoviProdotto() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
@@ -68,29 +50,11 @@ public class GestoreProdottiTest {
     @Test
     void testModificaProdotto() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
-        Prodotto prodottoModificato = new Prodotto(
-                "123456789",
-                "Pasta Integrale",
-                2.00,
-                "Pasta integrale di semola",
-                20.0,
-                12,
-                25,
-                1
-        );
+        Prodotto prodottoModificato = new Prodotto("123456789", "Pasta Integrale", 2.00, "Pasta integrale di semola", 20.0, 12, 25, 1);
 
         gestoreProdotti.modificaProdotto(prodottoModificato);
 
@@ -108,16 +72,7 @@ public class GestoreProdottiTest {
     @Test
     void testCercaProdotto() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
@@ -136,27 +91,9 @@ public class GestoreProdottiTest {
     @Test
     void testVisualizzaProdotti() {
 
-        Prodotto prodotto1 = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto1 = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
-        Prodotto prodotto2 = new Prodotto(
-                "987654321",
-                "Latte",
-                1.20,
-                "Latte intero",
-                0.0,
-                15,
-                30,
-                1
-        );
+        Prodotto prodotto2 = new Prodotto("987654321", "Latte", 1.20, "Latte intero", 0.0, 15, 30, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto1);
         gestoreProdotti.aggiungiProdotto(prodotto2);

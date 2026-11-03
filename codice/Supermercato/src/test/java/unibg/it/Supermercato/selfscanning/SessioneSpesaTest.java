@@ -37,24 +37,9 @@ class SessioneSpesaTest {
     @Test
     void scansionaProdottoAggiungeElementoAlCarrello() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -66,24 +51,9 @@ class SessioneSpesaTest {
     @Test
     void scansionaDueVolteLoStessoProdottoIncrementaLaQuantita() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+    	Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -96,24 +66,9 @@ class SessioneSpesaTest {
     @Test
     void scansionaDueVolteLoStessoProdottoMantieneUnSoloElemento() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -131,24 +86,9 @@ class SessioneSpesaTest {
     @Test
     void rimuoviProdottoDiminuisceLaQuantita() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -163,24 +103,9 @@ class SessioneSpesaTest {
     @Test
     void rimuoviProdottoMantieneLoStessoElementoConQuantitaRidotta() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -200,24 +125,9 @@ class SessioneSpesaTest {
     @Test
     void rimuoviUltimaUnitaEliminaElementoDalCarrello() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -231,24 +141,9 @@ class SessioneSpesaTest {
     @Test
     void dopoTerminaSpesaNonPermetteNuoveScansioni() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -262,24 +157,10 @@ class SessioneSpesaTest {
 
     @Test
     void scansionaProdottoApplicaLoSconto() {
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                10.0,
-                "Pasta di semola",
-                20.0,
-                10,
-                20,
-                1
-        );
+    	
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 10.0, "Biscotti al cioccolato", 20.0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -291,24 +172,9 @@ class SessioneSpesaTest {
     @Test
     void effettuaPagamentoValidoCompletaLaSessione() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione) {
             @Override
@@ -319,22 +185,12 @@ class SessioneSpesaTest {
 
         Totem totem = new Totem(1, new PaymentGateway());
 
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Bianchi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                null,
-                new ControlloSpesa()
-        );
+        Cassiere cassiere = new Cassiere("Luigi", "Bianchi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), null, new ControlloSpesa());
 
         totem.setCassiere(cassiere);
 
         CarrelloFisico carrelloFisico = new CarrelloFisico();
-        carrelloFisico.aggiungiElemento(
-                new ElementoCarrello(prodotto, 1, 2.50)
-        );
+        carrelloFisico.aggiungiElemento(new ElementoCarrello(prodotto, 1, 2.50));
 
         totem.setCarrelloFisico(carrelloFisico);
 
@@ -350,24 +206,9 @@ class SessioneSpesaTest {
     @Test
     void effettuaPagamentoPrimaDiTerminareLaSpesaFallisce() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -379,24 +220,9 @@ class SessioneSpesaTest {
     @Test
     void effettuaPagamentoConModalitaNullFallisce() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -409,24 +235,9 @@ class SessioneSpesaTest {
     @Test
     void generaRicevutaDopoPagamentoCompletato() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                2.50,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 2.50, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione) {
             @Override
@@ -456,13 +267,7 @@ class SessioneSpesaTest {
     @Test
     void generaRicevutaPrimaDelPagamentoRestituisceStringaVuota() {
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -472,24 +277,9 @@ class SessioneSpesaTest {
     @Test
     void pagamentoRiuscitoAccumulaIPunti() throws Exception {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                10.0,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 10.0, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         DBConnection.getInstance().resetTestDatabase("clienti");
 
@@ -498,8 +288,8 @@ class SessioneSpesaTest {
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO clienti "
-                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                   + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             statement.setInt(1, 1);
             statement.setString(2, "Mario");
@@ -526,15 +316,8 @@ class SessioneSpesaTest {
 
         Totem totem = new Totem(1, new PaymentGateway());
 
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Bianchi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                dbClienti,
-                new ControlloSpesa()
-        );
+        Cassiere cassiere = new Cassiere("Luigi", "Bianchi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), dbClienti, new ControlloSpesa());
+
 
         totem.setCassiere(cassiere);
 
@@ -560,24 +343,9 @@ class SessioneSpesaTest {
     @Test
     void usaPremioFedeltaApplicaLoScontoSenzaScalareSubitoIPunti() throws Exception {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                20.0,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 20.0, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         cliente.setPuntiFedelta(200);
 
@@ -588,8 +356,8 @@ class SessioneSpesaTest {
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO clienti "
-                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                   + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             statement.setInt(1, 1);
             statement.setString(2, "Mario");
@@ -617,31 +385,15 @@ class SessioneSpesaTest {
 
         assertEquals(18.0, sessione.getTotaleDaPagare(), 0.001);
 
-        // I punti vengono scalati solo al completamento dell'acquisto
         assertEquals(200, repository.trovaPuntiByCliente(cliente.getId()));
     }
 
     @Test
     void usaPremioFedeltaConMenoDi100PuntiNonApplicaLoSconto() throws Exception {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                20.0,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 20.0, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         cliente.setPuntiFedelta(99);
 
@@ -652,8 +404,8 @@ class SessioneSpesaTest {
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO clienti "
-                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                   + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             statement.setInt(1, 1);
             statement.setString(2, "Mario");
@@ -686,24 +438,9 @@ class SessioneSpesaTest {
     @Test
     void pagamentoConPremioFedeltaAccumulaIPuntiSulTotaleScontato() throws Exception {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                20.0,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 20.0, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         cliente.setPuntiFedelta(200);
 
@@ -714,8 +451,8 @@ class SessioneSpesaTest {
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO clienti "
-                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                   + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             statement.setInt(1, 1);
             statement.setString(2, "Mario");
@@ -763,24 +500,9 @@ class SessioneSpesaTest {
     @Test
     void usaPremioFedeltaNonPuoEssereApplicatoDueVolte() throws Exception {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Biscotti",
-                20.0,
-                "Biscotti al cioccolato",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Biscotti", 20.0, "Biscotti al cioccolato", 0.0, 20, 100, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         cliente.setPuntiFedelta(200);
 
@@ -791,8 +513,8 @@ class SessioneSpesaTest {
         try (Connection connection = DBConnection.getInstance().getTestConnection("clienti");
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO clienti "
-                             + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
-                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                   + "(id, nome, cognome, email, password, data_nascita, punti_fedelta, segnalato) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             statement.setInt(1, 1);
             statement.setString(2, "Mario");
@@ -828,13 +550,7 @@ class SessioneSpesaTest {
     @Test
     void segnalaCambiaStato() {
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 

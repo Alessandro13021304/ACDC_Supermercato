@@ -31,8 +31,7 @@ class GestoreTurniValidazioneTest {
         repository = mock(IRepositoryDipendenti.class);
         gestoreTurni = new GestoreTurni(repository);
 
-        dipendente = new Magazziniere(
-                "Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
+        dipendente = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
         dipendente.setMatricola("M001");
 
         when(repository.trovaTurniByMatricola("M001")).thenReturn(new ArrayList<>());
@@ -90,8 +89,7 @@ class GestoreTurniValidazioneTest {
 
     @Test
     void ilManagerRestituisceLEsitoDelGestoreTurni() {
-        Manager manager = new Manager(
-                "Luca", "Bianchi", "luca@test.it", "password", LocalDate.of(1985, 3, 10), repository);
+        Manager manager = new Manager("Luca", "Bianchi", "luca@test.it", "password", LocalDate.of(1985, 3, 10), repository);
         manager.setGestoreTurni(gestoreTurni);
 
         assertTrue(manager.assegnaTurno(dipendente, turno(8, 16)));
@@ -103,8 +101,7 @@ class GestoreTurniValidazioneTest {
 
     @Test
     void unManagerSenzaGestoreTurniNonAssegnaNessunTurno() {
-        Manager manager = new Manager(
-                "Luca", "Bianchi", "luca@test.it", "password", LocalDate.of(1985, 3, 10), repository);
+        Manager manager = new Manager("Luca", "Bianchi", "luca@test.it", "password", LocalDate.of(1985, 3, 10), repository);
 
         assertFalse(manager.assegnaTurno(dipendente, turno(8, 16)));
 

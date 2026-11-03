@@ -18,94 +18,48 @@ class AutenticazioneDipendenteTest {
     @Test
     void autenticaDipendenteConCredenzialiCorrette() {
 
-        IRepositoryClienti repositoryClienti =
-                mock(IRepositoryClienti.class);
+        IRepositoryClienti repositoryClienti = mock(IRepositoryClienti.class);
 
-        IRepositoryDipendenti repositoryDipendenti =
-                mock(IRepositoryDipendenti.class);
+        IRepositoryDipendenti repositoryDipendenti = mock(IRepositoryDipendenti.class);
 
-        AuthService authService = new AuthService(
-                repositoryClienti,
-                repositoryDipendenti
-        );
+        AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Magazziniere dipendente = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password123",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere dipendente = new Magazziniere("Mario", "Rossi", "mario.rossi@email.it", "password123", LocalDate.of(1990, 1, 1));
 
-        when(repositoryClienti.verificaCredenziali(
-                "mario.rossi@email.it",
-                "password123"
-        )).thenReturn(null);
+        when(repositoryClienti.verificaCredenziali("mario.rossi@email.it", "password123")).thenReturn(null);
 
-        when(repositoryDipendenti.verificaCredenziali(
-                "mario.rossi@email.it",
-                "password123"
-        )).thenReturn(dipendente);
+        when(repositoryDipendenti.verificaCredenziali("mario.rossi@email.it", "password123")).thenReturn(dipendente);
 
-        Persona risultato = authService.autentica(
-                "mario.rossi@email.it",
-                "password123"
-        );
+        Persona risultato = authService.autentica("mario.rossi@email.it", "password123");
 
         assertNotNull(risultato);
         assertTrue(risultato instanceof Magazziniere);
         assertEquals("Mario", risultato.getNome());
         assertEquals("Rossi", risultato.getCognome());
 
-        verify(repositoryDipendenti).verificaCredenziali(
-                "mario.rossi@email.it",
-                "password123"
-        );
+        verify(repositoryDipendenti).verificaCredenziali("mario.rossi@email.it", "password123");
     }
 
     @Test
     void rifiutaAutenticazioneConPasswordErrata() {
 
-        IRepositoryClienti repositoryClienti =
-                mock(IRepositoryClienti.class);
+        IRepositoryClienti repositoryClienti = mock(IRepositoryClienti.class);
 
-        IRepositoryDipendenti repositoryDipendenti =
-                mock(IRepositoryDipendenti.class);
+        IRepositoryDipendenti repositoryDipendenti = mock(IRepositoryDipendenti.class);
 
-        AuthService authService = new AuthService(
-                repositoryClienti,
-                repositoryDipendenti
-        );
+        AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Magazziniere dipendente = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password123",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere dipendente = new Magazziniere("Mario", "Rossi", "mario.rossi@email.it", "password123", LocalDate.of(1990, 1, 1));
 
-        when(repositoryClienti.verificaCredenziali(
-                "mario.rossi@email.it",
-                "passwordErrata"
-        )).thenReturn(null);
+        when(repositoryClienti.verificaCredenziali("mario.rossi@email.it", "passwordErrata")).thenReturn(null);
 
-        when(repositoryDipendenti.verificaCredenziali(
-                "mario.rossi@email.it",
-                "passwordErrata"
-        )).thenReturn(null);
+        when(repositoryDipendenti.verificaCredenziali("mario.rossi@email.it", "passwordErrata")).thenReturn(null);
 
-        Persona risultato = authService.autentica(
-                "mario.rossi@email.it",
-                "passwordErrata"
-        );
+        Persona risultato = authService.autentica("mario.rossi@email.it", "passwordErrata");
 
         assertNull(risultato);
 
-        verify(repositoryDipendenti).verificaCredenziali(
-                "mario.rossi@email.it",
-                "passwordErrata"
-        );
+        verify(repositoryDipendenti).verificaCredenziali("mario.rossi@email.it", "passwordErrata");
     }
 }
 

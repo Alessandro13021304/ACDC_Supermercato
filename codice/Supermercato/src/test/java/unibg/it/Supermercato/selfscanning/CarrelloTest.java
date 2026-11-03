@@ -10,22 +10,9 @@ class CarrelloTest {
 
     @Test
     void calcolaTotaleConUnElemento() {
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 100, 1);
 
-        ElementoCarrello elemento = new ElementoCarrello(
-                prodotto,
-                3,
-                2.50
-        );
+        ElementoCarrello elemento = new ElementoCarrello(prodotto, 3, 2.50);
 
         Carrello carrello = new Carrello();
         carrello.aggiungiElemento(elemento);
@@ -35,39 +22,13 @@ class CarrelloTest {
 
     @Test
     void calcolaTotaleConPiuElementi() {
-        Prodotto pasta = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+    	Prodotto pasta = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 100, 1);
 
-        Prodotto latte = new Prodotto(
-                "654321",
-                "Latte",
-                1.50,
-                "Latte intero",
-                0.0,
-                15,
-                50,
-                1
-        );
+        Prodotto latte = new Prodotto("654321", "Latte", 1.50, "Latte intero", 0.0, 15, 50, 1);
 
-        ElementoCarrello elementoPasta = new ElementoCarrello(
-                pasta,
-                3,
-                2.50
-        );
+        ElementoCarrello elementoPasta = new ElementoCarrello(pasta, 3, 2.50);
 
-        ElementoCarrello elementoLatte = new ElementoCarrello(
-                latte,
-                2,
-                1.50
-        );
+        ElementoCarrello elementoLatte = new ElementoCarrello(latte, 2, 1.50);
 
         Carrello carrello = new Carrello();
 
@@ -79,22 +40,9 @@ class CarrelloTest {
 
     @Test
     void rimuoveElementoCorrettamente() {
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 100, 1);
 
-        ElementoCarrello elemento = new ElementoCarrello(
-                prodotto,
-                3,
-                2.50
-        );
+        ElementoCarrello elemento = new ElementoCarrello(prodotto, 3, 2.50);
 
         Carrello carrello = new Carrello();
 

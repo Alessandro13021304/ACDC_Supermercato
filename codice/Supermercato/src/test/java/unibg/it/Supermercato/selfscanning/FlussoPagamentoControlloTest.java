@@ -31,24 +31,9 @@ class FlussoPagamentoControlloTest {
     void preparaDati() {
         autenticazione = mock(IAutenticazione.class);
 
-        cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
-        prodotto = new Prodotto(
-                "001",
-                "Pasta",
-                20.0,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+        prodotto = new Prodotto("001", "Pasta", 20.0, "Pasta di semola", 0.0, 20, 100, 1);
 
         pagamento = mock(IPagamento.class);
         when(pagamento.paga(anyDouble())).thenReturn(true);
@@ -59,15 +44,7 @@ class FlussoPagamentoControlloTest {
     }
 
     private void collegaCassiere() {
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Bianchi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repositoryClienti,
-                new ControlloSpesa()
-        );
+        Cassiere cassiere = new Cassiere("Luigi", "Bianchi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), repositoryClienti, new ControlloSpesa());
 
         totem.setCassiere(cassiere);
         totem.setCarrelloFisico(carrelloFisico);
@@ -103,8 +80,7 @@ class FlussoPagamentoControlloTest {
         assertTrue(sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO));
         assertEquals(EStatoSessione.CONTROLLO, sessione.getStato());
 
-        verify(repositoryClienti, never())
-                .registraSegnalazione(anyInt(), any(LocalDateTime.class));
+        verify(repositoryClienti, never()).registraSegnalazione(anyInt(), any(LocalDateTime.class));
 
         carrelloFisico.aggiungiElemento(new ElementoCarrello(prodotto, 1, 20.0));
 
@@ -120,16 +96,14 @@ class FlussoPagamentoControlloTest {
         assertTrue(sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO));
         assertEquals(EStatoSessione.CONTROLLO, sessione.getStato());
 
-        verify(repositoryClienti, never())
-                .registraSegnalazione(anyInt(), any(LocalDateTime.class));
+        verify(repositoryClienti, never()).registraSegnalazione(anyInt(), any(LocalDateTime.class));
 
         carrelloFisico.aggiungiElemento(new ElementoCarrello(prodotto, 2, 20.0));
 
         assertFalse(totem.effettuaControlloSpesa(sessione));
         assertEquals(EStatoSessione.SEGNALATA, sessione.getStato());
 
-        verify(repositoryClienti)
-                .registraSegnalazione(eq(cliente.getId()), any(LocalDateTime.class));
+        verify(repositoryClienti).registraSegnalazione(eq(cliente.getId()), any(LocalDateTime.class));
     }
 
     @Test

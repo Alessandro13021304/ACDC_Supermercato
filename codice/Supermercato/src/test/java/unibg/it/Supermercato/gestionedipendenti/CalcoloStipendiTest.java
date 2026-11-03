@@ -16,13 +16,7 @@ class CalcoloStipendiTest {
     @Test
     void calcolaStipendioConDipendenteValido() {
 
-        Dipendente dipendente = new Magazziniere(
-                "Anna",
-                "Verdi",
-                "anna.verdi@test.it",
-                "password",
-                LocalDate.of(1990, 7, 20)
-        );
+        Dipendente dipendente = new Magazziniere("Anna", "Verdi", "anna.verdi@test.it", "password", LocalDate.of(1990, 7, 20));
 
         CalcoloStipendi calcoloStipendi = new CalcoloStipendi();
 
@@ -44,18 +38,11 @@ class CalcoloStipendiTest {
     @Test
     void calcolaStipendioMensileConDipendenteValido() {
 
-        Dipendente dipendente = new Magazziniere(
-                "Anna",
-                "Verdi",
-                "anna.mensile@test.it",
-                "password",
-                LocalDate.of(1990, 7, 20)
-        );
+        Dipendente dipendente = new Magazziniere("Anna", "Verdi", "anna.mensile@test.it", "password", LocalDate.of(1990, 7, 20));
 
         CalcoloStipendi calcoloStipendi = new CalcoloStipendi();
 
-        Stipendio risultato =
-                calcoloStipendi.calcolaStipendioMensile(dipendente, 2026, 10);
+        Stipendio risultato = calcoloStipendi.calcolaStipendioMensile(dipendente, 2026, 10);
 
         assertNotNull(risultato);
     }
@@ -65,8 +52,7 @@ class CalcoloStipendiTest {
 
         CalcoloStipendi calcoloStipendi = new CalcoloStipendi();
 
-        Stipendio risultato =
-                calcoloStipendi.calcolaStipendioMensile(null, 2026, 10);
+        Stipendio risultato = calcoloStipendi.calcolaStipendioMensile(null, 2026, 10);
 
         assertNull(risultato);
     }

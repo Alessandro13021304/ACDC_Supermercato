@@ -22,16 +22,7 @@ class DBOrdiniTest {
         DBProdotti repositoryProdotti = new DBProdotti(true);
         DBOrdini repositoryOrdini = new DBOrdini(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         repositoryProdotti.salvaProdotto(prodotto);
 
@@ -49,16 +40,7 @@ class DBOrdiniTest {
         DBProdotti repositoryProdotti = new DBProdotti(true);
         DBOrdini repositoryOrdini = new DBOrdini(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         repositoryProdotti.salvaProdotto(prodotto);
 

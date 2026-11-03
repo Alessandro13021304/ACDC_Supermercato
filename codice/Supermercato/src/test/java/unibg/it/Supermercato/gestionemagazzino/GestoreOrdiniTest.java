@@ -35,16 +35,7 @@ public class GestoreOrdiniTest {
     	GestoreOrdini gestore = new GestoreOrdini(new DBOrdini(true));
 
         Fornitore fornitore = new Fornitore("Fornitore Test");
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                0.0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 0.0, 10, 20, 1);
 
         OrdineFornitore ordine = gestore.creaOrdine(fornitore);
 
@@ -53,8 +44,7 @@ public class GestoreOrdiniTest {
         assertNotNull(ordine.getRighe());
         assertEquals(1, ordine.getRighe().size());
         assertEquals(10, ordine.getRighe().get(0).getQuantita());
-        assertEquals("123456789",
-                ordine.getRighe().get(0).getProdotto().getCodiceABarre());
+        assertEquals("123456789", ordine.getRighe().get(0).getProdotto().getCodiceABarre());
         assertEquals(15.0, ordine.getTotale());
     }
     
@@ -72,9 +62,6 @@ public class GestoreOrdiniTest {
         assertNotNull(ordini);
         assertFalse(ordini.isEmpty());
         assertEquals(1, ordini.size());
-        assertEquals(
-                "Fornitore Test",
-                ordini.get(0).getFornitore().getNome()
-        );
+        assertEquals("Fornitore Test", ordini.get(0).getFornitore().getNome());
     }
 }

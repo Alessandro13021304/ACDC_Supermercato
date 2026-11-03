@@ -23,16 +23,7 @@ public class OrdineFornitoreTest {
     void aggiungiProdottoInserisceProdottoNellOrdine() {
         Fornitore fornitore = new Fornitore("Fornitore Test");
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 10, 20, 1);
 
         OrdineFornitore ordine = new OrdineFornitore(fornitore);
 
@@ -47,27 +38,9 @@ public class OrdineFornitoreTest {
     void aggiungiProdottoAggiornaIlTotale() {
         Fornitore fornitore = new Fornitore("Fornitore Test");
 
-        Prodotto prodotto1 = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto1 = new Prodotto("123", "Pasta", 2.50, "Pasta", 0.0, 10, 20, 1);
 
-        Prodotto prodotto2 = new Prodotto(
-                "456",
-                "Latte",
-                1.50,
-                "Latte",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto2 = new Prodotto("1234", "Latte", 1.50, "Latte", 0.0, 3, 10, 1);
 
         OrdineFornitore ordine = new OrdineFornitore(fornitore);
 

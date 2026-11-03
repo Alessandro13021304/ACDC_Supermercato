@@ -22,24 +22,9 @@ public class CassiereTest {
     @Test
     void controlloCarrelliCorrispondenti() {
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -58,15 +43,7 @@ public class CassiereTest {
         
         when(controlloSpesa.verificaCorrispondenza(sessione, carrelloFisico)).thenReturn(true);
 
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Verdi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                mock(IRepositoryClienti.class),
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Luigi", "Verdi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), mock(IRepositoryClienti.class), controlloSpesa);
 
         assertTrue(cassiere.effettuaControllo(sessione, carrelloFisico));
     }
@@ -74,24 +51,9 @@ public class CassiereTest {
     @Test
     void controlloCarrelliNonCorrispondenti() {
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -107,15 +69,7 @@ public class CassiereTest {
 
         carrelloFisico.aggiungiElemento(elementoFisico);
 
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Verdi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                mock(IRepositoryClienti.class),
-                mock(IControlloSpesa.class)
-        );
+        Cassiere cassiere = new Cassiere("Luigi", "Verdi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), mock(IRepositoryClienti.class), mock(IControlloSpesa.class));
 
         assertFalse(cassiere.effettuaControllo(sessione, carrelloFisico));
     }
@@ -123,24 +77,9 @@ public class CassiereTest {
     @Test
     void controlloNonCorrispondenteSegnalaSessione() {
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -155,16 +94,8 @@ public class CassiereTest {
         ElementoCarrello elementoFisico = new ElementoCarrello(prodotto, 1, 2.50);
 
         carrelloFisico.aggiungiElemento(elementoFisico);
-
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Verdi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                mock(IRepositoryClienti.class),
-                mock(IControlloSpesa.class)
-        );
+        
+        Cassiere cassiere = new Cassiere("Luigi", "Verdi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), mock(IRepositoryClienti.class), mock(IControlloSpesa.class));
 
         boolean risultato = cassiere.effettuaControllo(sessione, carrelloFisico);
 
@@ -174,26 +105,12 @@ public class CassiereTest {
     
     @Test
     void controlloFallitoSegnalaCliente() {
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+    	
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Prodotto",
-                10.0,
-                "Descrizione",
-                0.0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 10.0, "Pasta", 0, 10, 20, 1);
 
         sessione.scansionaProdotto(prodotto);
         
@@ -206,15 +123,7 @@ public class CassiereTest {
 
         IRepositoryClienti repositoryClienti = mock(IRepositoryClienti.class);
 
-        Cassiere cassiere = new Cassiere(
-                "Luigi",
-                "Verdi",
-                "luigi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repositoryClienti,
-                mock(IControlloSpesa.class)
-        );
+        Cassiere cassiere = new Cassiere("Luigi", "Verdi", "luigi@email.it", "password", LocalDate.of(1990, 1, 1), repositoryClienti, mock(IControlloSpesa.class));
 
         cassiere.effettuaControllo(sessione, carrelloFisico);
 

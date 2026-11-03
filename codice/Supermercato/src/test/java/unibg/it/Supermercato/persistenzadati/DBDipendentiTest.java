@@ -28,15 +28,7 @@ class DBDipendentiTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.rossi4@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario.rossi4@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C004");
 
@@ -52,15 +44,7 @@ class DBDipendentiTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.login@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario.login@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C007");
 
@@ -84,15 +68,7 @@ class DBDipendentiTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.login2@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario.rossi8@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C008");
 
@@ -121,15 +97,7 @@ class DBDipendentiTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.rossi6@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario.rossi6@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C006");
 
@@ -150,32 +118,13 @@ class DBDipendentiTest {
 
         DBDipendenti repository = new DBDipendenti(true);
 
-        Manager manager = new Manager(
-                "Luca",
-                "Bianchi",
-                "luca.bianchi@test.it",
-                "password",
-                LocalDate.of(1985, 3, 15),
-                repository
-        );
+        Manager manager = new Manager("Luca", "Bianchi", "luca.bianchi@test.it", "password", LocalDate.of(1985, 3, 15), repository);
         manager.setMatricola("M001");
 
-        Magazziniere magazziniere = new Magazziniere(
-                "Anna",
-                "Verdi",
-                "anna.verdi@test.it",
-                "password",
-                LocalDate.of(1990, 7, 20)
-        );
+        Magazziniere magazziniere = new Magazziniere("Anna", "Verdi", "anna.verdi@test.it", "password", LocalDate.of(1990, 7, 20));
         magazziniere.setMatricola("MAG001");
 
-        ResponsabileDiReparto responsabile = new ResponsabileDiReparto(
-                "Paolo",
-                "Neri",
-                "paolo.neri@test.it",
-                "password",
-                LocalDate.of(1988, 11, 5)
-        );
+        ResponsabileDiReparto responsabile = new ResponsabileDiReparto("Paolo", "Neri", "paolo.neri@test.it", "password", LocalDate.of(1988, 11, 5));
         responsabile.setMatricola("R001");
 
         repository.salvaDipendente(manager);
@@ -200,15 +149,7 @@ class DBDipendentiTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.turno@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario.rossi10@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C010");
 
@@ -216,11 +157,7 @@ class DBDipendentiTest {
 
         repository.salvaDipendente(cassiere);
 
-        Turno turno = new Turno(
-                LocalDate.of(2026, 10, 5),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0)
-        );
+        Turno turno = new Turno(LocalDate.of(2026, 10, 5), LocalTime.of(8, 0), LocalTime.of(16, 0));
 
         assertDoesNotThrow(() -> repository.salvaTurno("C010", turno));
     }
@@ -232,15 +169,7 @@ class DBDipendentiTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.turni@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario.rossi11@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C011");
 
@@ -248,11 +177,7 @@ class DBDipendentiTest {
 
         repository.salvaDipendente(cassiere);
 
-        Turno turno = new Turno(
-                LocalDate.of(2026, 10, 5),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0)
-        );
+        Turno turno = new Turno(LocalDate.of(2026, 10, 5), LocalTime.of(8, 0), LocalTime.of(16, 0));
 
         repository.salvaTurno("C011", turno);
 

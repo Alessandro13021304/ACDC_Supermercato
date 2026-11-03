@@ -26,13 +26,7 @@ class DBClientiTest {
     @Test
     void testSalvaCliente() throws Exception {
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         DBClienti repository = new DBClienti(true);
 
@@ -63,13 +57,7 @@ class DBClientiTest {
 
         DBClienti repository = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         repository.salvaCliente(cliente);
 
@@ -91,13 +79,7 @@ class DBClientiTest {
 
         DBClienti repository = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         repository.salvaCliente(cliente);
 
@@ -111,13 +93,7 @@ class DBClientiTest {
 
         DBClienti repository = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         repository.salvaCliente(cliente);
 
@@ -138,29 +114,10 @@ class DBClientiTest {
 
         DBClienti repository = new DBClienti(true);
 
-        Cliente cliente1 = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@test.it",
-                "password1",
-                LocalDate.of(1995, 5, 10)
-        );
+        Cliente cliente1 = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
+        Cliente cliente2 = new Cliente("Anna", "Bianchi", "anna.bianchi@test.it", "password2", LocalDate.of(1998, 8, 20));
 
-        Cliente cliente2 = new Cliente(
-                "Anna",
-                "Bianchi",
-                "anna.bianchi@test.it",
-                "password2",
-                LocalDate.of(1998, 8, 20)
-        );
-
-        Cliente cliente3 = new Cliente(
-                "Luca",
-                "Verdi",
-                "luca.verdi@test.it",
-                "password3",
-                LocalDate.of(1992, 3, 15)
-        );
+        Cliente cliente3 = new Cliente("Luca", "Verdi", "luca.verdi@test.it", "password3", LocalDate.of(1992, 3, 15));
 
         repository.salvaCliente(cliente1);
         repository.salvaCliente(cliente2);
@@ -319,13 +276,7 @@ class DBClientiTest {
 
         DBClienti dbClienti = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         dbClienti.salvaCliente(cliente);
 
@@ -356,13 +307,7 @@ class DBClientiTest {
 
         DBClienti dbClienti = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         dbClienti.salvaCliente(cliente);
 
@@ -397,13 +342,7 @@ class DBClientiTest {
 
         DBClienti dbClienti = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         dbClienti.salvaCliente(cliente);
 
@@ -430,13 +369,7 @@ class DBClientiTest {
 
         DBClienti dbClienti = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         dbClienti.salvaCliente(cliente);
 
@@ -458,13 +391,7 @@ class DBClientiTest {
 
         DBClienti dbClienti = new DBClienti(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario.rossi@test.it", "password", LocalDate.of(1995, 5, 10));
 
         dbClienti.salvaCliente(cliente);
 

@@ -14,11 +14,7 @@ public class PresenzaTest {
 
     @Test
     void calcolaSeiOreLavorate() {
-        Turno turno = new Turno(
-                LocalDate.now(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         turno.impostaOraIngresso(LocalTime.of(8, 0));
         turno.impostaOraUscita(LocalTime.of(14, 0));
@@ -30,11 +26,7 @@ public class PresenzaTest {
 
     @Test
     void restituisceZeroSeTurnoNonCompletato() {
-        Turno turno = new Turno(
-                LocalDate.now(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         turno.impostaOraIngresso(LocalTime.of(8, 0));
 
@@ -50,4 +42,3 @@ public class PresenzaTest {
         assertEquals(0.0, presenza.calcolaOreLavorate(), 0.01);
     }
 }
-

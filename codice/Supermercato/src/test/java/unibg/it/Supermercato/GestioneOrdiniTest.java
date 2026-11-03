@@ -13,30 +13,16 @@ import unibg.it.Supermercato.gestionemagazzino.Fornitore;
 import unibg.it.Supermercato.gestionemagazzino.OrdineFornitore;
 import unibg.it.Supermercato.gestionemagazzino.Prodotto;
 
-class GestioneOrdineTest {
+class GestioneOrdiniTest {
 
     @Test
     void creaOrdineEAggiungeUnProdotto() {
 
-        Fornitore fornitore = new Fornitore(
-                "Fornitore Alimentare",
-                "02-1234567",
-                "fornitore@email.it"
-        );
+        Fornitore fornitore = new Fornitore("Fornitore Alimentare", "02-1234567", "fornitore@email.it");
 
-        Prodotto prodotto = new Prodotto(
-                "8001234567890",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                50,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 50, 1);
 
-        OrdineFornitore ordine =
-                new OrdineFornitore(fornitore);
+        OrdineFornitore ordine = new OrdineFornitore(fornitore);
 
         ordine.aggiungiProdotto(prodotto, 10);
 
@@ -49,20 +35,13 @@ class GestioneOrdineTest {
     @Test
     void gestoreOrdiniCreaUnOrdineSenzaSalvarlo() {
 
-        IRepositoryOrdini repositoryOrdini =
-                mock(IRepositoryOrdini.class);
+        IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
 
-        GestoreOrdini gestoreOrdini =
-                new GestoreOrdini(repositoryOrdini);
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(repositoryOrdini);
 
-        Fornitore fornitore = new Fornitore(
-                "Fornitore Alimentare",
-                "02-1234567",
-                "fornitore@email.it"
-        );
+        Fornitore fornitore = new Fornitore("Fornitore Alimentare", "02-1234567", "fornitore@email.it");
 
-        OrdineFornitore ordine =
-                gestoreOrdini.creaOrdine(fornitore);
+        OrdineFornitore ordine = gestoreOrdini.creaOrdine(fornitore);
 
         assertNotNull(ordine);
         assertSame(fornitore, ordine.getFornitore());
@@ -74,20 +53,13 @@ class GestioneOrdineTest {
     @Test
     void gestoreOrdiniSalvaUnOrdine() {
 
-        IRepositoryOrdini repositoryOrdini =
-                mock(IRepositoryOrdini.class);
+        IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
 
-        GestoreOrdini gestoreOrdini =
-                new GestoreOrdini(repositoryOrdini);
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(repositoryOrdini);
 
-        Fornitore fornitore = new Fornitore(
-                "Fornitore Alimentare",
-                "02-1234567",
-                "fornitore@email.it"
-        );
+        Fornitore fornitore = new Fornitore("Fornitore Alimentare", "02-1234567", "fornitore@email.it");
 
-        OrdineFornitore ordine =
-                gestoreOrdini.creaOrdine(fornitore);
+        OrdineFornitore ordine = gestoreOrdini.creaOrdine(fornitore);
 
         gestoreOrdini.salvaOrdine(ordine);
 
@@ -97,11 +69,9 @@ class GestioneOrdineTest {
     @Test
     void gestoreOrdiniNonSalvaUnOrdineNull() {
 
-        IRepositoryOrdini repositoryOrdini =
-                mock(IRepositoryOrdini.class);
+        IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
 
-        GestoreOrdini gestoreOrdini =
-                new GestoreOrdini(repositoryOrdini);
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(repositoryOrdini);
 
         gestoreOrdini.salvaOrdine(null);
 
@@ -111,34 +81,15 @@ class GestioneOrdineTest {
     @Test
     void gestoreOrdiniAggiungeUnProdottoAllOrdine() {
 
-        GestoreOrdini gestoreOrdini =
-                new GestoreOrdini(mock(IRepositoryOrdini.class));
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(mock(IRepositoryOrdini.class));
 
-        Fornitore fornitore = new Fornitore(
-                "Fornitore Alimentare",
-                "02-1234567",
-                "fornitore@email.it"
-        );
+        Fornitore fornitore = new Fornitore("Fornitore Alimentare", "02-1234567", "fornitore@email.it");
 
-        Prodotto prodotto = new Prodotto(
-                "8001234567890",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                50,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 50, 1);
 
-        OrdineFornitore ordine =
-                gestoreOrdini.creaOrdine(fornitore);
+        OrdineFornitore ordine = gestoreOrdini.creaOrdine(fornitore);
 
-        gestoreOrdini.aggiungiProdotto(
-                ordine,
-                prodotto,
-                10
-        );
+        gestoreOrdini.aggiungiProdotto(ordine, prodotto, 10);
 
         assertEquals(1, ordine.getRighe().size());
         assertEquals(25.0, ordine.getTotale());
@@ -147,23 +98,15 @@ class GestioneOrdineTest {
     @Test
     void gestoreOrdiniVisualizzaGliOrdini() {
 
-        IRepositoryOrdini repositoryOrdini =
-                mock(IRepositoryOrdini.class);
+        IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
 
-        GestoreOrdini gestoreOrdini =
-                new GestoreOrdini(repositoryOrdini);
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(repositoryOrdini);
 
-        Fornitore fornitore = new Fornitore(
-                "Fornitore Alimentare",
-                "02-1234567",
-                "fornitore@email.it"
-        );
+        Fornitore fornitore = new Fornitore("Fornitore Alimentare", "02-1234567", "fornitore@email.it");
 
-        OrdineFornitore ordine =
-                new OrdineFornitore(fornitore);
+        OrdineFornitore ordine = new OrdineFornitore(fornitore);
 
-        when(repositoryOrdini.trovaTuttiOrdini())
-                .thenReturn(java.util.List.of(ordine));
+        when(repositoryOrdini.trovaTuttiOrdini()).thenReturn(java.util.List.of(ordine));
 
         var ordini = gestoreOrdini.visualizzaOrdini();
 
@@ -180,46 +123,21 @@ class GestioneOrdineTest {
         IRepositoryOrdini repositoryOrdini = mock(IRepositoryOrdini.class);
         IRepositoryProdotti repositoryProdotti = mock(IRepositoryProdotti.class);
 
-        GestoreOrdini gestoreOrdini =
-                new GestoreOrdini(repositoryOrdini);
+        GestoreOrdini gestoreOrdini = new GestoreOrdini(repositoryOrdini);
 
         gestoreOrdini.setRepositoryProdotti(repositoryProdotti);
 
-        Fornitore fornitore =
-                new Fornitore("Fornitore Pasta", "0123456789",
-                        "pasta@fornitore.it");
+        Fornitore fornitore = new Fornitore("Fornitore Pasta", "0123456789", "pasta@fornitore.it");
 
-        Prodotto pasta =
-                new Prodotto(
-                        "123456789",
-                        "Pasta",
-                        2.50,
-                        "Pasta di semola",
-                        0.0,
-                        10,
-                        20,
-                        1
-                );
+        Prodotto pasta = new Prodotto("123456789", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        Prodotto pastaDalDatabase =
-                new Prodotto(
-                        "123456789",
-                        "Pasta",
-                        2.50,
-                        "Pasta di semola",
-                        0.0,
-                        10,
-                        20,
-                        1
-                );
+        Prodotto pastaDalDatabase =  new Prodotto("123456789", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        OrdineFornitore ordine =
-                new OrdineFornitore(fornitore);
+        OrdineFornitore ordine = new OrdineFornitore(fornitore);
 
         ordine.aggiungiProdotto(pasta, 100);
 
-        when(repositoryProdotti.trovaProdottoByCodiceABarre("123456789"))
-                .thenReturn(pastaDalDatabase);
+        when(repositoryProdotti.trovaProdottoByCodiceABarre("123456789")).thenReturn(pastaDalDatabase);
 
         gestoreOrdini.riceviOrdine(ordine);
 

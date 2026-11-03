@@ -32,15 +32,7 @@ class GestorePresenzeTest {
 
         IControlloSpesa controlloSpesa = null;
 
-        Dipendente cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.presenza@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Dipendente cassiere = new Cassiere("Mario", "Rossi", "mario.presenza@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C020");
 
@@ -49,15 +41,10 @@ class GestorePresenzeTest {
 
         AuthService autenticazione = new AuthService(repositoryClienti, repository);
 
-        // Orari fissi: il turno deve iniziare e finire nello stesso giorno, a qualsiasi ora di esecuzione
         LocalTime oraInizio = LocalTime.of(8, 0);
         LocalTime oraFine = LocalTime.of(16, 0);
 
-        Turno turno = new Turno(
-                LocalDate.now(),
-                oraInizio,
-                oraFine
-        );
+        Turno turno = new Turno(LocalDate.now(), oraInizio, oraFine);
 
         GestoreTurni gestoreTurni = new GestoreTurni(repository);
         gestoreTurni.assegnaTurno(cassiere, turno);
@@ -85,15 +72,7 @@ class GestorePresenzeTest {
 
         IControlloSpesa controlloSpesa = null;
 
-        Dipendente cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.uscita@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Dipendente cassiere = new Cassiere("Mario", "Rossi", "mario.uscita@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C021");
 
@@ -105,11 +84,7 @@ class GestorePresenzeTest {
         LocalTime oraInizio = LocalTime.of(8, 0);
         LocalTime oraFine = LocalTime.of(16, 0);
 
-        Turno turno = new Turno(
-                LocalDate.now(),
-                oraInizio,
-                oraFine
-        );
+        Turno turno = new Turno(LocalDate.now(), oraInizio, oraFine);
 
         GestoreTurni gestoreTurni = new GestoreTurni(repository);
         gestoreTurni.assegnaTurno(cassiere, turno);
@@ -140,23 +115,11 @@ class GestorePresenzeTest {
 
         IControlloSpesa controlloSpesa = null;
 
-        Dipendente cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario.ore@test.it",
-                "password",
-                LocalDate.of(1995, 5, 10),
-                repositoryClienti,
-                controlloSpesa
-        );
+        Dipendente cassiere = new Cassiere("Mario", "Rossi", "mario.ore@test.it", "password", LocalDate.of(1995, 5, 10), repositoryClienti, controlloSpesa);
 
         cassiere.setMatricola("C022");
 
-        Turno turno = new Turno(
-                LocalDate.now(),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0)
-        );
+        Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(16, 0));
 
         turno.impostaOraIngresso(LocalTime.of(8, 0));
         turno.impostaOraUscita(LocalTime.of(16, 0));
@@ -168,15 +131,7 @@ class GestorePresenzeTest {
         repository.salvaDipendente(cassiere);
         repository.salvaTurno(cassiere.getMatricola(), turno);
 
-        repository.aggiornaPresenza(
-                cassiere.getMatricola(),
-                turno.getData(),
-                turno.getOrarioInizio(),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0),
-                true,
-                true
-        );
+        repository.aggiornaPresenza(cassiere.getMatricola(), turno.getData(), turno.getOrarioInizio(), LocalTime.of(8, 0), LocalTime.of(16, 0), true, true);
 
         AuthService autenticazione = new AuthService(repositoryClienti, repository);
 
@@ -187,5 +142,4 @@ class GestorePresenzeTest {
         assertEquals(8.0, oreLavorate, 0.01);
     }
 }
-
 

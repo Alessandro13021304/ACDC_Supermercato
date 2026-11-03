@@ -44,8 +44,7 @@ class CarrelloFisicoTest {
 
     @Test
     void ilControlloDellaSpesaUsaIlCodiceABarreENonIlRiferimento() {
-        Cliente cliente = new Cliente(
-                "Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, mock(IAutenticazione.class));
         sessione.scansionaProdotto(crea("123"));

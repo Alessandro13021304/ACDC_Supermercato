@@ -8,16 +8,7 @@ public class ProdottoTest {
 
 	@Test
 	void testCreazioneEGetter() {
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         assertEquals("123456789", prodotto.getCodiceABarre());
         assertEquals("Pasta", prodotto.getNome());
@@ -30,16 +21,7 @@ public class ProdottoTest {
 	
 	@Test
     void testModificaQuantita() {
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+		Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         prodotto.setQuantitaScaffale(3);
         prodotto.setQuantitaMagazzino(15);

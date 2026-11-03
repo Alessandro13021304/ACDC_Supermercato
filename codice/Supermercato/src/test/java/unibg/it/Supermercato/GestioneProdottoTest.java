@@ -20,24 +20,13 @@ class GestioneProdottoTest {
     @Test
     void magazziniereAggiungeERicercaUnProdotto() {
 
-        GestoreProdotti gestoreProdotti =
-                new GestoreProdotti(new DBProdotti(true));
+        GestoreProdotti gestoreProdotti = new GestoreProdotti(new DBProdotti(true));
 
-        Prodotto prodotto = new Prodotto(
-                "8001234567890",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 100, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
-        Prodotto prodottoSalvato =
-                gestoreProdotti.cercaProdotto("8001234567890");
+        Prodotto prodottoSalvato = gestoreProdotti.cercaProdotto("8001234567890");
 
         assertNotNull(prodottoSalvato);
         assertEquals("8001234567890", prodottoSalvato.getCodiceABarre());
@@ -50,19 +39,9 @@ class GestioneProdottoTest {
     @Test
     void magazziniereModificaUnProdottoEsistente() {
 
-        GestoreProdotti gestoreProdotti =
-                new GestoreProdotti(new DBProdotti(true));
+        GestoreProdotti gestoreProdotti = new GestoreProdotti(new DBProdotti(true));
 
-        Prodotto prodotto = new Prodotto(
-                "8001234567890",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 100, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
@@ -71,8 +50,7 @@ class GestioneProdottoTest {
 
         gestoreProdotti.modificaProdotto(prodotto);
 
-        Prodotto prodottoModificato =
-                gestoreProdotti.cercaProdotto("8001234567890");
+        Prodotto prodottoModificato = gestoreProdotti.cercaProdotto("8001234567890");
 
         assertNotNull(prodottoModificato);
         assertEquals("Pasta", prodottoModificato.getNome());
@@ -84,30 +62,17 @@ class GestioneProdottoTest {
     @Test
     void magazziniereRimuoveUnProdottoEsistente() {
 
-        GestoreProdotti gestoreProdotti =
-                new GestoreProdotti(new DBProdotti(true));
+        GestoreProdotti gestoreProdotti = new GestoreProdotti(new DBProdotti(true));
 
-        Prodotto prodotto = new Prodotto(
-                "8001234567890",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 20, 100, 1);
 
         gestoreProdotti.aggiungiProdotto(prodotto);
 
-        assertNotNull(
-                gestoreProdotti.cercaProdotto("8001234567890")
-        );
+        assertNotNull(gestoreProdotti.cercaProdotto("8001234567890"));
 
         gestoreProdotti.rimuoviProdotto(prodotto);
 
-        Prodotto prodottoRimosso =
-                gestoreProdotti.cercaProdotto("8001234567890");
+        Prodotto prodottoRimosso = gestoreProdotti.cercaProdotto("8001234567890");
 
         assertNull(prodottoRimosso);
     }

@@ -11,11 +11,9 @@ class SingletonDBConnectionTest {
 	@Test
 	void getInstanceRestituisceSempreLaStessaIstanza() {
 
-	    DBConnection connessione1 =
-	            DBConnection.getInstance();
+	    DBConnection connessione1 = DBConnection.getInstance();
 
-	    DBConnection connessione2 =
-	            DBConnection.getInstance();
+	    DBConnection connessione2 = DBConnection.getInstance();
 
 	    assertNotNull(connessione1);
 	    assertNotNull(connessione2);

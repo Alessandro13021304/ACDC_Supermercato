@@ -30,16 +30,7 @@ class LettoreOtticoTest {
 
 	    LettoreOttico lettore = new LettoreOttico(autenticazione, carrello);
 
-	    Prodotto prodotto = new Prodotto(
-	            "123456",
-	            "Latte",
-	            2.00,
-	            "Latte intero",
-	            0.0,
-	            10,
-	            20,
-                1
-	    );
+	    Prodotto prodotto = new Prodotto("123456", "Latte", 2.00, "Latte intero", 0.0, 10, 20, 1);
 
 	    lettore.scansionaProdotto(prodotto);
 
@@ -58,13 +49,7 @@ class LettoreOtticoTest {
 		    @Override
 		    public Persona autentica(String email, String password) {
 		        if ("mario@email.it".equals(email) && "password123".equals(password)) {
-		            return new Cliente(
-		                    "Mario",
-		                    "Rossi",
-		                    email,
-		                    password,
-		                    java.time.LocalDate.of(2000, 5, 10)
-		            );
+		            return new Cliente("Mario", "Rossi", email, password, java.time.LocalDate.of(2000, 5, 10));
 		        }
 		        return null;
 		    }
@@ -74,10 +59,7 @@ class LettoreOtticoTest {
 
 	    LettoreOttico lettore = new LettoreOttico(autenticazione, carrello);
 
-	    Cliente risultato = lettore.autentica(
-	            "mario@email.it",
-	            "password123"
-	    );
+	    Cliente risultato = lettore.autentica("mario@email.it", "password123");
 
 	    assertNotNull(risultato);
 	    assertEquals("mario@email.it", risultato.getEmail());

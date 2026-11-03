@@ -25,24 +25,9 @@ public class MagazziniereTest {
 
     @Test
     void rifornisciScaffaleSpostaProdottiDalMagazzino() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1));
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                50,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 50, 1);
 
         magazziniere.rifornisciScaffale(prodotto, 20);
 
@@ -52,24 +37,9 @@ public class MagazziniereTest {
 
     @Test
     void rifornisciScaffaleNonPermetteDiSuperareLaScortaMagazzino() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                5,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 5, 1);
 
         magazziniere.rifornisciScaffale(prodotto, 10);
 
@@ -79,24 +49,10 @@ public class MagazziniereTest {
 
     @Test
     void rifornisciScaffaleIgnoraQuantitaNonValida() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+    	
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                50,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 50, 1);
 
         magazziniere.rifornisciScaffale(prodotto, 0);
 
@@ -106,98 +62,46 @@ public class MagazziniereTest {
 
     @Test
     void rifornisciScaffaleIgnoraProdottoNullo() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         assertDoesNotThrow(() -> magazziniere.rifornisciScaffale(null, 10));
     }
     
     @Test
     void segnalaScorteInsufficientiQuandoSottoSoglia() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                3,
-                2,
-                1
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
+
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 3, 2, 1);
 
         assertTrue(magazziniere.segnalaScorteInsufficientiMagazzino(prodotto));
     }
 
     @Test
     void nonSegnalaScorteQuandoSopraSoglia() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
+
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 10, 20, 1);
 
         assertFalse(magazziniere.segnalaScorteInsufficientiMagazzino(prodotto));
     }
 
     @Test
     void nonSegnalaScorteQuandoEsattamenteAllaSoglia() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                5,
-                20,
-                1
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
+
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 5, 20, 1);
 
         assertFalse(magazziniere.segnalaScorteInsufficientiMagazzino(prodotto));
     }
 
     @Test
     void nonSegnalaScorteConProdottoNullo() {
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         assertFalse(magazziniere.segnalaScorteInsufficientiMagazzino(null));
     }
@@ -207,70 +111,38 @@ public class MagazziniereTest {
 
         DBProdotti db = new DBProdotti(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0, 8, 20, 1);
 
         db.salvaProdotto(prodotto);
 
         GestoreProdotti gestoreProdotti = new GestoreProdotti(db);
 
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         magazziniere.setGestoreProdotti(gestoreProdotti);
 
-        Prodotto risultato =
-                magazziniere.visualizzaProdotto("123456789");
+        Prodotto risultato = magazziniere.visualizzaProdotto("123");
 
         assertNotNull(risultato);
-        assertEquals("123456789", risultato.getCodiceABarre());
+        assertEquals("123", risultato.getCodiceABarre());
         assertEquals("Pasta", risultato.getNome());
     }
     
     @Test
     void aggiornaRifornisceScaffaleConTuttaLaDisponibilitaQuandoInferioreA20() {
 
-        Magazziniere magazziniere = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere magazziniere = new Magazziniere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         GestoreScorte gestore = new GestoreScorte();
 
         final ETipoScorta[] tipoNotificato = {null};
 
-        IScorteObserver observer = (prodotto, tipoScorta) ->
-                tipoNotificato[0] = tipoScorta;
+        IScorteObserver observer = (prodotto, tipoScorta) -> tipoNotificato[0] = tipoScorta;
 
         gestore.aggiungiObserver(observer);
         magazziniere.setGestoreScorte(gestore);
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                3,
-                12,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 2.50, "Pasta", 0, 3, 12, 1);
 
         magazziniere.aggiorna(prodotto, ETipoScorta.SCAFFALE);
 

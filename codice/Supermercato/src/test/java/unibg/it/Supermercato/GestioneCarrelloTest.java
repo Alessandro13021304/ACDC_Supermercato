@@ -13,16 +13,7 @@ class GestioneCarrelloTest {
     @Test
     void aggiungeProdottoAlCarrello() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                10,
-                50,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 50, 1);
 
         Carrello carrello = new Carrello();
 
@@ -38,16 +29,7 @@ class GestioneCarrelloTest {
     @Test
     void aumentaQuantitaAggiungendoLoStessoProdotto() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                10,
-                50,
-                1
-        );
+    	Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 50, 1);
 
         Carrello carrello = new Carrello();
 
@@ -63,16 +45,7 @@ class GestioneCarrelloTest {
     @Test
     void rimuoveProdottoDalCarrello() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                10,
-                50,
-                1
-        );
+    	Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 50, 1);
 
         Carrello carrello = new Carrello();
 
@@ -91,16 +64,7 @@ class GestioneCarrelloTest {
     @Test
     void nonSuperaDisponibilitaScaffale() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                2,  
-                50,
-                1
-        );
+    	Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 2, 50, 1);
 
         Carrello carrello = new Carrello();
 
@@ -117,16 +81,7 @@ class GestioneCarrelloTest {
     @Test
     void nonAggiungeProdottoNonDisponibile() {
 
-        Prodotto prodotto = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                0, 
-                50,
-                1
-        );
+    	Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 0, 50, 1);
 
         Carrello carrello = new Carrello();
 
@@ -139,27 +94,9 @@ class GestioneCarrelloTest {
     @Test
     void calcolaTotaleDelCarrello() {
 
-        Prodotto pasta = new Prodotto(
-                "123456",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                10,
-                50,
-                1
-        );
+    	Prodotto pasta = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 50, 1);
 
-        Prodotto latte = new Prodotto(
-                "654321",
-                "Latte",
-                1.50,
-                "Latte intero",
-                0.0,
-                10,
-                50,
-                1
-        );
+        Prodotto latte = new Prodotto("654321", "Latte", 1.50, "Latte intero", 0.0, 10, 50, 1);
 
         Carrello carrello = new Carrello();
 

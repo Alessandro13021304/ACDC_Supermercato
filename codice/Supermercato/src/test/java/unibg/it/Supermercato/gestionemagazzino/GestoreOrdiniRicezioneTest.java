@@ -25,17 +25,14 @@ class GestoreOrdiniRicezioneTest {
         gestoreOrdini = new GestoreOrdini(repositoryOrdini);
         gestoreOrdini.setRepositoryProdotti(repositoryProdotti);
 
-        pastaOrdinata = new Prodotto(
-                "123456789", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
+        pastaOrdinata = new Prodotto("123456789", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        pastaDalDatabase = new Prodotto(
-                "123456789", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
+        pastaDalDatabase = new Prodotto("123456789", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
         ordine = new OrdineFornitore(new Fornitore("Fornitore Pasta"));
         ordine.aggiungiProdotto(pastaOrdinata, 100);
 
-        when(repositoryProdotti.trovaProdottoByCodiceABarre("123456789"))
-                .thenReturn(pastaDalDatabase);
+        when(repositoryProdotti.trovaProdottoByCodiceABarre("123456789")).thenReturn(pastaDalDatabase);
     }
 
     @Test
@@ -60,8 +57,7 @@ class GestoreOrdiniRicezioneTest {
 
     @Test
     void unOrdineGiaRicevutoNonModificaIlMagazzino() {
-        OrdineFornitore giaRicevuto = new OrdineFornitore(
-                new Fornitore("Fornitore Pasta"), LocalDate.now(), "RICEVUTO", 250.0);
+        OrdineFornitore giaRicevuto = new OrdineFornitore(new Fornitore("Fornitore Pasta"), LocalDate.now(), "RICEVUTO", 250.0);
         giaRicevuto.aggiungiRiga(new RigaOrdine(pastaOrdinata, 100));
 
         gestoreOrdini.riceviOrdine(giaRicevuto);

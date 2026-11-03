@@ -13,11 +13,7 @@ public class TurnoTest {
 
     @Test
     void registraInizioRegistraLaPresenza() {
-        Turno turno = new Turno(
-                LocalDate.now(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         turno.registraInizio();
 
@@ -27,11 +23,7 @@ public class TurnoTest {
 
     @Test
     void registraFineCompletaIlTurno() {
-        Turno turno = new Turno(
-                LocalDate.now(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         turno.registraInizio();
         turno.registraFine();
@@ -42,11 +34,7 @@ public class TurnoTest {
 
     @Test
     void registraFineSenzaInizioNonCompletaIlTurno() {
-        Turno turno = new Turno(
-                LocalDate.now(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno = new Turno(LocalDate.now(), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         turno.registraFine();
 
@@ -58,14 +46,9 @@ public class TurnoTest {
     void turnoAppartieneAllaDataCorretta() {
         LocalDate oggi = LocalDate.now();
 
-        Turno turno = new Turno(
-                oggi,
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno = new Turno(oggi, LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         assertTrue(turno.appartieneAllaData(oggi));
         assertFalse(turno.appartieneAllaData(oggi.plusDays(1)));
     }
 }
-

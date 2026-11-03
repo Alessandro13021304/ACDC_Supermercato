@@ -17,16 +17,7 @@ public class GestoreScorteTest {
 
         gestore.aggiungiObserver(observer);
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                1.50,
-                "Pasta",
-                0.0,
-                3,
-                10,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 3, 10, 1);
 
         gestore.notificaObserver(prodotto, ETipoScorta.SCAFFALE);
 
@@ -45,16 +36,7 @@ public class GestoreScorteTest {
         gestore.aggiungiObserver(observer);
         gestore.rimuoviObserver(observer);
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                1.50,
-                "Pasta",
-                0.0,
-                3,
-                10,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 3, 10, 1);
 
         gestore.notificaObserver(prodotto, ETipoScorta.SCAFFALE);
 
@@ -74,16 +56,7 @@ public class GestoreScorteTest {
         gestore.aggiungiObserver(observer1);
         gestore.aggiungiObserver(observer2);
 
-        Prodotto prodotto = new Prodotto(
-                "456",
-                "Latte",
-                1.80,
-                "Latte intero",
-                0.0,
-                2,
-                8,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 2, 8, 1);
 
         gestore.notificaObserver(prodotto, ETipoScorta.SCAFFALE);
 
@@ -101,16 +74,7 @@ public class GestoreScorteTest {
 
         gestore.aggiungiObserver(observer);
 
-        Prodotto prodotto = new Prodotto(
-                "999",
-                "Biscotti",
-                2.00,
-                "Biscotti",
-                0.0,
-                3,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123", "Pasta", 1.50, "Pasta", 0.0, 3, 20, 1);
 
         gestore.aggiornaScorte(prodotto, ETipoScorta.SCAFFALE);
 

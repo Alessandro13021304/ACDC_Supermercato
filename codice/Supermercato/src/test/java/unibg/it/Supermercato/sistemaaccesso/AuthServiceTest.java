@@ -26,13 +26,7 @@ class AuthServiceTest {
 
     	AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password123",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         boolean risultato = authService.registraUtente(cliente);
 
@@ -46,21 +40,9 @@ class AuthServiceTest {
 
     	AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Cliente cliente1 = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password123",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente1 = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
-        Cliente cliente2 = new Cliente(
-                "Luigi",
-                "Verdi",
-                "mario@email.it",
-                "password456",
-                LocalDate.of(1999, 3, 15)
-        );
+        Cliente cliente2 = new Cliente("Luigi", "Verdi", "mario@email.it", "password456", LocalDate.of(1999, 3, 15));
 
         assertTrue(authService.registraUtente(cliente1));
         assertFalse(authService.registraUtente(cliente2));
@@ -73,20 +55,11 @@ class AuthServiceTest {
 
     	AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password123",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         authService.registraUtente(cliente);
 
-        Persona risultato = authService.autentica(
-                "mario@email.it",
-                "password123"
-        );
+        Persona risultato = authService.autentica("mario@email.it", "password");
 
         assertNotNull(risultato);
         assertTrue(risultato instanceof Cliente);
@@ -100,20 +73,11 @@ class AuthServiceTest {
 
     	AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password123",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         authService.registraUtente(cliente);
 
-        Persona risultato = authService.autentica(
-                "mario@email.it",
-                "passwordSbagliata"
-        );
+        Persona risultato = authService.autentica("mario@email.it", "passwordSbagliata");
 
         assertNull(risultato);
     }

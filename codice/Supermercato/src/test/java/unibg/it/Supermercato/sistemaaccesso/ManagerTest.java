@@ -22,14 +22,7 @@ public class ManagerTest {
 
         DBDipendenti repositoryDipendenti = new DBDipendenti(true);
 
-        Manager manager = new Manager(
-                "Mario",
-                "Rossi",
-                "manager@email.it",
-                "password",
-                LocalDate.of(1985, 1, 1),
-                repositoryDipendenti
-        );
+        Manager manager = new Manager("Mario", "Rossi", "manager@email.it", "password", LocalDate.of(1985, 1, 1), repositoryDipendenti);
 
         manager.setCalcoloStipendi(new CalcoloStipendi());
         
@@ -40,67 +33,29 @@ public class ManagerTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Luca",
-                "Bianchi",
-                "cassiere@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repository,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Luca", "Bianchi", "cassiere@email.it", "password", LocalDate.of(1990, 1, 1), repository, controlloSpesa);
         
         cassiere.setMatricola("C001");
         cassiere.setRepositoryDipendenti(repositoryDipendenti);
         repositoryDipendenti.salvaDipendente(cassiere);
 
-        Turno turnoManager = new Turno(
-                LocalDate.of(2026, 9, 10),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0)
-        );
+        Turno turnoManager = new Turno(LocalDate.of(2026, 9, 10), LocalTime.of(8, 0), LocalTime.of(16, 0));
 
         turnoManager.impostaOraIngresso(LocalTime.of(8, 0));
         turnoManager.impostaOraUscita(LocalTime.of(16, 0));
 
-        Turno turnoCassiere = new Turno(
-                LocalDate.of(2026, 9, 10),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turnoCassiere = new Turno(LocalDate.of(2026, 9, 10), LocalTime.of(8, 0), LocalTime.of(14, 0));
 
         turnoCassiere.impostaOraIngresso(LocalTime.of(8, 0));
         turnoCassiere.impostaOraUscita(LocalTime.of(14, 0));
 
-        repositoryDipendenti.salvaTurno(
-                manager.getMatricola(),
-                turnoManager
-        );
+        repositoryDipendenti.salvaTurno(manager.getMatricola(), turnoManager);
 
-        repositoryDipendenti.aggiornaPresenza(
-                manager.getMatricola(),
-                turnoManager.getData(),
-                turnoManager.getOrarioInizio(),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0),
-                true,
-                true
-        );
+        repositoryDipendenti.aggiornaPresenza(manager.getMatricola(), turnoManager.getData(), turnoManager.getOrarioInizio(), LocalTime.of(8, 0), LocalTime.of(16, 0), true, true);
         
-        repositoryDipendenti.salvaTurno(
-                cassiere.getMatricola(),
-                turnoCassiere
-        );
+        repositoryDipendenti.salvaTurno(cassiere.getMatricola(), turnoCassiere);
 
-        repositoryDipendenti.aggiornaPresenza(
-                cassiere.getMatricola(),
-                turnoCassiere.getData(),
-                turnoCassiere.getOrarioInizio(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0),
-                true,
-                true
-        );
+        repositoryDipendenti.aggiornaPresenza(cassiere.getMatricola(), turnoCassiere.getData(), turnoCassiere.getOrarioInizio(), LocalTime.of(8, 0), LocalTime.of(14, 0), true, true);
 
         List<Dipendente> dipendenti = new ArrayList<>();
         dipendenti.add(manager);

@@ -21,16 +21,7 @@ class DBProdottiTest {
 
         DBProdotti repository = new DBProdotti(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         assertDoesNotThrow(() -> repository.salvaProdotto(prodotto));
     }
@@ -40,16 +31,7 @@ class DBProdottiTest {
 
         DBProdotti repository = new DBProdotti(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         repository.salvaProdotto(prodotto);
 
@@ -65,29 +47,11 @@ class DBProdottiTest {
 
         DBProdotti repository = new DBProdotti(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         repository.salvaProdotto(prodotto);
 
-        Prodotto prodottoModificato = new Prodotto(
-                "123456789",
-                "Pasta Integrale",
-                2.00,
-                "Pasta integrale di semola",
-                20.0,
-                12,
-                25,
-                1
-        );
+        Prodotto prodottoModificato = new Prodotto("123456789", "Pasta Integrale", 2.00, "Pasta integrale di semola", 20.0, 12, 25, 1);
 
         repository.modificaProdotto(prodottoModificato);
 
@@ -108,16 +72,7 @@ class DBProdottiTest {
 
         DBProdotti repository = new DBProdotti(true);
 
-        Prodotto prodotto = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
         repository.salvaProdotto(prodotto);
 
@@ -148,27 +103,9 @@ class DBProdottiTest {
 
         DBProdotti repository = new DBProdotti(true);
 
-        Prodotto prodotto1 = new Prodotto(
-                "123456789",
-                "Pasta",
-                1.50,
-                "Pasta di semola",
-                10.0,
-                8,
-                20,
-                1
-        );
+        Prodotto prodotto1 = new Prodotto("123456789", "Pasta", 1.50, "Pasta di semola", 10.0, 8, 20, 1);
 
-        Prodotto prodotto2 = new Prodotto(
-                "987654321",
-                "Latte",
-                1.20,
-                "Latte intero",
-                0.0,
-                15,
-                30,
-                1
-        );
+        Prodotto prodotto2 = new Prodotto( "987654321", "Latte", 1.20, "Latte intero", 0.0, 15, 30, 1);
 
         repository.salvaProdotto(prodotto1);
         repository.salvaProdotto(prodotto2);

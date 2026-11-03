@@ -29,54 +29,22 @@ class GestioneSpesaClienteTest {
             }
         };
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
-        Prodotto pasta = new Prodotto(
-                "001",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0,
-                20,
-                100,
-                1
-        );
+        Prodotto pasta = new Prodotto("001", "Pasta", 2.50, "Pasta di semola", 0, 20, 100, 1);
 
-        Prodotto latte = new Prodotto(
-                "002",
-                "Latte",
-                1.50,
-                "Latte intero",
-                0,
-                15,
-                50,
-                1
-        );
+        Prodotto latte = new Prodotto("002", "Latte", 1.50, "Latte intero", 0, 15, 50, 1);
 
-        SessioneSpesa sessione =
-                new SessioneSpesa(cliente, autenticazione);
+        SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
         sessione.scansionaProdotto(pasta);
         sessione.scansionaProdotto(latte);
 
         sessione.terminaSpesa();
 
-        assertEquals(
-                EStatoSessione.PAGAMENTO,
-                sessione.getStato()
-        );
+        assertEquals(EStatoSessione.PAGAMENTO, sessione.getStato());
 
-        assertEquals(
-                4.00,
-                sessione.getTotaleDaPagare(),
-                0.001
-        );
+        assertEquals(4.00, sessione.getTotaleDaPagare(), 0.001);
     }
 
     @Test
@@ -95,24 +63,9 @@ class GestioneSpesaClienteTest {
             }
         };
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
-        Prodotto pasta = new Prodotto(
-                "001",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0,
-                20,
-                100,
-                1
-        );
+        Prodotto pasta = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 3, 50, 1);
 
         IPagamento pagamento = mock(IPagamento.class);
 
@@ -120,8 +73,7 @@ class GestioneSpesaClienteTest {
 
         Totem totem = new Totem(1, pagamento);
 
-        SessioneSpesa sessione =
-                spy(new SessioneSpesa(cliente, autenticazione));
+        SessioneSpesa sessione = spy(new SessioneSpesa(cliente, autenticazione));
 
         doReturn(false).when(sessione).controlloNecessario();
 
@@ -130,16 +82,10 @@ class GestioneSpesaClienteTest {
         sessione.scansionaProdotto(pasta);
         sessione.terminaSpesa();
 
-        boolean risultato =
-                sessione.effettuaPagamento(
-                        EModalitaPagamento.CARTA_DI_CREDITO
-                );
+        boolean risultato = sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO);
 
         assertTrue(risultato);
-        assertEquals(
-                EStatoSessione.COMPLETATA,
-                sessione.getStato()
-        );
+        assertEquals(EStatoSessione.COMPLETATA, sessione.getStato());
 
         verify(pagamento).paga(2.50);
     }
@@ -160,40 +106,21 @@ class GestioneSpesaClienteTest {
             }
         };
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
-        Prodotto pasta = new Prodotto(
-                "001",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0,
-                20,
-                100,
-                1
-        );
+        Prodotto pasta = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 3, 50, 1);
 
-        IRepositoryClienti repositoryClienti =
-                mock(IRepositoryClienti.class);
+        IRepositoryClienti repositoryClienti = mock(IRepositoryClienti.class);
 
-        when(repositoryClienti.isClienteSegnalato(cliente.getId()))
-                .thenReturn(true);
+        when(repositoryClienti.isClienteSegnalato(cliente.getId())).thenReturn(true);
 
         IPagamento pagamento = mock(IPagamento.class);
 
-        when(pagamento.paga(2.50))
-                .thenReturn(true);
+        when(pagamento.paga(2.50)).thenReturn(true);
 
         Totem totem = new Totem(1, pagamento);
 
-        SessioneSpesa sessione =
-                new SessioneSpesa(cliente, autenticazione);
+        SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
         sessione.setRepositoryClienti(repositoryClienti);
         sessione.setTotem(totem);
@@ -201,21 +128,13 @@ class GestioneSpesaClienteTest {
         sessione.scansionaProdotto(pasta);
         sessione.terminaSpesa();
 
-        boolean risultato =
-                sessione.effettuaPagamento(
-                        EModalitaPagamento.CARTA_DI_CREDITO
-                );
+        boolean risultato = sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO);
 
         assertFalse(risultato);
-        assertEquals(
-                EStatoSessione.PAGAMENTO,
-                sessione.getStato()
-        );
+        assertEquals(EStatoSessione.PAGAMENTO, sessione.getStato());
 
-        verify(repositoryClienti)
-                .isClienteSegnalato(cliente.getId());
+        verify(repositoryClienti).isClienteSegnalato(cliente.getId());
 
-        // Senza cassiere il pagamento non deve essere addebitato
         verify(pagamento, never()).paga(anyDouble());
     }
 
@@ -235,34 +154,17 @@ class GestioneSpesaClienteTest {
             }
         };
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
-        Prodotto pasta = new Prodotto(
-                "001",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0,
-                20,
-                100,
-                1
-        );
+        Prodotto pasta = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 3, 50, 1);
 
         IPagamento pagamento = mock(IPagamento.class);
 
-        when(pagamento.paga(2.50))
-                .thenReturn(true);
+        when(pagamento.paga(2.50)).thenReturn(true);
 
         Totem totem = new Totem(1, pagamento);
 
-        SessioneSpesa sessione =
-                spy(new SessioneSpesa(cliente, autenticazione));
+        SessioneSpesa sessione = spy(new SessioneSpesa(cliente, autenticazione));
 
         doReturn(false).when(sessione).controlloNecessario();
 
@@ -271,16 +173,10 @@ class GestioneSpesaClienteTest {
         sessione.scansionaProdotto(pasta);
         sessione.terminaSpesa();
 
-        boolean pagamentoEffettuato =
-                sessione.effettuaPagamento(
-                        EModalitaPagamento.CARTA_DI_CREDITO
-                );
+        boolean pagamentoEffettuato = sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO);
 
         assertTrue(pagamentoEffettuato);
-        assertEquals(
-                EStatoSessione.COMPLETATA,
-                sessione.getStato()
-        );
+        assertEquals(EStatoSessione.COMPLETATA, sessione.getStato());
 
         String ricevuta = sessione.generaRicevuta();
 
@@ -304,105 +200,54 @@ class GestioneSpesaClienteTest {
             }
         };
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
-        Prodotto prodotto = new Prodotto(
-                "001",
-                "Pasta",
-                20.00,
-                "Pasta di semola",
-                0,
-                20,
-                100,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 20.00, "Pasta di semola", 0.0, 20, 100, 1);
 
-        IRepositoryClienti repositoryClienti =
-                mock(IRepositoryClienti.class);
+        IRepositoryClienti repositoryClienti = mock(IRepositoryClienti.class);
 
-        when(repositoryClienti.trovaPuntiByCliente(cliente.getId()))
-                .thenReturn(200);
+        when(repositoryClienti.trovaPuntiByCliente(cliente.getId())).thenReturn(200);
 
-        SessioneSpesa sessione =
-                new SessioneSpesa(cliente, autenticazione);
+        SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
         sessione.setRepositoryClienti(repositoryClienti);
 
         sessione.scansionaProdotto(prodotto);
         sessione.terminaSpesa();
 
-        assertEquals(
-                20.00,
-                sessione.getTotaleDaPagare(),
-                0.001
-        );
+        assertEquals(20.00, sessione.getTotaleDaPagare(), 0.001);
 
-        boolean premioApplicato =
-                sessione.usaPremioFedelta();
+        boolean premioApplicato = sessione.usaPremioFedelta();
 
         assertTrue(premioApplicato);
 
-        assertEquals(
-                18.00,
-                sessione.getTotaleDaPagare(),
-                0.001
-        );
+        assertEquals(18.00, sessione.getTotaleDaPagare(), 0.001);
 
-        // I punti vengono scalati solo al completamento dell'acquisto
-        verify(repositoryClienti, never())
-                .scalaPunti(anyInt(), anyInt());
+        verify(repositoryClienti, never()).scalaPunti(anyInt(), anyInt());
     }
 
     @Test
     void spesaCompletataAggiornaLaGestioneDelleScorte() {
 
-        IAutenticazione autenticazione =
-                mock(IAutenticazione.class);
+        IAutenticazione autenticazione = mock(IAutenticazione.class);
 
-        IScorte gestoreScorte =
-                mock(IScorte.class);
+        IScorte gestoreScorte = mock(IScorte.class);
 
-        IRepositoryProdotti repositoryProdotti =
-                mock(IRepositoryProdotti.class);
+        IRepositoryProdotti repositoryProdotti = mock(IRepositoryProdotti.class);
 
-        IPagamento pagamento =
-                mock(IPagamento.class);
+        IPagamento pagamento = mock(IPagamento.class);
 
         when(pagamento.paga(2.50)).thenReturn(true);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
-        Prodotto prodotto = new Prodotto(
-                "8001234567890",
-                "Pasta",
-                2.50,
-                "Pasta di semola",
-                0.0,
-                3,
-                50,
-                1
-        );
+        Prodotto prodotto = new Prodotto("8001234567890", "Pasta", 2.50, "Pasta di semola", 0.0, 3, 50, 1);
 
         Totem totem = new Totem(1, pagamento);
 
-        SessioneSpesa sessione =
-                spy(new SessioneSpesa(cliente, autenticazione));
+        SessioneSpesa sessione = spy(new SessioneSpesa(cliente, autenticazione));
 
-        doReturn(false)
-                .when(sessione)
-                .controlloNecessario();
+        doReturn(false).when(sessione).controlloNecessario();
 
         sessione.setGestoreScorte(gestoreScorte);
         sessione.setRepositoryProdotti(repositoryProdotti);
@@ -411,25 +256,13 @@ class GestioneSpesaClienteTest {
         sessione.scansionaProdotto(prodotto);
         sessione.terminaSpesa();
 
-        boolean risultato =
-                sessione.effettuaPagamento(
-                        EModalitaPagamento.CARTA_DI_CREDITO
-                );
+        boolean risultato = sessione.effettuaPagamento(EModalitaPagamento.CARTA_DI_CREDITO);
 
         assertTrue(risultato);
-        assertEquals(
-                EStatoSessione.COMPLETATA,
-                sessione.getStato()
-        );
+        assertEquals(EStatoSessione.COMPLETATA, sessione.getStato());
 
-        assertEquals(
-                2,
-                prodotto.getQuantitaScaffale()
-        );
+        assertEquals(2, prodotto.getQuantitaScaffale());
 
-        verify(gestoreScorte).aggiornaScorte(
-                prodotto,
-                ETipoScorta.SCAFFALE
-        );
+        verify(gestoreScorte).aggiornaScorte(prodotto, ETipoScorta.SCAFFALE);
     }
 }

@@ -24,39 +24,19 @@ public class StipendioTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repository,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1), repository, controlloSpesa);
 
         Stipendio stipendio = new Stipendio(cassiere);
 
-        Turno turno1 = new Turno(
-                LocalDate.of(2026, 9, 1),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turno1 = new Turno(LocalDate.of(2026, 9, 1), LocalTime.of(8, 0), LocalTime.of(14, 0));
         turno1.impostaOraIngresso(LocalTime.of(8, 0));
         turno1.impostaOraUscita(LocalTime.of(14, 0));
 
-        Turno turno2 = new Turno(
-                LocalDate.of(2026, 9, 15),
-                LocalTime.of(8, 0),
-                LocalTime.of(16, 0)
-        );
+        Turno turno2 = new Turno(LocalDate.of(2026, 9, 15), LocalTime.of(8, 0), LocalTime.of(16, 0));
         turno2.impostaOraIngresso(LocalTime.of(8, 0));
         turno2.impostaOraUscita(LocalTime.of(16, 0));
 
-        Turno turnoOttobre = new Turno(
-                LocalDate.of(2026, 10, 3),
-                LocalTime.of(8, 0),
-                LocalTime.of(13, 0)
-        );
+        Turno turnoOttobre = new Turno(LocalDate.of(2026, 10, 3), LocalTime.of(8, 0), LocalTime.of(13, 0));
         turnoOttobre.impostaOraIngresso(LocalTime.of(8, 0));
         turnoOttobre.impostaOraUscita(LocalTime.of(13, 0));
 
@@ -74,31 +54,15 @@ public class StipendioTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repository,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1), repository, controlloSpesa);
 
         Stipendio stipendio = new Stipendio(cassiere);
 
-        Turno turnoSettembre = new Turno(
-                LocalDate.of(2026, 9, 15),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turnoSettembre = new Turno(LocalDate.of(2026, 9, 15), LocalTime.of(8, 0), LocalTime.of(14, 0));
         turnoSettembre.impostaOraIngresso(LocalTime.of(8, 0));
         turnoSettembre.impostaOraUscita(LocalTime.of(14, 0));
 
-        Turno turnoOttobre = new Turno(
-                LocalDate.of(2026, 10, 3),
-                LocalTime.of(8, 0),
-                LocalTime.of(13, 0)
-        );
+        Turno turnoOttobre = new Turno(LocalDate.of(2026, 10, 3), LocalTime.of(8, 0), LocalTime.of(13, 0));
         turnoOttobre.impostaOraIngresso(LocalTime.of(8, 0));
         turnoOttobre.impostaOraUscita(LocalTime.of(13, 0));
 
@@ -115,15 +79,7 @@ public class StipendioTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repository,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1), repository, controlloSpesa);
 
         Stipendio stipendio = new Stipendio(cassiere);
 
@@ -137,25 +93,13 @@ public class StipendioTest {
         
         IControlloSpesa controlloSpesa = null;
 
-        Cassiere cassiere = new Cassiere(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(1990, 1, 1),
-                repository,
-                controlloSpesa
-        );
+        Cassiere cassiere = new Cassiere("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(1990, 1, 1), repository, controlloSpesa);
         
         cassiere.setMatricola("C023");
         
         Stipendio stipendio = new Stipendio(cassiere);
 
-        Turno turnoCompletato = new Turno(
-                LocalDate.of(2026, 9, 10),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0)
-        );
+        Turno turnoCompletato = new Turno(LocalDate.of(2026, 9, 10), LocalTime.of(8, 0), LocalTime.of(14, 0));
         
         DBDipendenti repositoryd = new DBDipendenti(true);
         cassiere.setRepositoryDipendenti(repositoryd);
@@ -163,21 +107,9 @@ public class StipendioTest {
         repositoryd.salvaDipendente(cassiere);
         repositoryd.salvaTurno(cassiere.getMatricola(), turnoCompletato);
         
-        repositoryd.aggiornaPresenza(
-                cassiere.getMatricola(),
-                turnoCompletato.getData(),
-                turnoCompletato.getOrarioInizio(),
-                LocalTime.of(8, 0),
-                LocalTime.of(14, 0),
-                true,
-                true
-        );
+        repositoryd.aggiornaPresenza(cassiere.getMatricola(), turnoCompletato.getData(), turnoCompletato.getOrarioInizio(), LocalTime.of(8, 0), LocalTime.of(14, 0), true, true);
 
-        Turno turnoNonCompletato = new Turno(
-                LocalDate.of(2026, 9, 15),
-                LocalTime.of(8, 0),
-                LocalTime.of(13, 0)
-        );
+        Turno turnoNonCompletato = new Turno(LocalDate.of(2026, 9, 15), LocalTime.of(8, 0), LocalTime.of(13, 0));
         
         repositoryd.salvaTurno(cassiere.getMatricola(), turnoNonCompletato);
 
@@ -186,4 +118,3 @@ public class StipendioTest {
         assertEquals(60.0, stipendio.calcolaStipendioMensile(2026, 9), 0.01);
     }
 }
-

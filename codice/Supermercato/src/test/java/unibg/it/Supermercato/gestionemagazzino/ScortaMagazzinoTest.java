@@ -8,9 +8,7 @@ public class ScortaMagazzinoTest {
 
 	@Test
 	void prodottoConMagazzinoSufficienteNonDeveEssereRiordinato() {
-        Prodotto prodotto = new Prodotto(
-                "001", "Pasta", 2.50, "Pasta", 0.0, 2, 10, 1
-        );
+        Prodotto prodotto = new Prodotto("001", "Pasta", 2.50, "Pasta", 0.0, 2, 10, 1);
 
         ScortaMagazzino scorta = new ScortaMagazzino();
         scorta.aggiungiProdotto(prodotto);
@@ -20,9 +18,7 @@ public class ScortaMagazzinoTest {
 
     @Test
     void prodottoConScaffaleEMagazzinoSottoSogliaDeveEssereRiordinato() {
-        Prodotto prodotto = new Prodotto(
-                "002", "Latte", 1.50, "Latte", 0.0, 2, 3, 1
-        );
+        Prodotto prodotto = new Prodotto("002", "Latte", 1.50, "Latte", 0.0, 2, 3, 1);
 
         ScortaMagazzino scorta = new ScortaMagazzino();
         scorta.aggiungiProdotto(prodotto);
@@ -33,9 +29,7 @@ public class ScortaMagazzinoTest {
 
     @Test
     void prodottoConScaffaleSufficienteNonDeveEssereRiordinato() {
-        Prodotto prodotto = new Prodotto(
-                "003", "Biscotti", 3.00, "Biscotti", 0.0, 5, 3, 1
-        );
+        Prodotto prodotto = new Prodotto("003", "Biscotti", 3.00, "Biscotti", 0.0, 5, 3, 1);
 
         ScortaMagazzino scorta = new ScortaMagazzino();
         scorta.aggiungiProdotto(prodotto);

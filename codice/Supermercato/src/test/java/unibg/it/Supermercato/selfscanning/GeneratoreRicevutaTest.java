@@ -28,20 +28,11 @@ class GeneratoreRicevutaTest {
     @Test
     void generaRicevutaContieneLeInformazioniDelPagamento() {
 
-    	Cliente cliente = new Cliente(
-    	        "Mario",
-    	        "Rossi",
-    	        "mario@email.it",
-    	        "password",
-    	        LocalDate.of(2000, 1, 1)
-    	);
+    	Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
     	SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
-        Pagamento pagamento = new Pagamento(
-                8.00,
-                EModalitaPagamento.CARTA_DI_CREDITO
-        );
+        Pagamento pagamento = new Pagamento(8.00, EModalitaPagamento.CARTA_DI_CREDITO);
 
         GeneratoreRicevuta generatore = new GeneratoreRicevuta();
 

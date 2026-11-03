@@ -31,24 +31,9 @@ public class ControlloSpesaTest {
     @Test
     void carrelliCorrispondenti() {
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -69,24 +54,9 @@ public class ControlloSpesaTest {
     @Test
     void quantitaDiverse() {
 
-        Prodotto prodotto = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodotto = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -107,35 +77,11 @@ public class ControlloSpesaTest {
     @Test
     void prodottiDiversi() {
 
-        Prodotto prodottoVirtuale = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodottoVirtuale = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        Prodotto prodottoFisico = new Prodotto(
-                "456",
-                "Latte",
-                1.50,
-                "Latte",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto prodottoFisico = new Prodotto("456", "Latte", 1.50, "Latte", 0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -155,35 +101,11 @@ public class ControlloSpesaTest {
     @Test
     void prodottoMancante() {
 
-        Prodotto pasta = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto pasta = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        Prodotto latte = new Prodotto(
-                "456",
-                "Latte",
-                1.50,
-                "Latte",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto latte = new Prodotto("456", "Latte", 1.50, "Latte", 0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -204,35 +126,11 @@ public class ControlloSpesaTest {
     @Test
     void prodottoAggiuntivo() {
 
-        Prodotto pasta = new Prodotto(
-                "123",
-                "Pasta",
-                2.50,
-                "Pasta",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto pasta = new Prodotto("123456", "Pasta", 2.50, "Pasta di semola", 0.0, 10, 20, 1);
 
-        Prodotto latte = new Prodotto(
-                "456",
-                "Latte",
-                1.50,
-                "Latte",
-                0,
-                10,
-                20,
-                1
-        );
+        Prodotto latte = new Prodotto("456", "Latte", 1.50, "Latte", 0, 10, 20, 1);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 
@@ -265,13 +163,7 @@ public class ControlloSpesaTest {
     @Test
     void carrelloFisicoNull() {
 
-    	Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password",
-                LocalDate.of(2000, 1, 1)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password", LocalDate.of(2000, 1, 1));
 
         SessioneSpesa sessione = new SessioneSpesa(cliente, autenticazione);
 

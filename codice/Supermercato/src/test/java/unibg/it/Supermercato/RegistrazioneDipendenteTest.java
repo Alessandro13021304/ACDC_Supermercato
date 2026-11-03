@@ -17,24 +17,13 @@ class RegistrazioneDipendenteTest {
     @Test
     void registraDipendenteConSuccesso() {
 
-        IRepositoryClienti repositoryClienti =
-                mock(IRepositoryClienti.class);
+        IRepositoryClienti repositoryClienti = mock(IRepositoryClienti.class);
 
-        IRepositoryDipendenti repositoryDipendenti =
-                mock(IRepositoryDipendenti.class);
+        IRepositoryDipendenti repositoryDipendenti = mock(IRepositoryDipendenti.class);
 
-        AuthService authService = new AuthService(
-                repositoryClienti,
-                repositoryDipendenti
-        );
+        AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Magazziniere dipendente = new Magazziniere(
-                "Mario",
-                "Rossi",
-                "mario.rossi@email.it",
-                "password123",
-                LocalDate.of(1990, 1, 1)
-        );
+        Magazziniere dipendente = new Magazziniere("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(1990, 1, 1));
 
         boolean risultato = authService.registraUtente(dipendente);
 

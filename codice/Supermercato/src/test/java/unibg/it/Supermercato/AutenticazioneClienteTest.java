@@ -30,25 +30,13 @@ class AutenticazioneClienteTest {
         IRepositoryClienti repositoryClienti = new DBClienti(true);
         IRepositoryDipendenti repositoryDipendenti = new DBDipendenti(true);
 
-        AuthService authService = new AuthService(
-                repositoryClienti,
-                repositoryDipendenti
-        );
+        AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password123",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
         repositoryClienti.salvaCliente(cliente);
 
-        Persona risultato = authService.autentica(
-                "mario@email.it",
-                "password123"
-        );
+        Persona risultato = authService.autentica("mario@email.it", "password123");
 
         assertNotNull(risultato);
         assertTrue(risultato instanceof Cliente);
@@ -63,25 +51,13 @@ class AutenticazioneClienteTest {
         IRepositoryClienti repositoryClienti = new DBClienti(true);
         IRepositoryDipendenti repositoryDipendenti = new DBDipendenti(true);
 
-        AuthService authService = new AuthService(
-                repositoryClienti,
-                repositoryDipendenti
-        );
+        AuthService authService = new AuthService(repositoryClienti, repositoryDipendenti);
 
-        Cliente cliente = new Cliente(
-                "Mario",
-                "Rossi",
-                "mario@email.it",
-                "password123",
-                LocalDate.of(2000, 5, 10)
-        );
+        Cliente cliente = new Cliente("Mario", "Rossi", "mario@email.it", "password123", LocalDate.of(2000, 5, 10));
 
         repositoryClienti.salvaCliente(cliente);
 
-        Persona risultato = authService.autentica(
-                "mario@email.it",
-                "passwordSbagliata"
-        );
+        Persona risultato = authService.autentica("mario@email.it", "passwordSbagliata");
 
         assertNull(risultato);
     }
