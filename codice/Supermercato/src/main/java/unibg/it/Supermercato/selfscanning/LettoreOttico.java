@@ -19,7 +19,11 @@ public class LettoreOttico {
         this.carrello = carrello;
     }
     
-	public boolean scansionaProdotto(Prodotto p) {
+    /** questo metodo scansiona un prodotto e lo aggiunge al carrello
+	 * @param il prodotto scansionato
+	 * @return true se va a buon fine, altrimenti false
+	 */
+    public boolean scansionaProdotto(Prodotto p) {
 	    if (p == null || carrello == null) {
 	        return false;
 	    }
@@ -27,6 +31,10 @@ public class LettoreOttico {
 	    return carrello.aggiungiProdotto(p);
 	}
     
+    /** questo metodo rimuove un prodotto dal carrello
+	 * @param il prodotto da rimuovere
+	 * @return true se va a buon fine, altrimenti false
+	 */
 	public boolean rimuoviProdotto(Prodotto p) {
 
 	    if (p == null || carrello == null) {
@@ -48,6 +56,10 @@ public class LettoreOttico {
 	    return true;
 	}
     
+	/** questo metodo autentica un cliente
+	 * @param la mail e la password del cliente
+	 * @return il cliente autenticato
+	 */
     public Cliente autentica(String email, String password) {
         if (autenticazione == null) {
             return null;

@@ -23,6 +23,9 @@ public class Cliente extends Persona implements IRuoloUtente {
         this.repositoryClienti = repositoryClienti;
     }
 
+    /** questo metodo permette di visualizzare i punti fedeltà del cliente
+	 * @return il numero di punti fedeltà
+	 */
     public int visualizzaPunti() {
         if (repositoryClienti != null && id > 0) {
             return repositoryClienti.trovaPuntiByCliente(id);
@@ -31,6 +34,9 @@ public class Cliente extends Persona implements IRuoloUtente {
         return puntiFedelta;
     }
 
+    /** questo metodo permette di visualizzare gli storici spese del cliente
+	 * @return la lista degli storici spese
+	 */
     public List<AcquistoStorico> visualizzaStorico() {
         if (repositoryClienti != null && id > 0) {
             return repositoryClienti.trovaStoricoByCliente(id);

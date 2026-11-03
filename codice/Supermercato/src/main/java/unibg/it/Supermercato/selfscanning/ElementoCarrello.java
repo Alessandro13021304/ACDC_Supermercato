@@ -19,6 +19,9 @@ public class ElementoCarrello {
         this.prezzoApplicato = prezzoApplicato;
     }
 
+    /** questo metodo calcola il totale di un elemento (prezzo prodotto singolo * quantità nel carrello)
+	 * @return il totale dell'elemento
+	 */
     public double calcolaTotaleRiga() {
         return prezzoApplicato * quantita;
     }

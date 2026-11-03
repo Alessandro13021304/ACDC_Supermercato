@@ -22,6 +22,9 @@ public class RigaOrdine {
         return quantita;
     }
 
+    /** questo metodo calcola il totale della riga (prezzo del singolo prodotto * la sua quantità)
+	 * @return il totale
+	 */
     public double calcolaTotale() {
         return prodotto.getPrezzo() * quantita;
     }

@@ -29,15 +29,13 @@ public class App {
 
     private static final Logger logger = LogManager.getLogger(App.class);
 
-    // Matricole dei dipendenti gia' registrati come osservatori delle scorte:
-    // ogni lettura dal database crea una nuova istanza, e senza questo controllo
-    // la stessa persona verrebbe notificata (e ordinerebbe al fornitore) piu' volte
     private static final Set<String> osservatoriRegistrati = new HashSet<>();
 
     public static void main(String[] args) {
 
         logger.info("Avvio dell'applicazione Supermercato.");
 
+        // Inizializzazione dei database       
         DBConnection db = DBConnection.getInstance();
         
         DBClienti dbClienti = new DBClienti();
@@ -56,6 +54,7 @@ public class App {
             logger.error("Errore durante l'inizializzazione dei database.", e);
         }
         
+        // Creazione di alcune istanze utili
         AuthService authService = new AuthService(dbClienti, dbDipendenti);
         
         ControlloSpesa controlloSpesa = new ControlloSpesa();
@@ -82,13 +81,9 @@ public class App {
         gestoreOrdini.setRepositoryProdotti(dbProdotti);
         Fornitore fornitore = new Fornitore("Fornitore Demo");
 
-        // Composition root: collega ai ruoli letti dal database i loro collaboratori
-        Consumer<Dipendente> configuratoreRuoli = dipendente -> configuraRuolo(
-                dipendente, dbDipendenti, dbProdotti, gestoreProdotti, gestoreScorte,
-                gestoreOrdini, controlloSpesa, fornitore);
+        Consumer<Dipendente> configuratoreRuoli = dipendente -> configuraRuolo(dipendente, dbDipendenti, dbProdotti, gestoreProdotti, gestoreScorte, gestoreOrdini, controlloSpesa, fornitore);
         dbDipendenti.setConfiguratoreRuoli(configuratoreRuoli);
 
-        // Rilegge i dipendenti esistenti: magazzinieri e responsabili si registrano come osservatori
         dbDipendenti.trovaTuttiDipendenti();
 
         // Creazione dei prodotti 
@@ -177,43 +172,6 @@ public class App {
         }
     }
     
-    
-    
-    private static void configuraRuolo(Dipendente dipendente, DBDipendenti dbDipendenti, IRepositoryProdotti dbProdotti,
-                                       GestoreProdotti gestoreProdotti, GestoreScorte gestoreScorte,
-                                       GestoreOrdini gestoreOrdini, IControlloSpesa controlloSpesa, Fornitore fornitore) {
-
-        if (dipendente instanceof Manager) {
-            Manager manager = (Manager) dipendente;
-            manager.setGestoreTurni(new GestoreTurni(dbDipendenti));
-            manager.setCalcoloStipendi(new CalcoloStipendi());
-
-        } else if (dipendente instanceof Cassiere) {
-            ((Cassiere) dipendente).setControlloSpesa(controlloSpesa);
-
-        } else if (dipendente instanceof Magazziniere) {
-            Magazziniere magazziniere = (Magazziniere) dipendente;
-            magazziniere.setGestoreProdotti(gestoreProdotti);
-            magazziniere.setRepositoryProdotti(dbProdotti);
-
-            // setGestoreScorte registra il magazziniere come osservatore: lo facciamo una volta sola
-            if (osservatoriRegistrati.add(dipendente.getMatricola())) {
-                magazziniere.setGestoreScorte(gestoreScorte);
-            }
-
-        } else if (dipendente instanceof ResponsabileDiReparto) {
-            ResponsabileDiReparto responsabile = (ResponsabileDiReparto) dipendente;
-            responsabile.setGestoreProdotti(gestoreProdotti);
-            responsabile.setGestoreOrdini(gestoreOrdini);
-            responsabile.setFornitore(fornitore);
-            responsabile.setNumeroReparto(1); // i prodotti della demo appartengono al reparto 1
-
-            if (osservatoriRegistrati.add(dipendente.getMatricola())) {
-                responsabile.setGestoreScorte(gestoreScorte);
-            }
-        }
-    }
-
     private static void mostraMenu() {
         System.out.println("\n====================================");
         System.out.println("       SUPERMERCATO - DEMO");
@@ -237,6 +195,41 @@ public class App {
     
     
     
+    private static void configuraRuolo(Dipendente dipendente, DBDipendenti dbDipendenti, IRepositoryProdotti dbProdotti, GestoreProdotti gestoreProdotti,
+    								   GestoreScorte gestoreScorte, GestoreOrdini gestoreOrdini, IControlloSpesa controlloSpesa, Fornitore fornitore) {
+
+        if (dipendente instanceof Manager) {
+            Manager manager = (Manager) dipendente;
+            manager.setGestoreTurni(new GestoreTurni(dbDipendenti));
+            manager.setCalcoloStipendi(new CalcoloStipendi());
+
+        } else if (dipendente instanceof Cassiere) {
+            ((Cassiere) dipendente).setControlloSpesa(controlloSpesa);
+
+        } else if (dipendente instanceof Magazziniere) {
+            Magazziniere magazziniere = (Magazziniere) dipendente;
+            magazziniere.setGestoreProdotti(gestoreProdotti);
+            magazziniere.setRepositoryProdotti(dbProdotti);
+
+            if (osservatoriRegistrati.add(dipendente.getMatricola())) {
+                magazziniere.setGestoreScorte(gestoreScorte);
+            }
+
+        } else if (dipendente instanceof ResponsabileDiReparto) {
+            ResponsabileDiReparto responsabile = (ResponsabileDiReparto) dipendente;
+            responsabile.setGestoreProdotti(gestoreProdotti);
+            responsabile.setGestoreOrdini(gestoreOrdini);
+            responsabile.setFornitore(fornitore);
+            responsabile.setNumeroReparto(1); 
+
+            if (osservatoriRegistrati.add(dipendente.getMatricola())) {
+                responsabile.setGestoreScorte(gestoreScorte);
+            }
+        }
+    }
+   
+    
+    
     private static void visualizzaCatalogo(GestoreProdotti gestoreProdotti) {
 
         System.out.println("\n========== CATALOGO PRODOTTI ==========");
@@ -245,6 +238,7 @@ public class App {
 
         if (prodotti == null || prodotti.isEmpty()) {
             System.out.println("Nessun prodotto presente nel catalogo.");
+            
         } else {
             for (Prodotto prodotto : prodotti) {
                 System.out.println(
@@ -574,9 +568,9 @@ public class App {
 	
 	        if (persona == null) {
 	            System.out.println("\nCredenziali non valide.");
+	            
 	        } else if (persona instanceof Cliente) {
-	            Cliente cliente = (Cliente) persona;
-	
+	            Cliente cliente = (Cliente) persona;	
 	            System.out.println("\nAutenticazione riuscita!");
 	            areaCliente(cliente, dbClienti, scanner);
 	
@@ -810,7 +804,6 @@ public class App {
 	        System.out.println("Email: " + dipendente.getEmail());
 	        System.out.println("Ruolo: " + dipendente.getRuolo());
 
-	        // Rilegge il dipendente: il configuratore ne collega i collaboratori
 	        dbDipendenti.trovaDipendenteByMatricola(dipendente.getMatricola());
 
 	    } catch (RuntimeException e) {
@@ -873,11 +866,8 @@ public class App {
 
 	            System.out.println("\nData: " + turno.getData());
 	            System.out.println("Orario previsto: " + turno.getOrarioInizio() + " - " + turno.getOrarioFine());
-
 	            System.out.println("Ingresso effettivo: " + (turno.getOraIngresso() != null ? turno.getOraIngresso() : "Non registrato"));
-
 	            System.out.println("Uscita effettiva: " + (turno.getOraUscita() != null ? turno.getOraUscita() : "Non registrata"));
-
 	            System.out.println("Completato: " + (turno.isCompletato() ? "Sì" : "No"));
 	        }
 	    }
@@ -959,14 +949,12 @@ public class App {
 
 	                while (true) {
 
-	                    matricola = leggiTestoNonVuoto(
-	                            scanner, "\nMatricola del dipendente: ");
+	                    matricola = leggiTestoNonVuoto(scanner, "\nMatricola del dipendente: ");
 
 	                    dipendente = dbDipendenti.trovaDipendenteByMatricola(matricola);
 
 	                    if (dipendente == null) {
-	                        System.out.println(
-	                                "Dipendente non trovato. Inserisci nuovamente la matricola.");
+	                        System.out.println("Dipendente non trovato. Inserisci nuovamente la matricola.");
 	                        continue;
 	                    }
 
@@ -982,16 +970,14 @@ public class App {
 	                        data = LocalDate.parse(scanner.nextLine().trim());
 
 	                        if (data.isBefore(LocalDate.now())) {
-	                            System.out.println(
-	                                    "Non è possibile assegnare turni nel passato. Riprova.");
+	                            System.out.println("Non è possibile assegnare turni nel passato. Riprova.");
 	                            continue;
 	                        }
 
 	                        break;
 
 	                    } catch (java.time.format.DateTimeParseException e) {
-	                        System.out.println(
-	                                "Data non valida. Usa il formato AAAA-MM-GG.");
+	                        System.out.println("Data non valida. Usa il formato AAAA-MM-GG.");
 	                    }
 	                }
 
@@ -1007,16 +993,14 @@ public class App {
 	                        fine = LocalTime.parse(scanner.nextLine().trim());
 
 	                        if (!inizio.isBefore(fine)) {
-	                            System.out.println(
-	                                    "L'ora di inizio deve precedere quella di fine. Riprova.\n");
+	                            System.out.println("L'ora di inizio deve precedere quella di fine. Riprova.\n");
 	                            continue;
 	                        }
 
 	                        break;
 
 	                    } catch (java.time.format.DateTimeParseException e) {
-	                        System.out.println(
-	                                "Orario non valido. Usa il formato HH:MM. Riprova.");
+	                        System.out.println("Orario non valido. Usa il formato HH:MM. Riprova.");
 	                    }
 	                }
 
@@ -1106,8 +1090,10 @@ public class App {
 					if (prodotto != null) {
 					    if (sessione.scansionaProdotto(prodotto)) {
 					        System.out.println("Prodotto scansionato: " + prodotto.getNome());
+					        
 					    } else {
 					        System.out.println("Disponibilità sullo scaffale esaurita!");
+					        
 					    }
 					} else {
 					    System.out.println("Prodotto non trovato.");
@@ -1251,6 +1237,8 @@ public class App {
 		    		 break;
 		}
 
+		
+		// Richiesta di controllo della spesa
 		boolean pagamentoRiuscito = sessione.effettuaPagamento(modalita);
 
 		if (pagamentoRiuscito) {

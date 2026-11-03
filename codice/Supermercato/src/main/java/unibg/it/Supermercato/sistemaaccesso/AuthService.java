@@ -14,6 +14,10 @@ public class AuthService implements IAutenticazione {
         this.repositoryDipendenti = repositoryDipendenti;
     }
 
+    /** questo metodo registra un cliente/dipendente nel sistema e lo salva in persistenza
+     * @param la persona da registrare
+     * @return true se va a buon fine, altrimenti false
+	 */
     @Override
     public boolean registraUtente(Persona persona) {
 
@@ -42,6 +46,10 @@ public class AuthService implements IAutenticazione {
         return false;
     }
 
+    /** questo metodo autentica un cliente/dipendente
+     * @param la mail e la password della persona che si sta autenticando
+     * @return la persona autenticata
+	 */
     @Override
     public Persona autentica(String email, String password) {
 

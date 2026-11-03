@@ -18,6 +18,9 @@ public class Carrello implements ICarrello {
         elementi = new ArrayList<>();
     }
 
+    /** questo metodo aggiunge un elemento al carrello
+	 * @param l'elemento da aggiungere
+	 */
     @Override
     public void aggiungiElemento(ElementoCarrello e) {
         if (e != null) {
@@ -25,6 +28,9 @@ public class Carrello implements ICarrello {
         }
     }
 
+    /** questo metodo rimuove un elemento dal carrello
+	 * @param l'elemento da rimuovere
+	 */
     @Override
     public void rimuoviElemento(ElementoCarrello e) {
         if (e != null) {
@@ -32,6 +38,10 @@ public class Carrello implements ICarrello {
         }
     }
     
+    /** questo metodo verifica se un elemento c'è già nel carrello
+	 * @param il prodotto da trovare
+	 * @return l'elemento trovato
+	 */
 	@Override
 	public ElementoCarrello trovaElemento(Prodotto p) {
 	    if (p != null) {
@@ -44,6 +54,9 @@ public class Carrello implements ICarrello {
 	    return null;
 	}
     
+	/** questo metodo calcola il totale del carrello
+	 * @return il totale del carrello
+	 */
     @Override
     public double calcolaTotale() {
         totale = 0.0;
@@ -63,6 +76,9 @@ public class Carrello implements ICarrello {
         return elementi;
     }
 	
+    /** questo metodo aggiunge un prodotto al carrello
+	 * @param il prodotto da aggiungere
+	 */
 	@Override
 	public boolean aggiungiProdotto(Prodotto p) {
 	
@@ -84,11 +100,7 @@ public class Carrello implements ICarrello {
 	
 	        double prezzoApplicato = calcolatore.applicaSconto(p.getPrezzo(), p.getSconto());
 	
-	        elemento = new ElementoCarrello(
-	                p,
-	                1,
-	                prezzoApplicato
-	        );
+	        elemento = new ElementoCarrello(p, 1, prezzoApplicato);
 	
 	        aggiungiElemento(elemento);
 	    }

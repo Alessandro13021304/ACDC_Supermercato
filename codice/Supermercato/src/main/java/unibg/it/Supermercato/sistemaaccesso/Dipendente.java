@@ -21,6 +21,9 @@ public abstract class Dipendente extends Persona implements IRuoloUtente {
         this.repositoryDipendenti = repositoryDipendenti;
     }
 
+    /** questo metodo permette di visualizzare i turni del dipendente
+	 * @return la lista dei turni
+	 */
     public List<Turno> visualizzaTurni() {
         if (repositoryDipendenti != null && matricola != null) {
             return repositoryDipendenti.trovaTurniByMatricola(matricola);

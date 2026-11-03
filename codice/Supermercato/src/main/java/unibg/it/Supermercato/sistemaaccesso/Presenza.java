@@ -15,6 +15,9 @@ public class Presenza {
         this.turno = turno;
     }
 
+    /** questo metodo calcola le ore lavorate in un turno
+	 * @return le ore lavorate
+	 */
     public double calcolaOreLavorate() {
         if (turno == null || !turno.presenzaIniziata() || !turno.isCompletato()) {
             return 0.0;

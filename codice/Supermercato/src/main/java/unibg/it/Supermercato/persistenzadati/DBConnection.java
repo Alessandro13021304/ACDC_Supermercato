@@ -39,6 +39,10 @@ public class DBConnection {
         }
     }
 
+    /** questo metodo ritorna la connessione ai database
+     * @param il nome del database da connettere
+     * @return la connessione corrispondente
+	 */
     public Connection getConnection(String database) throws SQLException {
 
         String url = properties.getProperty("db." + database + ".url");
@@ -54,6 +58,9 @@ public class DBConnection {
         return connection;
     }
 
+    /** questo metodo inizializza i database
+     * @param la connessione e il nome del database da inizializzare
+	 */
     private static void inizializzaDatabase(Connection connection, String database) throws SQLException {
 
     	if ("dipendenti".equals(database)) {
@@ -112,6 +119,10 @@ public class DBConnection {
     	}
     }
     
+    /** questo metodo ritorna la connessione ai database di test
+     * @param il nome del database di test da connettere
+     * @return la connessione corrispondente
+	 */
     public Connection getTestConnection(String database) throws SQLException {
 
         Properties testProperties = new Properties();
@@ -141,6 +152,9 @@ public class DBConnection {
         return connection;
     }
     
+    /** questo metodo resetta i database di test
+     * @param il nome del database di test da resettare
+	 */
     public void resetTestDatabase(String database) throws SQLException {
 
         Properties testProperties = new Properties();

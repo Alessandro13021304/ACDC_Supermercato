@@ -85,7 +85,6 @@ public class GestoreOrdini implements IOrdini {
             }
         }
 
-        // Un ordine ricevuto non può incrementare di nuovo le scorte
         ordine.segnaRicevuto();
         repositoryOrdini.aggiornaStato(ordine);
     }
@@ -94,8 +93,7 @@ public class GestoreOrdini implements IOrdini {
 	 * @param la riga dell'ordine
 	 */
     private void aggiornaMagazzino(RigaOrdine riga) {
-        Prodotto salvato = repositoryProdotti.trovaProdottoByCodiceABarre(
-                riga.getProdotto().getCodiceABarre());
+        Prodotto salvato = repositoryProdotti.trovaProdottoByCodiceABarre(riga.getProdotto().getCodiceABarre());
 
         if (salvato != null) {
             salvato.setQuantitaMagazzino(salvato.getQuantitaMagazzino() + riga.getQuantita());

@@ -23,5 +23,5 @@ public interface IRepositoryDipendenti {
     List<Turno> trovaTurniByMatricola(String matricola);
 
     void aggiornaPresenza(String matricola, LocalDate dataTurno, LocalTime orarioInizio,
-            LocalTime oraIngresso, LocalTime oraUscita, boolean presenzaRegistrata, boolean completato);
+            			  LocalTime oraIngresso, LocalTime oraUscita, boolean presenzaRegistrata, boolean completato);
 }

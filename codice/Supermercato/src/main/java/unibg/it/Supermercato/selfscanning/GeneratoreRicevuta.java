@@ -8,7 +8,11 @@ import java.util.Locale;
 
 public class GeneratoreRicevuta {
 
-    public String genera(SessioneSpesa sessione, Pagamento pagamento) {
+	/** questo metodo crea la ricevuta di una spesa
+	 * @param la sessione spesa del cliente e il pagamento
+	 * @return la ricevuta creata
+	 */
+	public String genera(SessioneSpesa sessione, Pagamento pagamento) {
 
         if (sessione == null || pagamento == null) {
             return "";

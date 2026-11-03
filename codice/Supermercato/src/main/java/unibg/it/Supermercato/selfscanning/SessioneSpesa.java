@@ -49,6 +49,10 @@ public class SessioneSpesa implements ISessioneControllabile {
         puntiDaScalare = 0;
     }
 
+    /** questo metodo scansiona un prodotto e lo aggiunge al carrello
+	 * @param il prodotto scansionato
+	 * @return true se va a buon fine, altrimenti false
+	 */
     public boolean scansionaProdotto(Prodotto p) {
         if (p == null || stato != EStatoSessione.IN_CORSO) {
             return false;
@@ -65,6 +69,10 @@ public class SessioneSpesa implements ISessioneControllabile {
         return quantitaDopo > quantitaPrima;
     }
 
+    /** questo metodo rimuove un prodotto dal carrello
+	 * @param il prodotto da rimuovere
+	 * @return true se va a buon fine, altrimenti false
+	 */
     public boolean rimuoviProdotto(Prodotto p) {
         if (p == null || stato != EStatoSessione.IN_CORSO || carrello.trovaElemento(p) == null) {
             return false;
@@ -74,6 +82,8 @@ public class SessioneSpesa implements ISessioneControllabile {
         return true;
     }
 
+    /** questo metodo permette di terminare la spesa e passare al pagamento
+	 */
     public void terminaSpesa() {
         if (stato == EStatoSessione.IN_CORSO) {
             totaleDaPagare = carrello.calcolaTotale();
@@ -81,6 +91,9 @@ public class SessioneSpesa implements ISessioneControllabile {
         }
     }
 
+    /** questo metodo calcola il totale della spesa nel caso si voglia usare il premio fedeltà
+	 * @return true se va a buon fine, altrimenti false
+	 */
     public boolean usaPremioFedelta() {
         if (stato != EStatoSessione.PAGAMENTO) {
             return false;
@@ -112,6 +125,10 @@ public class SessioneSpesa implements ISessioneControllabile {
         return true;
     }
 
+    /** questo metodo gestisce la fase del pagamento di una spesa: o viene completata, o viene richiesto un controllo
+	 * @param la modalità di pagamento
+	 * @return true se va a buon fine, altrimenti false
+	 */
     public boolean effettuaPagamento(EModalitaPagamento modalita) {
         if (stato != EStatoSessione.PAGAMENTO) {
             return false;
@@ -148,6 +165,8 @@ public class SessioneSpesa implements ISessioneControllabile {
         return true;
     }
 
+    /** questo metodo salva e aggiorna vari valori (punti fedeltà, storico, quantità prodotti) dopo una spesa
+	 */
     private void registraAcquistoCompletato() {
 
         if (repositoryClienti != null && cliente != null) {
@@ -181,6 +200,9 @@ public class SessioneSpesa implements ISessioneControllabile {
         }
     }
 
+    /** questo metodo crea la ricevuta di una spesa
+	 * @return la ricevuta creata
+	 */
     public String generaRicevuta() {
         if (stato != EStatoSessione.COMPLETATA || pagamento == null) {
             return "";
@@ -202,6 +224,8 @@ public class SessioneSpesa implements ISessioneControllabile {
         }
     }
 
+    /** questo metodo completa la spesa dopo un controllo superato
+	 */
     @Override
     public void completaDopoControllo() {
         if (stato == EStatoSessione.CONTROLLO) {
@@ -249,6 +273,9 @@ public class SessioneSpesa implements ISessioneControllabile {
         return totaleDaPagare;
     }
 
+    /** questo metodo mostra il contenuto di un carrello
+	 * @return i prodotti e la loro quantità nel carrello
+	 */
     @Override
     public Map<Prodotto, Integer> getContenutoCarrello() {
         Map<Prodotto, Integer> contenuto = new LinkedHashMap<>();

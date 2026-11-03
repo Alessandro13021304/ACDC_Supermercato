@@ -32,6 +32,10 @@ public class Totem {
         return cassiere != null;
     }
 
+    /** questo metodo manda una notifica al cassiere se è necessario un controllo
+	 * @param la sessione spesa da controllare
+	 * @return true se va a buon fine, altrimenti false
+	 */
     public boolean richiediControllo(SessioneSpesa sessione) {
         if (cassiere == null) {
             return false;
@@ -40,6 +44,10 @@ public class Totem {
         return cassiere.notificaRichiestaDiControllo(sessione, numero);
     }
 
+    /** questo metodo permette di pagare il totale
+	 * @param l'importo da pagare
+	 * @return true se va a buon fine, altrimenti false
+	 */
     public boolean effettuaPagamento(double importo) {
         if (pagamento == null) {
             return false;
@@ -48,6 +56,10 @@ public class Totem {
         return pagamento.paga(importo);
     }
 
+    /** questo metodo effettua il controllo della spesa
+	 * @param la sessione spesa in controllo
+	 * @return true se il controllo passa, altrimenti false
+	 */
     public boolean effettuaControlloSpesa(SessioneSpesa sessione) {
         if (cassiere == null || carrelloFisico == null) {
             return false;
@@ -55,12 +67,14 @@ public class Totem {
 
         boolean esito = cassiere.effettuaControllo(sessione, carrelloFisico);
 
-        // Il controllo è terminato: il cassiere non è più al totem
         registraPartenzaCassiere();
 
         return esito;
     }
 
+    /** questo metodo registra l'arrivo del cassiere al totem
+	 * @param la sessione spesa da controllare
+	 */
     public void registraArrivoCassiere(SessioneSpesa sessione) {
         cassiereArrivato = true;
 
@@ -69,10 +83,14 @@ public class Totem {
         }
     }
 
+    /** questo metodo registra l'arrivo del cassiere al totem senza che debba fare un controllo
+	 */
     public void registraArrivoCassiere() {
         cassiereArrivato = true;
     }
 
+    /** questo metodo registra la partenza del cassiere dal totem
+	 */
     public void registraPartenzaCassiere() {
         cassiereArrivato = false;
     }

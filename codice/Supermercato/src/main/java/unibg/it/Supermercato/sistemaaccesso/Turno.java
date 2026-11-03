@@ -25,7 +25,6 @@ public class Turno {
         this.presenzaRegistrata = false;
         this.completato = false;
     }
-
     
     public boolean isOrarioValido() {
         return orarioInizio != null && orarioFine != null && orarioInizio.isBefore(orarioFine);

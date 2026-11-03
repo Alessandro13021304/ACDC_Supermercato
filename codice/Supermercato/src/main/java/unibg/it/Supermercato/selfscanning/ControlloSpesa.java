@@ -13,7 +13,11 @@ import unibg.it.Supermercato.sistemaaccesso.ISessioneControllabile;
 
 public class ControlloSpesa implements IControlloSpesa {
 
-    @Override
+	/** questo metodo verifica se il carrello e il carrello fisico corrispondono
+	 * @param la sessione spesa del cliente e il carrello fisico
+	 * @return true se corrispondono, altrimenti false
+	 */
+	@Override
     public boolean verificaCorrispondenza(ISessioneControllabile sessione, ICarrelloFisico carrelloFisico) {
         if (sessione == null || carrelloFisico == null) {
             return false;

@@ -17,6 +17,4 @@ public interface IProdotti {
     Prodotto cercaProdotto(String codiceABarre);
 
     List<Prodotto> visualizzaProdotti();
-
-
 }

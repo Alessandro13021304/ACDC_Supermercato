@@ -17,5 +17,4 @@ public interface IOrdini {
     List<OrdineFornitore> visualizzaOrdini();
     
     void riceviOrdine(OrdineFornitore ordine);
-
 }

@@ -26,6 +26,9 @@ public class Stipendio {
         }
     }
     
+    /** questo metodo associa le presenze ai turni
+	 * @param il dipendente di cui si devono trovare i turni
+	 */
     public void aggiungiPresenzeDaTurni(Dipendente dipendente) {
         if (dipendente == null) {
             return;
@@ -38,6 +41,9 @@ public class Stipendio {
         }
     }
 
+    /** questo metodo ritorna lo stipendio orario dei vari ruoli
+	 * @return lo stipendio orario
+	 */
     private double getTariffaOraria() {
         if (dipendente instanceof unibg.it.Supermercato.sistemaaccesso.Cassiere) {
             return 10.0;
@@ -58,6 +64,9 @@ public class Stipendio {
         return 0.0;
     }
     
+    /** questo metodo calcola lo stipendio dei dipendenti (ore lavorate * tariffa oraria)
+	 * @return lo stipendio calcolato
+	 */
     public double calcolaStipendio() {
         double oreTotali = 0.0;
 
@@ -69,6 +78,10 @@ public class Stipendio {
         return importo;
     }
     
+    /** questo metodo calcola lo stipendio mensile dei dipendenti (ore lavorate in quel mese * tariffa oraria)
+     * @param il mese e l'anno in cui calcolare lo stipendio 
+	 * @return lo stipendio mensile calcolato
+	 */
     public double calcolaStipendioMensile(int anno, int mese) {
         double oreTotali = 0.0;
 

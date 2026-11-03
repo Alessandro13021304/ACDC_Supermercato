@@ -19,9 +19,12 @@ public class GestoreTurni implements ITurni {
         this.repositoryDipendenti = repositoryDipendenti;
     }
 
+    /** questo metodo assegna il turno al dipendente
+	 * @param il dipendente e il turno da assegnargli
+	 * @return true se è stato assegnato correttamente, altrimenti false
+	 */
     @Override
     public boolean assegnaTurno(Dipendente dipendente, Turno turno) {
-        // Il turno deve avere una data e un orario di inizio precedente a quello di fine
         if (dipendente == null || turno == null || turno.getData() == null || !turno.isOrarioValido()) {
             return false;
 
@@ -29,10 +32,7 @@ public class GestoreTurni implements ITurni {
 
         dipendente.setRepositoryDipendenti(repositoryDipendenti);
 
-        List<Turno> turniEsistenti =
-                repositoryDipendenti.trovaTurniByMatricola(
-                        dipendente.getMatricola()
-                );
+        List<Turno> turniEsistenti = repositoryDipendenti.trovaTurniByMatricola(dipendente.getMatricola());
 
         for (Turno turnoEsistente : turniEsistenti) {
             if (turnoSovrapposto(turno, turnoEsistente)) {
@@ -40,10 +40,7 @@ public class GestoreTurni implements ITurni {
             }
         }
 
-        repositoryDipendenti.salvaTurno(
-                dipendente.getMatricola(),
-                turno
-        );
+        repositoryDipendenti.salvaTurno(dipendente.getMatricola(), turno);
 
         return true;
     }
@@ -58,8 +55,7 @@ public class GestoreTurni implements ITurni {
             return false;
         }
 
-        return nuovoTurno.getOrarioInizio().isBefore(turnoEsistente.getOrarioFine())
-                && nuovoTurno.getOrarioFine().isAfter(turnoEsistente.getOrarioInizio());
+        return nuovoTurno.getOrarioInizio().isBefore(turnoEsistente.getOrarioFine()) && nuovoTurno.getOrarioFine().isAfter(turnoEsistente.getOrarioInizio());
     }
 
     /** questo metodo permette di visualizzare i turni di un dipendente 
@@ -71,8 +67,6 @@ public class GestoreTurni implements ITurni {
         if (dipendente == null) {
             return List.of();
         }
-        return repositoryDipendenti.trovaTurniByMatricola(
-                dipendente.getMatricola()
-        );
+        return repositoryDipendenti.trovaTurniByMatricola(dipendente.getMatricola());
     }
 }

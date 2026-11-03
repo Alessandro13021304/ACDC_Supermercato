@@ -11,5 +11,4 @@ void aggiornaScorte(Prodotto prodotto, ETipoScorta tipoScorta);
 	void aggiungiObserver(IScorteObserver observer);
 	
 	void rimuoviObserver(IScorteObserver observer);
-
 }

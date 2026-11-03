@@ -40,6 +40,9 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
         return gestoreProdotti.cercaProdotto(codiceABarre);
     }
 
+    /** questo metodo permette di visualizzare tutti prodotti
+	 * @return la lista dei prodotti
+	 */
     public List<Prodotto> visualizzaProdotti() {
         if (gestoreProdotti == null) {
             return new ArrayList<>();
@@ -48,6 +51,9 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
         return gestoreProdotti.visualizzaProdotti();
     }
 
+    /** questo metodo aumenta la quantità di un prodotto nello scaffale, prendendola dal magazzino
+	 * @param il prodotto e la quantità da aggiungere sullo scaffale
+	 */
     public void rifornisciScaffale(Prodotto p, int qty) {
         if (p == null || qty <= 0) {
             return;
@@ -65,6 +71,10 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
         }
     }
 
+    /** questo metodo segnala se le scorte nel magazzino sono insufficienti (<5)
+     * @param il prodotto di cui verificare la quantità
+	 * @return true se la scorta è insufficiente, altrimenti false
+	 */
     public boolean segnalaScorteInsufficientiMagazzino(Prodotto p) {
         if (p == null) {
             return false;
@@ -84,6 +94,9 @@ public class Magazziniere extends Dipendente implements IScorteObserver {
         return "Magazziniere";
     }
 
+    /** questo metodo aggiorna la quantità di un prodotto sullo scaffale dopo che è scesa sotto la soglia minima
+	 * @param il prodotto di cui è cambiata la quantità e dove è cambiata (tipo di scorta)
+	 */
     @Override
     public void aggiorna(Prodotto prodotto, ETipoScorta tipoScorta) {
         if (prodotto == null || tipoScorta != ETipoScorta.SCAFFALE) {

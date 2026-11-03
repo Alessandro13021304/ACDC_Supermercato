@@ -68,7 +68,10 @@ public class Prodotto {
         return numeroReparto;
     }
 
-    // Due prodotti sono uguali se hanno lo stesso codice a barre
+    /** questo metodo confronta due codici a barre
+	 * @param l'oggetto da confrontare (prodotto)
+	 * @return true se sono uguali, altrimenti false
+	 */
     @Override
     public boolean equals(Object altro) {
         if (this == altro) {

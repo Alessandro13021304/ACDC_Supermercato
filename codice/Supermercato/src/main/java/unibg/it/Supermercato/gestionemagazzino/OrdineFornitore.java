@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Tremolada
+ */
+
 package unibg.it.Supermercato.gestionemagazzino;
 
 import java.time.LocalDate;
@@ -30,6 +34,9 @@ public class OrdineFornitore {
         this.righe = new ArrayList<>();
     }
 
+    /** questo metodo aggiunge un prodotto all'ordine
+	 * @param il prodotto da aggiungere e la quantità del prodotto
+	 */
     public void aggiungiProdotto(Prodotto prodotto, int quantita) {
         if (prodotto != null && quantita > 0) {
             RigaOrdine riga = new RigaOrdine(prodotto, quantita);
@@ -38,6 +45,9 @@ public class OrdineFornitore {
         }
     }
 
+    /** questo metodo aggiunge una riga all'ordine
+	 * @param la riga da aggiungere
+	 */
     public void aggiungiRiga(RigaOrdine riga) {
         if (riga != null) {
             righe.add(riga);

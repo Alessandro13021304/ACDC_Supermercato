@@ -18,18 +18,26 @@ public class CarrelloFisico implements ICarrelloFisico {
         elementi = new ArrayList<>();
     }
 
+    /** questo metodo aggiunge un elemento al carrello fisico
+	 * @param l'elemento da aggiungere
+	 */
     public void aggiungiElemento(ElementoCarrello e) {
         if (e != null) {
             elementi.add(e);
         }
     }
 
+    /** questo metodo rimuove un elemento dal carrello fisico
+	 * @param l'elemento da rimuovere
+	 */
     public void rimuoviElemento(ElementoCarrello e) {
         if (e != null) {
             elementi.remove(e);
         }
     }
 
+    /** questo metodo svuota il carrello fisico
+	 */
     public void svuota() {
         elementi.clear();
     }
@@ -39,6 +47,10 @@ public class CarrelloFisico implements ICarrelloFisico {
         return elementi.size();
     }
 
+    /** questo metodo verifica se un prodotto nel carrello corrisponde al prodotto e alla quantità nel carrello fisico
+	 * @param il prodotto e la quantità da verificare
+	 * @return true se corrispondono, altrimenti false
+	 */
     @Override
     public boolean contieneElemento(Prodotto prodotto, int quantita) {
         if (prodotto == null) {
@@ -46,7 +58,6 @@ public class CarrelloFisico implements ICarrelloFisico {
         }
 
         for (ElementoCarrello elemento : elementi) {
-            // Il confronto usa il codice a barre, non il riferimento all'oggetto
             if (prodotto.equals(elemento.prodotto) && elemento.getQuantita() == quantita) {
                 return true;
             }

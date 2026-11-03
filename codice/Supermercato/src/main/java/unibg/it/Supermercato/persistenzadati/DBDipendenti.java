@@ -1,3 +1,7 @@
+/**
+ * @author Chiara Dentella
+ */
+
 package unibg.it.Supermercato.persistenzadati;
 
 import java.sql.Connection;
@@ -23,14 +27,15 @@ public class DBDipendenti implements IRepositoryDipendenti {
     private IRepositoryClienti repositoryClienti;
     private Consumer<Dipendente> configuratoreRuoli;
 
+    // non usa il database di test
     public DBDipendenti() {
         this(false, null);
     }
-
+    // usa il database di test
     public DBDipendenti(boolean usaDatabaseTest) {
         this(usaDatabaseTest, null);
     }
-
+    // usa il database di test
     public DBDipendenti(boolean usaDatabaseTest, IRepositoryClienti repositoryClienti) {
         this.usaDatabaseTest = usaDatabaseTest;
         this.repositoryClienti = repositoryClienti;
@@ -40,11 +45,13 @@ public class DBDipendenti implements IRepositoryDipendenti {
         this.repositoryClienti = repositoryClienti;
     }
 
-    // Il configuratore collega ai ruoli caricati dal database i collaboratori che persistenzadati non conosce
     public void setConfiguratoreRuoli(Consumer<Dipendente> configuratoreRuoli) {
         this.configuratoreRuoli = configuratoreRuoli;
     }
 
+    /** questo metodo si connette a DBConnection
+	 * @return l'istanza della connessione trovata
+	 */
     private Connection getConnection() throws SQLException {
         if (usaDatabaseTest) {
             return DBConnection.getInstance().getTestConnection("dipendenti");
@@ -53,6 +60,9 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return DBConnection.getInstance().getConnection("dipendenti");
     }
 
+    /** questo metodo salva un dipendente in persistenza
+     * @param il dipendente da salvare
+	 */
     @Override
     public void salvaDipendente(Dipendente dipendente) {
 
@@ -80,6 +90,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
     }
 
+    /** questo metodo verifica le credenziali di un dipendente
+     * @param l'email e la password del dipendente che si sta autenticando
+     * @return il dipendente autenticato
+	 */
     @Override
     public Dipendente verificaCredenziali(String email, String password) {
 
@@ -110,6 +124,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return null;
     }
 
+    /** questo metodo trova un dipendente tramite la sua matricola
+     * @param la matricola del dipendente da trovare
+     * @return il dipendente trovato
+	 */
     @Override
     public Dipendente trovaDipendenteByMatricola(String matricola) {
 
@@ -139,6 +157,9 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return null;
     }
 
+    /** questo metodo permette di visualizzare tutti i dipendenti
+     * @return la lista dei dipendenti 
+	 */
     @Override
     public List<Dipendente> trovaTuttiDipendenti() {
 
@@ -160,6 +181,9 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return dipendenti;
     }
 
+    /** questo metodo salva un turno di un dipendente in persistenza
+     * @param la matricola del dipendente e il turno a lui assegnato 
+	 */
     @Override
     public void salvaTurno(String matricola, Turno turno) {
 
@@ -185,6 +209,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
     }
 
+    /** questo metodo trova tutti i turni di un dipendente
+     * @param la matricola del dipendente di cui trovare i turni
+     * @return la lista dei turni
+	 */
     @Override
     public List<Turno> trovaTurniByMatricola(String matricola) {
 
@@ -238,6 +266,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
         return turni;
     }
 
+    /** questo metodo aggiorna la presenza di un dipendente in un turno
+     * @param la matricola del dipendente, la data del turno, l'orario di inizio del turno, l'orario di ingresso del dipendente, 
+     * l'orario di uscita del dipendente, true se la presenza è stata registrata (altrimenti false) e true se il turno è stato completato (altrimenti false)
+	 */
     @Override
     public void aggiornaPresenza(String matricola, LocalDate dataTurno, LocalTime orarioInizio,
                                  LocalTime oraIngresso, LocalTime oraUscita, boolean presenzaRegistrata, boolean completato) {
@@ -254,12 +286,14 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
             if (oraIngresso != null) {
                 statement.setTime(1, java.sql.Time.valueOf(oraIngresso));
+                
             } else {
                 statement.setNull(1, java.sql.Types.TIME);
             }
 
             if (oraUscita != null) {
                 statement.setTime(2, java.sql.Time.valueOf(oraUscita));
+                
             } else {
                 statement.setNull(2, java.sql.Types.TIME);
             }
@@ -277,6 +311,10 @@ public class DBDipendenti implements IRepositoryDipendenti {
         }
     }
 
+    /** questo metodo crea un dipendente
+     * @param i valori del dipendente da creare
+     * @return il dipendente creato
+	 */
     private Dipendente creaDipendenteDaRisultato(java.sql.ResultSet resultSet) throws SQLException {
 
         String matricola = resultSet.getString("matricola");
@@ -291,24 +329,19 @@ public class DBDipendenti implements IRepositoryDipendenti {
 
         switch (ruolo) {
 
-            case "Manager":
-                dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
-                break;
+            case "Manager": dipendente = new Manager(nome, cognome, email, password, dataNascita, this);
+                			break;
 
-            case "Cassiere":
-                dipendente = new Cassiere(nome, cognome, email, password, dataNascita, repositoryClienti, null);
-                break;
+            case "Cassiere": dipendente = new Cassiere(nome, cognome, email, password, dataNascita, repositoryClienti, null);
+                			 break;
 
-            case "Magazziniere":
-                dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
-                break;
+            case "Magazziniere": dipendente = new Magazziniere(nome, cognome, email, password, dataNascita);
+                				 break;
 
-            case "ResponsabileDiReparto":
-                dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
-                break;
+            case "ResponsabileDiReparto": dipendente = new ResponsabileDiReparto(nome, cognome, email, password, dataNascita);
+                						  break;
 
-            default:
-                throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
+            default: throw new IllegalArgumentException("Ruolo non riconosciuto: " + ruolo);
         }
 
         dipendente.setMatricola(matricola);

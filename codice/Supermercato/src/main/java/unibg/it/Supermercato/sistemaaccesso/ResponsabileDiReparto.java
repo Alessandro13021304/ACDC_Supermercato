@@ -48,6 +48,10 @@ public class ResponsabileDiReparto extends Dipendente implements IScorteObserver
         return ordiniElaborati;
     }
 
+    /** questo metodo cerca un prodotto tramite il suo codice a barre
+     * @param il coidce a barre del prodotto da cercare
+	 * @return il prodotto trovato
+	 */
     public Prodotto visualizzaProdotto(String codiceABarre) {
         if (gestoreProdotti == null) {
             return null;
@@ -64,24 +68,37 @@ public class ResponsabileDiReparto extends Dipendente implements IScorteObserver
         return gestoreProdotti.visualizzaProdotti();
     }
 
+    /** questo metodo salva un prodotto in persistenza
+     * @param il prodotto da salvare
+	 */
     public void aggiungiProdotto(Prodotto prodotto) {
         if (gestoreProdotti != null) {
             gestoreProdotti.aggiungiProdotto(prodotto);
         }
     }
 
+    /** questo metodo rimuove un prodotto dalla persistenza
+     * @param il prodotto da rimuovere
+	 */
     public void rimuoviProdotto(Prodotto prodotto) {
         if (gestoreProdotti != null) {
             gestoreProdotti.rimuoviProdotto(prodotto);
         }
     }
 
+    /** questo metodo modifica un prodotto in persistenza
+     * @param il prodotto da modificare
+	 */
     public void modificaProdotto(Prodotto prodotto) {
         if (gestoreProdotti != null) {
             gestoreProdotti.modificaProdotto(prodotto);
         }
     }
 
+    /** questo metodo segnala se le scorte nello scaffale sono insufficienti (<5)
+     * @param il prodotto di cui verificare la quantità
+	 * @return true se la scorta è insufficiente, altrimenti false
+	 */
     public boolean segnalaScorteInsufficientiScaffale(Prodotto p) {
         if (p == null) {
             return false;
@@ -96,6 +113,10 @@ public class ResponsabileDiReparto extends Dipendente implements IScorteObserver
         return insufficiente;
     }
 
+    /** questo metodo crea un ordine
+     * @param il fornitore a cui chiedere l'ordine e la lista dei prodotti da ordinare
+	 * @return l'ordine creato
+	 */
     public OrdineFornitore elaboraOrdine(Fornitore f, List<Prodotto> prodotti) {
         if (f == null || prodotti == null || prodotti.isEmpty()) {
             return null;
@@ -127,6 +148,9 @@ public class ResponsabileDiReparto extends Dipendente implements IScorteObserver
         return "ResponsabileDiReparto";
     }
 
+    /** questo metodo aggiorna la quantità di un prodotto nel magazzino dopo che è scesa sotto la soglia minima
+	 * @param il prodotto di cui è cambiata la quantità e dove è cambiata (tipo di scorta)
+	 */
     @Override
     public void aggiorna(Prodotto prodotto, ETipoScorta tipoScorta) {
         if (prodotto == null || tipoScorta != ETipoScorta.MAGAZZINO) {

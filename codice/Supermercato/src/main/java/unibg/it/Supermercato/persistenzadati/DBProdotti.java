@@ -18,10 +18,12 @@ public class DBProdotti implements IRepositoryProdotti {
 
     private boolean usaDatabaseTest;
 
+    // non usa il database di test
     public DBProdotti() {
         this.usaDatabaseTest = false;
     }
 
+    // usa il database di test
     public DBProdotti(boolean usaDatabaseTest) {
         this.usaDatabaseTest = usaDatabaseTest;
     }
@@ -37,6 +39,9 @@ public class DBProdotti implements IRepositoryProdotti {
         return DBConnection.getInstance().getConnection("prodotti");
     }
 
+    /** questo metodo salva un prodotto in persistenza
+     * @param il prodotto da salvare
+	 */
     @Override
     public void salvaProdotto(Prodotto prodotto) {
 
@@ -65,6 +70,9 @@ public class DBProdotti implements IRepositoryProdotti {
         }
     }
 
+    /** questo metodo rimuove un prodotto dalla persistenza
+     * @param il codice a barre del prodotto da rimuovere
+	 */
     @Override
     public void rimuoviProdotto(String codiceABarre) {
 
@@ -85,6 +93,9 @@ public class DBProdotti implements IRepositoryProdotti {
         }
     }
 
+    /** questo metodo modifica un prodotto in persistenza
+     * @param il prodotto da modificare
+	 */
     @Override
     public void modificaProdotto(Prodotto prodotto) {
 
@@ -114,6 +125,10 @@ public class DBProdotti implements IRepositoryProdotti {
         }
     }
 
+    /** questo metodo trova un prodotto tramite il suo codice a barre
+     * @param il codice a barre del prodotto da trovare
+     * @return il prodotto trovato
+	 */
     @Override
     public Prodotto trovaProdottoByCodiceABarre(String codiceABarre) {
 
@@ -143,6 +158,9 @@ public class DBProdotti implements IRepositoryProdotti {
         return null;
     }
 
+    /** questo metodo permette di visualizzare tutti i prodotti
+     * @return la lista dei prodotti 
+	 */
     @Override
     public List<Prodotto> trovaTuttiProdotti() {
 
@@ -164,6 +182,10 @@ public class DBProdotti implements IRepositoryProdotti {
         return prodotti;
     }
 
+    /** questo metodo diminuisce la quantità di un prodotto sullo scaffale
+     * @param il codice a barre del prodotto, la quantità da togliere
+     * @return true se va a buon fine, altrimenti false
+	 */
     @Override
     public boolean decrementaQuantitaScaffale(String codiceABarre, int quantita) {
 
@@ -188,6 +210,10 @@ public class DBProdotti implements IRepositoryProdotti {
         }
     }
 
+    /** questo metodo cambia le quantità del magazzino e dello scaffale, spostando da uno all'altro una certa quantità
+     * @param il codice a barre del prodotto, la quantità da spostare dal magazzino allo scaffale
+     * @return true se va a buon fine, altrimenti false
+	 */
     @Override
     public boolean spostaDalMagazzinoAlloScaffale(String codiceABarre, int quantita) {
 
@@ -213,6 +239,10 @@ public class DBProdotti implements IRepositoryProdotti {
         }
     }
 
+    /** questo metodo crea un prodotto
+     * @param i valori del prodotto da creare
+     * @return il prodotto creato
+	 */
     private Prodotto creaProdottoDaRisultato(ResultSet resultSet) throws SQLException {
 
         return new Prodotto(

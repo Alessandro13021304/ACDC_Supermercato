@@ -392,7 +392,7 @@ public class DBClienti implements IRepositoryClienti {
     }
 
     /** questo metodo crea un cliente
-     * @param i parametri del cliente da creare
+     * @param i valori del cliente da creare
      * @return il cliente creato
 	 */
     private Cliente creaClienteDaRisultato(ResultSet resultSet) throws SQLException {
