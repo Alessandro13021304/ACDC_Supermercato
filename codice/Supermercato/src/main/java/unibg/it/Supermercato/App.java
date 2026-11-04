@@ -57,18 +57,33 @@ public class App {
         // Creazione di alcune istanze utili
         AuthService authService = new AuthService(dbClienti, dbDipendenti);
         
+        Dipendente manager = dbDipendenti.trovaDipendenteByMatricola("MAN1");
+        if (manager == null) {
+            manager = new Manager("Luca", "Neri", "luca.neri@mail", "pw", LocalDate.of(2002, 3, 3), dbDipendenti);
+            manager.setMatricola("MAN1");
+            dbDipendenti.salvaDipendente(manager);
+        }
+        
+        Dipendente magazziniere = dbDipendenti.trovaDipendenteByMatricola("MAG1");
+        if (magazziniere == null) {
+            magazziniere = new Magazziniere("Mario", "Rossi", "mario.rossi@mail", "pw", LocalDate.of(2000, 1, 1));
+            magazziniere.setMatricola("MAG1");
+            dbDipendenti.salvaDipendente(magazziniere);
+        }
+             
+        Dipendente responsabile = dbDipendenti.trovaDipendenteByMatricola("RDP1");
+        if (responsabile == null) {
+            responsabile = new ResponsabileDiReparto("Luigi", "Bianchi", "luigi.bianchi@mail", "pw", LocalDate.of(2001, 2, 2));
+            responsabile.setMatricola("RDP1");
+            dbDipendenti.salvaDipendente(responsabile);
+        }
+        
+        logger.info("Dipendenti pronti.");
+        
         ControlloSpesa controlloSpesa = new ControlloSpesa();
 
-        Cassiere cassiere = new Cassiere(
-            "Anna",
-            "Verdi",
-            "anna.verdi@example.com",
-            "password",
-            LocalDate.of(1992, 3, 15),
-            dbClienti,
-            controlloSpesa
-        );
-
+        Cassiere cassiere = new Cassiere("Anna", "Verdi", "anna.verdi@example.com", "password", LocalDate.of(1992, 3, 15), dbClienti, controlloSpesa);
+        
         Totem totem = new Totem(1, new PaymentGateway());
         totem.setCassiere(cassiere);
 
@@ -88,34 +103,14 @@ public class App {
 
         // Creazione dei prodotti 
         Prodotto pasta = gestoreProdotti.cercaProdotto("DEMO0001");
-
         if (pasta == null) {
-            pasta = new Prodotto(
-                "DEMO0001",
-                "Pasta",
-                1.50,
-                "Prodotto dimostrativo",
-                0.0,
-                10,
-                20,
-                1
-            );
+            pasta = new Prodotto("DEMO0001", "Pasta", 1.50, "Prodotto dimostrativo", 0.0, 10, 20, 1);
             gestoreProdotti.aggiungiProdotto(pasta);
         }
 
         Prodotto biscotti = gestoreProdotti.cercaProdotto("DEMO0002");
-
         if (biscotti == null) {
-            biscotti = new Prodotto(
-                "DEMO0002",
-                "Biscotti",
-                2.20,
-                "Prodotto dimostrativo",
-                0.0,
-                8,
-                15,
-                1
-            );
+            biscotti = new Prodotto("DEMO0002", "Biscotti", 2.20, "Prodotto dimostrativo", 0.0, 8, 15, 1);
             gestoreProdotti.aggiungiProdotto(biscotti);
         }
 
@@ -132,10 +127,8 @@ public class App {
                     scelta = scanner.nextInt();
 
                     switch (scelta) {
-                        case 0:
-                            System.out.println("Chiusura della demo. Arrivederci!");
-                            break;
-
+                        case 0: System.out.println("Chiusura della demo. Arrivederci!");
+                            	break;
                         case 1: visualizzaCatalogo(gestoreProdotti);
                         		break;
                         case 2: cercaProdotto(gestoreProdotti, scanner);
@@ -357,15 +350,19 @@ public class App {
 	            + " | Magazzino: " + prodotto.getQuantitaMagazzino()
 	        );
 	
-	        if (prodotto.getQuantitaScaffale() < ParametriScorte.SOGLIA_MINIMA
-	            && prodotto.getQuantitaMagazzino() < ParametriScorte.SOGLIA_MINIMA) {
-	            System.out.println("ATTENZIONE: scorte insufficienti, prodotto da riordinare.");
+	        if (prodotto.getQuantitaScaffale() < ParametriScorte.SOGLIA_MINIMA) {
+	            System.out.println(" --> ATTENZIONE: scorte sullo scaffale insufficienti.");
 	            scorteInsufficienti = true;
 	        }
+	        
+	        if (prodotto.getQuantitaMagazzino() < ParametriScorte.SOGLIA_MINIMA) {
+		        System.out.println(" --> ATTENZIONE: scorte nel magazzino insufficienti.");
+	            scorteInsufficienti = true;
+		    }
 	    }
 	
 	    if (!scorteInsufficienti) {
-	        System.out.println("Nessun prodotto sotto la soglia di riordino.");
+	        System.out.println("Nessun prodotto sotto la soglia minima.");
 	    }
 	
 	    System.out.println("=======================================\n");
@@ -529,13 +526,7 @@ public class App {
 	        }
 	    }
 	
-	    Cliente cliente = new Cliente(
-	        nome,
-	        cognome,
-	        email,
-	        password,
-	        dataNascita
-	    );
+	    Cliente cliente = new Cliente(nome, cognome, email, password, dataNascita);
 	
 	    try {
 	        dbClienti.salvaCliente(cliente);
