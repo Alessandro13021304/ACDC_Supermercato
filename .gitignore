@@ -43,5 +43,6 @@ Thumbs.db
 # File temporanei di R
 .Rhistory
 
-# Cartella dei file del database H2 (generata dall'esecuzione)
-/codice/db
+# File del database H2 ovunque si trovino
+*.mv.db
+*.trace.db
